@@ -1,1 +1,12 @@
-<p>home-page works!</p>
+<div id="homePage">
+  <div id="navBar" style="background-color: aqua;">
+    <div id="logo"><p>SIMI</p></div>
+    <p (click)="goDashBoard()">DashBoard</p>
+    <p (click)="goPerfil()">Perfil</p>
+    <p (click)="goconfiguraciones()">configuraciones</p>
+    <p (click)="gologOut()">logOut</p>
+  </div>
+  <div id="routOutlet" style="background-color: brown;">
+    <router-outlet />
+  </div>
+</div>

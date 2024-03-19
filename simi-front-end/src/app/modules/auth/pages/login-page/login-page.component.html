@@ -1,1 +1,32 @@
-<p>login-page works!</p>
+<div id="loginPageContainer">
+  <div id="form">
+
+    <div id="divMain">
+
+      <div id="logo"><p>SIMI</p></div>
+
+      <mat-form-field class="example-form-field">
+        <mat-label>Usuario</mat-label>
+        <input matInput type="text" [(ngModel)]="user">
+      </mat-form-field>
+
+      <mat-form-field class="example-form-field">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" [(ngModel)]="passw">
+      </mat-form-field>
+
+      <button
+        (click)="goHome()"
+        mat-raised-button
+        disabledInteractive
+        matTooltip="This is a tooltip!"
+        color="primary"
+      >
+        ENTRAR
+      </button>
+    </div>
+
+
+  </div>
+
+</div>
