@@ -1,10 +1,9 @@
 <div id="homePage">
-  <div id="navBar" style="background-color: aqua;">
-    <div id="logo"><p>SIMI</p></div>
-    <p (click)="goDashBoard()">DashBoard</p>
-    <p (click)="goPerfil()">Perfil</p>
-    <p (click)="goconfiguraciones()">configuraciones</p>
-    <p (click)="gologOut()">logOut</p>
+  <div id="app-nav-bar" >
+    <app-nav-bar></app-nav-bar>
+  </div>
+  <div id="smallNavBar">
+      <app-nav-bar-small></app-nav-bar-small>
   </div>
   <div id="routOutlet" style="background-color: brown;">
     <router-outlet />

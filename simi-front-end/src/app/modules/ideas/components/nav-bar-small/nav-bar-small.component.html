@@ -1,0 +1,21 @@
+<button color="secundary" mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button (click)="goDashBoard()" mat-menu-item>
+    <mat-icon>dialpad</mat-icon>
+    <span>DashBoard</span>
+  </button>
+  <button (click)="goPerfil()" mat-menu-item >
+    <mat-icon>voicemail</mat-icon>
+    <span>Perfil</span>
+  </button>
+  <button (click)="goconfiguraciones()" mat-menu-item>
+    <mat-icon>notifications_off</mat-icon>
+    <span>config</span>
+  </button>
+  <button (click)="gologOut()" mat-menu-item>
+    <mat-icon>notifications_off</mat-icon>
+    <span>logOut</span>
+  </button>
+</mat-menu>

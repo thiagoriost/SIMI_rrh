@@ -1,0 +1,39 @@
+#navBar{
+  height: 100vh;
+  // display: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  align-items: center;
+  justify-items: center;
+}
+
+#logo{
+  background-color: white;
+  border: 1px solid black;
+  width: 50px;
+  height: 50px;
+  // margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 5px;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+
+  #navBar{
+    display: none;
+  }
+
+
+
+}
+
+
+

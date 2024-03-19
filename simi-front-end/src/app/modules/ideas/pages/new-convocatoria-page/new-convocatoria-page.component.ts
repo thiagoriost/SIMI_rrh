@@ -1,21 +1,20 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { TopBannerComponent } from '../../components/top-banner/top-banner.component';
+import { ListIdeasComponent } from '../../components/list-ideas/list-ideas.component';
 
 @Component({
   selector: 'app-new-convocatoria-page',
   standalone: true,
-  imports: [],
+  imports: [TopBannerComponent, ListIdeasComponent],
   templateUrl: './new-convocatoria-page.component.html',
   styleUrl: './new-convocatoria-page.component.scss'
 })
 export class NewConvocatoriaPageComponent {
 
 
-  goIdePage() {
-    this.router.navigate(['/home/idea']);
-  }
 
-  constructor(private router: Router){}
+
+
 
 
 }
