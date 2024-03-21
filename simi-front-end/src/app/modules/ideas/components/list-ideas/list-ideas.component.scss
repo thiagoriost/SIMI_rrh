@@ -1,0 +1,89 @@
+.listIdeasContainer{
+  // background-color: blueviolet;
+  // display: flex;
+  flex-direction: column;
+  height: 100%;
+  // justify-content: center;
+  // text-align: center;
+  .mat-mdc-table{
+    table-layout: fixed; // paa ajustar el ancho de las columnas
+  }
+}
+.ideasBtnRegistrar{
+  display: flex;
+  height: 50px;
+  flex-direction: row;
+  align-items: center;
+}
+
+.titleIdeas{
+  text-align: left;
+  padding-left: 10px;
+}
+
+.btnRegistrarIdea{
+  width: fit-content;
+    right: 0;
+    position: absolute;
+    margin-right: 2%;
+}
+.dataTableIdeas{
+  width: 100%; /* Ancho específico del contenedor */
+  // height: 100%; /* Altura específica del contenedor */
+  overflow: auto;
+  padding: 0 10px 0 10px;
+}
+table {
+  width: 100%;
+}
+
+
+
+
+.headerTable{
+  background-color: #cdcbcb;
+}
+
+
+h1{
+  margin: 0px;
+}
+
+.paginador{
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+}
+
+.aprobado{
+  background-color: #97eb97;
+  color: green;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.enRevision{
+  background-color: rgb(255 190 123 / 87%);
+  color: orange;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.rechazado{
+  background-color: #d98e9c;
+  color: pink;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.BTNsAcciones{
+  display: flex;
+  justify-content: space-around;
+}
+

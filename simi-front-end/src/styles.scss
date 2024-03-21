@@ -82,3 +82,7 @@ body{
 .pointer{
   cursor: pointer;
 }
+
+.mat-mdc-paginator-container{
+  flex-wrap: nowrap !important;
+}

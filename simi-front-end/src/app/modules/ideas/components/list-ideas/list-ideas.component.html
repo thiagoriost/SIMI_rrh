@@ -1,1 +1,81 @@
-<p (click)="goIdePage()" style="cursor: pointer;">Aportar Idea</p>
+<!-- <p (click)="goIdePage()" style="cursor: pointer;">Aportar Idea</p> -->
+<div class="listIdeasContainer">
+  <div class="ideasBtnRegistrar">
+    <div class="titleIdeas">
+      <h1>Ideas</h1>
+    </div>
+    <div class="btnRegistrarIdea">
+      <button
+              (click)="goRegistrarIdea()"
+              mat-raised-button
+              disabledInteractive
+              matTooltip="This is a tooltip!"
+              color="primary"
+            >
+              REGISTRAR IDEA
+            </button>
+    </div>
+  </div>
+  <div class="dataTableIdeas">
+      <table mat-table [dataSource]="dataSource" fixedLayout>
+
+        <ng-container matColumnDef="codigo" >
+          <th mat-header-cell *matHeaderCellDef style="width: 10px;"> CODIGO </th>
+          <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tituloIdea">
+          <th mat-header-cell *matHeaderCellDef style="width: 20px;"> TITULO IDEA </th>
+          <td mat-cell *matCellDef="let element"> {{element.tituloIdea}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipoProyecto">
+          <th mat-header-cell *matHeaderCellDef style="width: 20px;"> TIPO DE PROYECTO </th>
+          <td mat-cell *matCellDef="let element"> {{element.tipoProyecto}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="anio">
+          <th mat-header-cell *matHeaderCellDef style="width: 20px;"> AÑO </th>
+          <td mat-cell *matCellDef="let element"> {{element.anio}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fechaHoraRegistro">
+          <th mat-header-cell *matHeaderCellDef style="width: 20px;"> FECHA - HORA REGISTRO </th>
+          <td mat-cell *matCellDef="let element"> {{element.fechaHoraRegistro}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef style="width: 10px"> ESTADO </th>
+          <td  mat-cell *matCellDef="let element" >
+            <p [ngClass]="{ 'aprobado': element.estado === 'Aprobado', 'enRevision': element.estado === 'En revisión', 'rechazado': element.estado === 'Rechazado' }">
+              {{element.estado}}
+            </p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef style="width: 20px;"> ACCIONES</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="BTNsAcciones">
+              <mat-icon (click)="goRegistrarIdea()" aria-hidden="false" aria-label="Logout icon" fontIcon="visibility" class="pointer"></mat-icon>
+              <mat-icon (click)="goRegistrarIdea()" aria-hidden="false" aria-label="Logout icon" fontIcon="settings_backup_restore" class="pointer"></mat-icon>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="headerTable"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+      </table>
+
+      <div class="paginador">
+        <mat-paginator [pageSizeOptions]="[5]"
+                     showFirstLastButtons
+                     hidePageSize="true"
+                     aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </div>
+
+
+  </div>
+</div>
+
