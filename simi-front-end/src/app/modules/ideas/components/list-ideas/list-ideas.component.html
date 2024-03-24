@@ -21,34 +21,35 @@
 
         <ng-container matColumnDef="codigo" >
           <th mat-header-cell *matHeaderCellDef style="width: 10px;"> CODIGO </th>
-          <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Codigo_Idea}} </td>
         </ng-container>
 
         <ng-container matColumnDef="tituloIdea">
           <th mat-header-cell *matHeaderCellDef style="width: 20px;"> TITULO IDEA </th>
-          <td mat-cell *matCellDef="let element"> {{element.tituloIdea}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Titulo_Idea}} </td>
         </ng-container>
 
         <ng-container matColumnDef="tipoProyecto">
           <th mat-header-cell *matHeaderCellDef style="width: 20px;"> TIPO DE PROYECTO </th>
-          <td mat-cell *matCellDef="let element"> {{element.tipoProyecto}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Tecnologico_Innovacion
+          }} </td>
         </ng-container>
 
         <ng-container matColumnDef="anio">
           <th mat-header-cell *matHeaderCellDef style="width: 20px;"> AÑO </th>
-          <td mat-cell *matCellDef="let element"> {{element.anio}} </td>
+          <td mat-cell *matCellDef="let element"> {{  element.Fecha_Creacion | date:'yyyy' }} </td>
         </ng-container>
 
         <ng-container matColumnDef="fechaHoraRegistro">
           <th mat-header-cell *matHeaderCellDef style="width: 20px;"> FECHA - HORA REGISTRO </th>
-          <td mat-cell *matCellDef="let element"> {{element.fechaHoraRegistro}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.Fecha_Creacion | date:'short'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="estado">
           <th mat-header-cell *matHeaderCellDef style="width: 10px"> ESTADO </th>
           <td  mat-cell *matCellDef="let element" >
-            <p [ngClass]="{ 'aprobado': element.estado === 'Aprobado', 'enRevision': element.estado === 'En revisión', 'rechazado': element.estado === 'Rechazado' }">
-              {{element.estado}}
+            <p [ngClass]="{ 'aprobado': element.Validada === 'S', 'enRevision': element.Validada === 'R', 'rechazado': element.Validada === 'N' }">
+              {{element.Validada}}
             </p>
           </td>
         </ng-container>

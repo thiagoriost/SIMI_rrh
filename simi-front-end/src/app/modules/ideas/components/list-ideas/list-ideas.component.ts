@@ -1,10 +1,12 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { directus } from '../../../../core/services/directus';
+import { Ideas_Investigacion, Response_Ideas_Investigacion } from '../../../../share/interface/interfaces';
 
 @Component({
   selector: 'app-list-ideas',
@@ -13,17 +15,36 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './list-ideas.component.html',
   styleUrl: './list-ideas.component.scss'
 })
-export class ListIdeasComponent {
+export class ListIdeasComponent implements OnInit {
 
-  //"http://172.19.3.143:8055"
+
 
   displayedColumns: string[] = ['codigo', 'tituloIdea', 'tipoProyecto', 'anio', 'fechaHoraRegistro', 'estado', 'actions'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+
+  dataSource: MatTableDataSource<Ideas_Investigacion> = new MatTableDataSource<Ideas_Investigacion>();
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
+  // usuario: any;
 
   constructor(private router: Router){}
+
+  ngOnInit(): void {
+    console.log("ngOnInit ListIdeasComponent");
+    this.getIdeas_Investigacion();
+
+  }
+  async getIdeas_Investigacion() {
+    let publicData: Response_Ideas_Investigacion = await directus.items('Ideas_Investigacion').readByQuery({ sort: ['Codigo_Idea'] })  as Response_Ideas_Investigacion;
+    console.log(publicData.data);
+    /// guardar respuesta en dataStorage
+    this.dataSource.data = publicData.data
+    // this.fixDataToRender(publicData.data)
+  }
+
+  fixDataToRender(publicData: Ideas_Investigacion) {
+
+  }
 
 
   ngAfterViewInit() {
@@ -31,7 +52,7 @@ export class ListIdeasComponent {
   }
 
   goRegistrarIdea() {
-    this.router.navigate(['/home/idea']);
+    console.log("goRegistrarIdea");
   }
 
 
@@ -50,7 +71,7 @@ export interface PeriodicElement {
   estado: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
+/* const ELEMENT_DATA: PeriodicElement[] = [
   {codigo: 1, tituloIdea: 'Hydrogen', tipoProyecto: 1.0079, anio: 'H', fechaHoraRegistro: '465456', estado: 'Aprobado'},
   {codigo: 2, tituloIdea: 'Helium', tipoProyecto: 4.0026, anio: 'He', fechaHoraRegistro: '465456', estado: 'En revisión'},
   {codigo: 3, tituloIdea: 'Lithium', tipoProyecto: 6.941, anio: 'Li', fechaHoraRegistro: '465456', estado: 'Rechazado'},
@@ -71,5 +92,5 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {codigo: 18, tituloIdea: 'Argon', tipoProyecto: 39.948, anio: 'Ar', fechaHoraRegistro: '465456', estado: 'Aprobado'},
   {codigo: 19, tituloIdea: 'Potassium', tipoProyecto: 39.0983, anio: 'K', fechaHoraRegistro: '465456', estado: 'Aprobado'},
   {codigo: 20, tituloIdea: 'Calcium', tipoProyecto: 40.078, anio: 'Ca', fechaHoraRegistro: '465456', estado: 'Aprobado'},
-];
+]; */
 
