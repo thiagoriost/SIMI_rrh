@@ -1,0 +1,75 @@
+:host ::ng-deep .swiper-button-prev-unique {
+  left: 0;
+  top: 50%;
+  position: absolute;
+  cursor: pointer;
+}
+
+:host ::ng-deep .swiper-button-next-unique {
+  right: 0;
+  top: 50%;
+  position: absolute;
+  cursor: pointer;
+}
+
+.swiper{
+  background-color: transparent;
+}
+
+.btnsArrowSiwper{
+  display: flex;
+  // background-color: aqua;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  position: relative;
+  top: -155px;
+  z-index: 9;
+  width: 100vw;
+
+
+  .swiper-button-next-unique{
+    top: auto;
+    width: 30px;
+    height: 30px;
+    margin-right: 95px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background-color: #ffffff80;
+    position: relative;
+  }
+
+  .swiper-button-prev-unique{
+    top: auto;
+    width: 30px;
+    height: 30px;
+    margin-left: 35px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    background-color: #ffffff80;
+    position: relative;
+  }
+
+  @media only screen and (max-width: 600px) {
+
+    .swiper-button-next-unique{
+      margin-right: 35px;
+    }
+
+
+
+  }
+
+}
+
+// .swiper-pagination{
+//   top: 221px !important;
+// }
+
+
+

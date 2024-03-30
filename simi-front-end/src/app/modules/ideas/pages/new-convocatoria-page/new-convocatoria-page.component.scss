@@ -1,15 +1,203 @@
-#newConvocatoriaContainer{
+.newConvocatoriaContainer{
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
   height: 100vh;
-//   display: grid;
-// grid-template-columns: 1fr;
-// grid-template-rows: repeat(2, 1fr);
-// grid-column-gap: 0px;
-// grid-row-gap: 0px;
+  padding: 5px 20px 5px 20px;
+
+  p{
+    // background-color: aqua;
+    width: fit-content;
+  }
+
+  .idConvocatoria{
+    text-align: justify;
+    margin-left: 10px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+
+  .tittleConvocatoria{
+    text-align: justify;
+    padding-left: 10px;
+    font-weight: bold;
+    color: blue;
+    font-size: larger;
+    font-size: 21px;
+  }
+
+  .cardsConvocatoria{
+    // background-color: aqua;
+    display: flex;
+
+    .cardLeft{
+      // background-color: rgb(255, 240, 243);
+      padding: 5px;
+      // overflow: hidden;
+      height: 400px;
+      width: 140%;
+
+      .cardHeader{
+        align-content: center;
+        background-color: rgb(3 8 69);
+        border-radius: 20px;
+        padding: 10px 10px 10px 30px;
+        text-align: justify;
+        height: 60%;
+        color: white;
+
+        .date{
+          font-size: small;
+        }
+        .fixText{
+          font-size: medium;
+        }
+        .tittleConv2{
+          font-size: larger;
+        }
+        .fixText2{
+          font-size: medium;
+        }
+      }
+
+      .cardDetailConvocatoria{
+        background-color: white;
+        border-radius: 20px;
+        position: relative;
+        top: -51px;
+        max-width: 94%;
+        margin-left: 17px;
+        overflow: overlay;
+        border: 1px solid #ccc;
+        padding: 110px 20px 20px 10px;
+        height: 280px;
+        align-content: center;
+        text-align: justify;
+
+
+
+        .detailConvocatoria{
+          overflow: auto; /* Permite que el contenido desbordado sea desplazable */
+          max-height: 300px;
+
+          }
+      }
+    }
+
+    .cardRigh{
+      background-color: white;
+      padding: 20px 10px 10px 30px;
+      height: 58%;
+      margin-top: 5px;
+      margin-right: 6px;
+      border-radius: 20px;
+      max-width: 425px;
+      margin-left: 10px;
+
+      .row{
+        align-items: center;
+        // background-color: aqua;
+        display: flex;
+        margin-bottom: 5px;
+
+        .icon{
+          margin-right: 20px;
+        }
+        .data{
+          p{
+            margin: 0px;
+          }
+          .tittle2{
+            color: blue;
+            font-weight: bold;
+          }
+          .text1{}
+        }
+      }
+      .rowMT{
+        margin-top: 30px;
+      }
+      .btnAportarIdea{
+        padding: 20px;
+        margin-top: 50px;
+      }
+    }
+
+    .shadow{
+      -webkit-box-shadow: 2px 2px 14px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 2px 2px 14px 0px rgba(0,0,0,0.75);
+box-shadow: 2px 2px 14px 0px rgba(0,0,0,0.75);
+    }
+
+  }
+
 }
 
+@media only screen and (max-width: 700px) {
+  .newConvocatoriaContainer{
+    display: flex;
+    flex-direction: column;
+    padding: 30px 10px 5px 5px;
+    overflow: overlay;
+    // background-color: aqua;
+
+    .idConvocatoria{
+      width: auto;
+      text-align: end;
+    }
+    .tittleConvocatoria{
+      text-align: center;
+      // margin-top: 30px;
+    }
+    .cardsConvocatoria{
+      flex-direction: column;
+
+      .cardLeft{
+        width: 100%;
+
+        .cardHeader{
+          align-content: center;
+          padding: 0px 10px 10px 9px;
+          height: 50%;
+        }
+        .cardDetailConvocatoria{
+          margin-left: 0px;
+          // border: 1px solid #000;
+          top: -30px;
+          max-width: fit-content;
+          padding: 110px 20px 20px 10px;
+          height: 240px;
+        }
+      }
+      .cardRigh{
+        background-color: rgb(3, 8, 69);
+        color: white;
+        margin-left: 7px;
+        margin-top: 15px;
+        max-width: 98%;
+        box-shadow: unset;
+
+        .row{
+          .data{
+            .tittle2{
+              color: yellow;
+            }
+          }
+
+        }
+
+        .btnAportarIdea{
+          margin-top: 20px;
+        }
+
+        .rowMT{
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+
+}
 
 

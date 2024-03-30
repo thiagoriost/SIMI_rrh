@@ -32,3 +32,12 @@ export interface Ideas_Investigacion {
   Validada:                 string | null;
   Fecha_Validacion:         string | null;
 }
+
+export interface int_Login {
+  data: int_DataLogin;
+}
+
+export interface int_DataLogin {
+  access_token: string;
+  expires:      number;
+}

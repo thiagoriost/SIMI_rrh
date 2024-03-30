@@ -1,5 +1,145 @@
-<div id="newIdeaContainer">
-  <p>new-idea-page works!</p>
-  <button type="button" (click)="goDashBoard('guardar')">Guardar Borrador</button>
-  <button type="button" (click)="goDashBoard('registrar')">Registrar Idea</button>
+<div  class="newIdeaContainer">
+
+  <div class="breadCrumb">Ideas · Registrar idea</div>
+
+  <div class="title1Div"><h1 class="tittle1">Registrar Idea</h1></div>
+
+  <div class="notas">
+    <div class="pestania"></div>
+    <mat-icon aria-hidden="false" aria-label="Info" fontIcon="info" class="pointer"></mat-icon>
+    <p class="parrafNotes">Velit culpa pariatur fugiat magna cupidatat id irure in deserunt laborum. Elit enim ipsum aute exercitation. Sit et ex aliquip do ex veniam nisi veniam ullamco aliqua. In minim voluptate pariatur elit non enim laboris dolore adipisicing tempor. Est ut incididunt officia cupidatat aliqua laboris commodo excepteur et non consectetur incididunt occaecat voluptate. Non aute nulla cillum est ex ut aliqua occaecat in qui aliquip anim minim reprehenderit. Anim adipisicing fugiat nostrud irure labore et reprehenderit ut amet dolore veniam.</p>
+  </div>
+
+  <div class="gdp">
+    <h2>General Del Proponente</h2>
+  </div>
+  <div class="generalDelProponente">
+
+    <mat-form-field>
+      <mat-label>Entidad o dependencia originadora de la idea</mat-label>
+      <mat-select value="{{selected}}">
+        <mat-option>Seleccione...</mat-option>
+        @for (state of states; track state) {
+          <mat-option [value]="state">{{state}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="date">
+        <p class="dateTitle">Día / Mes Año</p>
+        <div class="dateContainer">
+          <input matInput placeholder="Fecha" type="date" class="inputDate" >
+        </div>
+    </div>
+
+    <mat-form-field >
+      <mat-label>Nombre del proponente de la idea</mat-label>
+      <input matInput placeholder="Proponente" value="">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Correo electrónico</mat-label>
+      <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+             placeholder="Ex. pat@example.com">
+      <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
+      @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
+        <mat-error>Porfavor ingresar una direccion de correo valida </mat-error>
+      }
+      @if (emailFormControl.hasError('required')) {
+        <mat-error>Email is <strong>required</strong></mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Cédula</mat-label>
+      <input matInput placeholder="Cédula" value="">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Célulcar de contacto</mat-label>
+      <!-- <span matTextPrefix>+1 &nbsp;</span> -->
+      <input type="tel" matInput placeholder="321-9876543">
+      <!-- <mat-icon matSuffix>mode_edit</mat-icon> -->
+    </mat-form-field>
+
+  </div>
+
+  <!-- Aspectos técnicos de la ídea de Investigación, Desarrollo tecnológico o Innovación -->
+  <div class="gdp">
+    <h2>Aspectos técnicos de la ídea de Investigación, Desarrollo tecnológico o Innovación</h2>
+  </div>
+
+  <div class="aspectosTecnicos full-width">
+
+    <div class="tituloIdea">
+      <mat-form-field class="matFormField">
+        <p class="label">Título de la ídea</p>
+        <p class="label2">Un buen título, además de la exactitud y la confiabilidad, debe ser claro, conciso, específico y, si es posible, llamativo de forma tal que capture la atención del lector y enmarque la ídea principal.</p>
+        <textarea #message class="textA" matInput placeholder="Título de la ídea"></textarea>
+        <mat-hint align="end" style="text-align: end;">{{message.value.length}} / 256</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <br/>
+
+    <mat-divider class="divider"></mat-divider>
+    <div class="tipoProyecto">
+      <!-- <mat-form-field >
+        <mat-label>Tipo de proyecto</mat-label> -->
+        <p class="label">Tipo de proyecto</p>
+        <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
+        <section class="Section">
+          <mat-checkbox color="primary">Investigación</mat-checkbox>
+          <mat-checkbox color="primary">Desarrollo tecnológico</mat-checkbox>
+          <mat-checkbox color="primary">Innovación</mat-checkbox>
+        </section>
+      <!-- </mat-form-field> -->
+    </div>
+    <mat-divider></mat-divider>
+    <div class="grupoLineaIvestigacion">
+      <p class="label mt20">Grupo y línea de investigación a la cual estará adscrito el proyecto de investigación, desarrollo tecnológico o innovación - I+D+i</p>
+      <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
+      <div class="titleGrupoInves">
+        <p class="pTitleInves">GRUPO DE INVESTIGACIÓN</p>
+      </div>
+      <div class="grupos">
+        <p class="titleGI br1">GEOMATICA</p>
+        <p class="titleGI br1">SUELOS Y ECOLOGÍA</p>
+        <p class="titleGI">ESTUDIOS TERRITORIALES</p>
+      </div>
+      <p class="lineasInvs">LÍNEAS DE INVESTIGACIÓN</p>
+      <div class="father">
+        <div class="left">
+          <section class="Section">
+            <mat-checkbox color="primary">Geodesia</mat-checkbox>
+            <mat-checkbox color="primary">Gestión de conocimiento</mat-checkbox>
+            <mat-checkbox color="primary">Infraestructura de datos espaciales</mat-checkbox>
+            <mat-checkbox color="primary">Percepción Remota</mat-checkbox>
+            <mat-checkbox color="primary">Sistema de información geográfica</mat-checkbox>
+            <mat-checkbox color="primary">Tecnologías de la información y la comunicación (TIC) para la Gestión del Conocimientos en las Organizaciones</mat-checkbox>
+            <mat-checkbox color="primary">Catastro Multipropósito</mat-checkbox>
+          </section>
+        </div>
+        <div class="center">
+          <section class="Section">
+            <mat-checkbox color="primary">Contaminicación de Suelos</mat-checkbox>
+            <mat-checkbox color="primary">Geografía de Suelos</mat-checkbox>
+            <mat-checkbox color="primary">Planificación y uso de las tierras</mat-checkbox>
+          </section>
+        </div>
+        <div class="rigth">
+          <section class="Section">
+            <mat-checkbox color="primary">Geopolítica y límites</mat-checkbox>
+            <mat-checkbox color="primary">Planificación urbano-regional</mat-checkbox>
+            <mat-checkbox color="primary">Sociedad y espacio</mat-checkbox>
+          </section>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+
 </div>

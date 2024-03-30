@@ -1,1 +1,11 @@
   <router-outlet />
+
+
+  @if(store.spinnerOn()){
+
+    <div class="spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
+
+

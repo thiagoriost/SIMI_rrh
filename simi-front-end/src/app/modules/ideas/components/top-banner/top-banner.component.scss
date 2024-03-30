@@ -1,0 +1,46 @@
+.topBannerContainer{
+  background-color: transparent;
+  position: fixed;
+  top: 0;
+  height: 30%;
+
+    .subContainerSwiper{
+      width: 200px !important;
+    }
+
+    .imgSwiper{
+      position: relative;
+      height: 210px !important;
+      background-color: transparent;
+      width: 100%;
+      // height: 100%;
+      object-fit: contain;
+      object-position: center center;
+
+    }
+
+    .card{
+      background-color: transparent;
+      border-color: transparent;
+    }
+
+    .swiper-pagination{
+      top: 221px !important;
+    }
+
+  }
+
+
+/* .swiperContainer{
+
+
+  }
+
+  @supports(object-fit: cover){
+      .swiperContainer img{
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+      }
+  }
+ */

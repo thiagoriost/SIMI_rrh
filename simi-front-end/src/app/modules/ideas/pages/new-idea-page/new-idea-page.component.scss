@@ -1,8 +1,194 @@
-#newIdeaContainer{
-  background-color: bisque;
+.newIdeaContainer{
+  // background-color: light-dark(lime, green);
   display: flex;
   flex-direction: column;
   height: 100vh;
-  justify-content: center;
-  text-align: center;
+  padding-top: 34px;
+  /* justify-content: center; */
+  /* text-align: center; */
+  padding: 30px 10px 5px 10px;
+  overflow: auto;
+
+  .title1Div{
+    padding-top: 20px;
+    .tittle1{
+      margin-bottom: 5px;
+    }
+  }
+
+  .notas{
+    align-items: center;
+    background-color: #deedff;
+    color: #4199ff;
+    display: flex;
+    padding: 0px 10px 0px 0px;
+    border-radius: 10px;
+    flex-direction: row;
+
+    .parrafNotes{
+      margin: 0;
+      padding: 10px;
+    }
+    .pestania{
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      width: 20px;
+      height: 100%;
+      background-color: #4199ff;
+      margin-right: 10px;
+    }
+  }
+
+  .gdp{
+    text-align: justify;
+    margin-top: 10px;
+  }
+  .generalDelProponente{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 0px;
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid blue;
+
+    .entidadHoriginadora{
+
+    }
+    .date{
+      text-align: justify;
+      color: gray;
+
+
+      .dateTitle{
+        margin: 0;
+        background-color: #f9f6f6;
+        padding: 8px 0px 10px 0px;
+      }
+      .dateContainer{
+        background-color: #f9f6f6;
+        border-bottom: 1px solid gray;
+
+        .inputDate{
+          width: 25%;
+          border: none;
+          color: gray;
+          font-size: medium;
+        }
+        input[type="date"]:focus {
+          outline: none; /* Elimina el borde de enfoque */
+      }
+      }
+    }
+  }
+
+  .aspectosTecnicos{
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid blue;
+    // background-color: aqua;
+
+    .tituloIdea{
+      // background-color: #4199ff;
+      // width: 100%;
+
+      .matFormField{
+        // background-color: springgreen;
+
+
+        .textA{
+          // background-color: blue;
+          width: 92vw;
+        }
+      }
+    }
+    .tipoProyecto{
+
+      .Section{
+        display: flex;
+      }
+    }
+    .grupoLineaIvestigacion{
+
+      .titleGrupoInves{
+        background-color: #4199ff;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        text-align: center;
+        padding: 12px 5px 1px 5px;
+        .pTitleInves{
+          color: #f9f6f6;
+          font-weight: bold;
+        }
+      }
+      .grupos{
+        display: flex;
+        flex-direction: row;
+        // background-color: aqua;
+        text-align: center;
+        border-bottom: 1px solid gray;
+        height: 30px;
+        .titleGI{
+
+          margin: 0;
+          padding-top: 7px;
+        }
+      }
+      .lineasInvs{
+        text-align: center;
+        margin: 0;
+        padding: 10px;
+        border-bottom: 1px solid gray;
+      }
+      .father{
+        display: flex;
+        border-bottom: 1px solid gray;
+        .left{
+          border-right: 1px solid gray;
+        }
+        .center{
+          border-right: 1px solid gray;
+        }
+      }
+    }
+  }
+
+}
+
+h2{
+  margin: 0;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.label{
+  // background-color: blueviolet;
+  font-weight: bold;
+  margin-bottom: 1px;
+}
+.label2{
+  // background-color: aqua;
+  color: #4199ff;
+  width: max-content;
+  font-size: small;
+}
+
+.divider{
+  margin-bottom: 10px;
+}
+
+.mt20{
+  margin-top: 20px;
+}
+
+.br1{
+  border-right: 1px solid gray;
 }

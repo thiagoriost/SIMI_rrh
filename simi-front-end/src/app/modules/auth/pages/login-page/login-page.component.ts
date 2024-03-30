@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -6,34 +6,68 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Router } from '@angular/router';
 import { directus } from '../../../../core/services/directus';
+import { StoreApp } from '../../../../core/store/storeApp';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatIconModule],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss'
 })
 export class LoginPageComponent {
 
+  store = inject(StoreApp)
   email = 'rigoberto.rios@igac.gov.co';
   passw = '123456';
   authenticated = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private _snackBar: MatSnackBar) { }
 
   async goHome() {
 
-    console.log("goHome");
-        // this.router.navigate(['/home']);
+      console.log("goHome");
 
-    if (this.validarCredenciales()) {
+      this.store.updateLogin({
+        "data": {
+          "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYxNmRiNTMzLTc2NWItNDAzMC1hNmZkLTA1N2EwNTRkNTM4OCIsInJvbGUiOiJlOTRkNmI5Yy02M2JjLTRkNzEtOTAyYS1kZTU3MjJiNjg3ZmEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTcxMTQ4NjM3OSwiZXhwIjoxNzExNDg3Mjc5LCJpc3MiOiJkaXJlY3R1cyJ9.ZUi1IaFht8JUkMY0YfCb4wd8u7BHLvxnZFon_JvgPFo",
+          "expires": 900000
+        }
+      })
+      this.store.changeSpinner(true);
+
+      setTimeout(() => {
+        this._snackBar.open(`Welcome ${this.email}`, '', {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 5000,
+          direction:'ltr',
+          data:{
+            message:'hihihih'
+          }
+        });
+        console.log("spinner off");
+        this.store.changeSpinner(false);
+        this.router.navigate(['/home']);
+      }, 3000);
+
+
+    if (/* this.validarCredenciales() */0) {
       await directus.auth
         .login({ 'email': this.email, password: this.passw })
         .then((resp) => {
           console.log({resp});
           this.authenticated = true;
-          // sessionStorage.setItem('usuario', JSON.stringify(resp));
+          this.store.updateLogin({
+            "data": {
+                "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYxNmRiNTMzLTc2NWItNDAzMC1hNmZkLTA1N2EwNTRkNTM4OCIsInJvbGUiOiJlOTRkNmI5Yy02M2JjLTRkNzEtOTAyYS1kZTU3MjJiNjg3ZmEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTcxMTQ4NjM3OSwiZXhwIjoxNzExNDg3Mjc5LCJpc3MiOiJkaXJlY3R1cyJ9.ZUi1IaFht8JUkMY0YfCb4wd8u7BHLvxnZFon_JvgPFo",
+                "expires": 900000
+            }
+        })
+          sessionStorage.setItem('usuario', JSON.stringify(resp));
+
         })
         .catch((e) => {
           if (e.parent.code == 'ERR_NETWORK') {

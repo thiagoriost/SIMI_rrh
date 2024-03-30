@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
 import { NavBarSmallComponent } from '../../components/nav-bar-small/nav-bar-small.component';
 
 @Component({

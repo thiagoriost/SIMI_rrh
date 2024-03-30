@@ -86,3 +86,18 @@ body{
 .mat-mdc-paginator-container{
   flex-wrap: nowrap !important;
 }
+
+
+.scrollBarApp{
+  // scrollbar-color: yellow #800080;
+  scrollbar-width: thin;
+}
+
+.mat-mdc-select-value{
+  overflow: visible !important;
+}
+
+.mat-divider{
+  border-top-color: black !important;
+  border-top-width: 1px !important;
+}

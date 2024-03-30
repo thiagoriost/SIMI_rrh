@@ -31,7 +31,7 @@ export class ListIdeasComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("ngOnInit ListIdeasComponent");
-    this.getIdeas_Investigacion();
+    // this.getIdeas_Investigacion();
 
   }
   async getIdeas_Investigacion() {
@@ -53,6 +53,7 @@ export class ListIdeasComponent implements OnInit {
 
   goRegistrarIdea() {
     console.log("goRegistrarIdea");
+    this.router.navigate(["/home/idea"])
   }
 
 

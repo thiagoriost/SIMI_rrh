@@ -5,16 +5,17 @@
   height: 100vh;
   justify-content: center;
   text-align: center;
+
+  .top-banner{
+    align-content: center;
+    // background-color: antiquewhite;
+    height: 30%;
+  }
+
+  .listIdeas{
+    align-content: center;
+    // background-color: aquamarine;
+    height: 70%;
+  }
 }
 
-.top-banner{
-  align-content: center;
-  background-color: antiquewhite;
-  height: 30%;
-}
-
-.listIdeas{
-  align-content: center;
-  // background-color: aquamarine;
-  height: 70%;
-}
