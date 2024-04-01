@@ -238,28 +238,12 @@
 
     <div class="formStyleFields">
 
-      <div class="fieldImputText">
-        <p class="label">Pregunta o problema que origina la ídea</p>
-        <p class="label2">(250 palabras) Identificar de manera sistemática, organizada y objetiva un problema o
-          necesidad y el contexto de su concurrencia con el
-          proposito de responder a una pregunta que aumente el conocimiento y la información sobre algo desconocido,
-          mejorar algun proceso o construir una herramienta
-          tecnológica. Responde a la pregunta ¿Que se quiere saber sobre el problema a analizar? se debe indagar que
-          esta ocurriendo, realizar un diagnostico de lo que
-          esta pasando; en caso de querer comparar, tambien se debe indagar cómo se presenta el problema en varios
-          contextos. Se deben definir si se desea saber las causas
-          del problema, predecir que sucederá en el futuro, o resolverlo.
-        </p>
+      @for (item of camposFieldEditText; track $index) {
+        <app-field-input-edit-text [item]="item"></app-field-input-edit-text>
+      }
 
-        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
-        </ngx-editor-menu>
-        <ngx-editor [editor]="editor">
-        </ngx-editor>
-
-
-
-      </div>
     </div>
+
   </div>
 
 

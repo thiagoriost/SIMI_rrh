@@ -41,3 +41,8 @@ export interface int_DataLogin {
   access_token: string;
   expires:      number;
 }
+
+export interface intf_camposFieldEditText{
+  label: string;
+  SubLabel: string;
+}
