@@ -101,3 +101,16 @@ body{
   border-top-color: black !important;
   border-top-width: 1px !important;
 }
+
+
+// estilos para el campo edición
+.NgxEditor__Dropdown{
+  flex-shrink: initial !important;
+}
+
+.NgxEditor__MenuBar {
+  flex-wrap: nowrap !important;
+  width: max-content;
+}
+
+///

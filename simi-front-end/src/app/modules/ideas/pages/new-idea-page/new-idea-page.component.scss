@@ -160,8 +160,20 @@
     .grupoLineaIvestigacion{
       margin-bottom: 20px;
     }
+    .formStyleFields{
+      // background-color: #4199ff;
+      margin-left: -10px;
+
+
+    }
   }
 
+
+
+}
+
+.NgxEditor__Wrapper{
+  background-color: #4199ff !important;
 }
 
 h2{
@@ -172,18 +184,7 @@ h2{
   width: 100%;
 }
 
-.label{
-  // background-color: blueviolet;
-  font-weight: bold;
-  margin-bottom: 1px;
-  margin-top: 15px;
-}
-.label2{
-  // background-color: aqua;
-  color: #4199ff;
-  width: max-content;
-  font-size: small;
-}
+
 
 .divider{
   margin-bottom: 10px;
@@ -195,4 +196,21 @@ h2{
 
 .br1{
   border-right: 1px solid gray;
+}
+
+.label{
+  // background-color: blueviolet;
+  font-weight: bold;
+  margin-bottom: 1px;
+  margin-top: 15px;
+  width: 90vw;
+
+}
+.label2{
+  // background-color: aqua;
+  color: #4199ff;
+  font-size: small;
+  text-align: justify;
+  // width: max-content;
+  width: 85vw;
 }

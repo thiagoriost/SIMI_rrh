@@ -1,13 +1,19 @@
-<div  class="newIdeaContainer">
+<div class="newIdeaContainer">
 
   <div class="breadCrumb">Ideas · Registrar idea</div>
 
-  <div class="title1Div"><h1 class="tittle1">Registrar Idea</h1></div>
+  <div class="title1Div">
+    <h1 class="tittle1">Registrar Idea</h1>
+  </div>
 
   <div class="notas">
     <div class="pestania"></div>
     <mat-icon aria-hidden="false" aria-label="Info" fontIcon="info" class="pointer"></mat-icon>
-    <p class="parrafNotes">Velit culpa pariatur fugiat magna cupidatat id irure in deserunt laborum. Elit enim ipsum aute exercitation. Sit et ex aliquip do ex veniam nisi veniam ullamco aliqua. In minim voluptate pariatur elit non enim laboris dolore adipisicing tempor. Est ut incididunt officia cupidatat aliqua laboris commodo excepteur et non consectetur incididunt occaecat voluptate. Non aute nulla cillum est ex ut aliqua occaecat in qui aliquip anim minim reprehenderit. Anim adipisicing fugiat nostrud irure labore et reprehenderit ut amet dolore veniam.</p>
+    <p class="parrafNotes">Velit culpa pariatur fugiat magna cupidatat id irure in deserunt laborum. Elit enim ipsum
+      aute exercitation. Sit et ex aliquip do ex veniam nisi veniam ullamco aliqua. In minim voluptate pariatur elit non
+      enim laboris dolore adipisicing tempor. Est ut incididunt officia cupidatat aliqua laboris commodo excepteur et
+      non consectetur incididunt occaecat voluptate. Non aute nulla cillum est ex ut aliqua occaecat in qui aliquip anim
+      minim reprehenderit. Anim adipisicing fugiat nostrud irure labore et reprehenderit ut amet dolore veniam.</p>
   </div>
 
   <div class="gdp">
@@ -20,19 +26,19 @@
       <mat-select value="{{selected}}">
         <mat-option>Seleccione...</mat-option>
         @for (state of states; track state) {
-          <mat-option [value]="state">{{state}}</mat-option>
+        <mat-option [value]="state">{{state}}</mat-option>
         }
       </mat-select>
     </mat-form-field>
 
     <div class="date">
-        <p class="dateTitle">Día / Mes Año</p>
-        <div class="dateContainer">
-          <input matInput placeholder="Fecha" type="date" class="inputDate" >
-        </div>
+      <p class="dateTitle">Día / Mes Año</p>
+      <div class="dateContainer">
+        <input matInput placeholder="Fecha" type="date" class="inputDate">
+      </div>
     </div>
 
-    <mat-form-field >
+    <mat-form-field>
       <mat-label>Nombre del proponente de la idea</mat-label>
       <input matInput placeholder="Proponente" value="">
     </mat-form-field>
@@ -40,13 +46,13 @@
     <mat-form-field>
       <mat-label>Correo electrónico</mat-label>
       <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-             placeholder="Ex. pat@example.com">
+        placeholder="Ex. pat@example.com">
       <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
       @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
-        <mat-error>Porfavor ingresar una direccion de correo valida </mat-error>
+      <mat-error>Porfavor ingresar una direccion de correo valida </mat-error>
       }
       @if (emailFormControl.hasError('required')) {
-        <mat-error>Email is <strong>required</strong></mat-error>
+      <mat-error>Email is <strong>required</strong></mat-error>
       }
     </mat-form-field>
 
@@ -56,7 +62,7 @@
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-      <mat-label>Célulcar de contacto</mat-label>
+      <mat-label>Célular de contacto</mat-label>
       <!-- <span matTextPrefix>+1 &nbsp;</span> -->
       <input type="tel" matInput placeholder="321-9876543">
       <!-- <mat-icon matSuffix>mode_edit</mat-icon> -->
@@ -74,30 +80,32 @@
     <div class="fieldImputText">
       <mat-form-field class="matFormField">
         <p class="label">Título de la ídea</p>
-        <p class="label2">Un buen título, además de la exactitud y la confiabilidad, debe ser claro, conciso, específico y, si es posible, llamativo de forma tal que capture la atención del lector y enmarque la ídea principal.</p>
+        <p class="label2">Un buen título, además de la exactitud y la confiabilidad, debe ser claro, conciso, específico
+          y, si es posible, llamativo de forma tal que capture la atención del lector y enmarque la ídea principal.</p>
         <textarea #idea class="textA" matInput placeholder="Título de la ídea"></textarea>
         <mat-hint align="end" style="text-align: end;">{{idea.value.length}} / 250</mat-hint>
       </mat-form-field>
     </div>
 
-    <br/>
+    <br />
 
     <mat-divider class="divider"></mat-divider>
     <div class="tipoProyecto">
       <!-- <mat-form-field >
         <mat-label>Tipo de proyecto</mat-label> -->
-        <p class="label">Tipo de proyecto</p>
-        <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
-        <section class="Section">
-          <mat-checkbox color="primary">Investigación</mat-checkbox>
-          <mat-checkbox color="primary">Desarrollo tecnológico</mat-checkbox>
-          <mat-checkbox color="primary">Innovación</mat-checkbox>
-        </section>
+      <p class="label">Tipo de proyecto</p>
+      <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
+      <section class="Section">
+        <mat-checkbox color="primary">Investigación</mat-checkbox>
+        <mat-checkbox color="primary">Desarrollo tecnológico</mat-checkbox>
+        <mat-checkbox color="primary">Innovación</mat-checkbox>
+      </section>
       <!-- </mat-form-field> -->
     </div>
     <mat-divider></mat-divider>
     <div class="grupoLineaIvestigacion">
-      <p class="label mt20">Grupo y línea de investigación a la cual estará adscrito el proyecto de investigación, desarrollo tecnológico o innovación - I+D+i</p>
+      <p class="label mt20">Grupo y línea de investigación a la cual estará adscrito el proyecto de investigación,
+        desarrollo tecnológico o innovación - I+D+i</p>
       <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
       <div class="titleGrupoInves">
         <p class="pTitleInves">GRUPO DE INVESTIGACIÓN</p>
@@ -116,7 +124,8 @@
             <mat-checkbox color="primary">Infraestructura de datos espaciales</mat-checkbox>
             <mat-checkbox color="primary">Percepción Remota</mat-checkbox>
             <mat-checkbox color="primary">Sistema de información geográfica</mat-checkbox>
-            <mat-checkbox color="primary">Tecnologías de la información y la comunicación (TIC) para la Gestión del Conocimientos en las Organizaciones</mat-checkbox>
+            <mat-checkbox color="primary">Tecnologías de la información y la comunicación (TIC) para la Gestión del
+              Conocimientos en las Organizaciones</mat-checkbox>
             <mat-checkbox color="primary">Catastro Multipropósito</mat-checkbox>
           </section>
         </div>
@@ -150,30 +159,107 @@
       <mat-form-field class="matFormField">
         <p class="label">Lugar de ejecución</p>
         <p class="label2">Defina el lugar donde se ejecutará el proyecto I+D+i.</p>
-        <textarea #lugar class="textA" matInput placeholder="Tiempo de ejecución del proyecto I+D+i"></textarea>
+        <textarea #lugar class="textA" matInput
+          placeholder="Defina el lugar donde se ejecutará el proyecto I+D+i"></textarea>
         <mat-hint align="end" style="text-align: end;">{{lugar.value.length}} / 250</mat-hint>
       </mat-form-field>
     </div>
     <div class="fieldImputText">
-        <p class="label">Productos resultados de la investigación</p>
-        <p class="label2">Identificaser, seleccionar.</p>
+      <p class="label">Productos resultados de la investigación</p>
+      <p class="label2">Identificaser, seleccionar y relacionar los productos resultado de la investigación que se
+        obtienen, segun las tipologías de
+        Minciencias corresponden a: Generación de nuevo conocimiento, desarrollo tecnológico e innovación; Apropiación
+        social del conocimiento y divulgación
+        pública de la ciencia y la Formación de recurso humano en ciencia Tecnología e Innovación - CTeI.</p>
 
-        <div class="fieldImputText">
-          <mat-form-field class="matFormField">
-            <p class="label">Productos resultados de actividades de Generación de Nuevo Conocimiento</p>
-            <p class="label2">identificar y establecerlos productos esperados en el proyecto. Minciencias 20211: Articulos de investigación,
-              tipo A1, A2, B, C y D; Notas cientificas, tipo A1, A2, B, C y D; Libros resultados de investigación; Libros de formación en cuartil Q1;
-              Capitulos en libro resultadosd e investigación; Productos tecnológicos patentados o en proceso de concesión de la patente; Variedades
-              vegetales, variedades animales y poblaciones mejoradas de razas pecuarias y obras o productos resultados de creación e
-              investigación-creación, Arquitectura y Diseño
-            </p>
-            <textarea #lugar class="textA" matInput placeholder="Tiempo de ejecución del proyecto I+D+i"></textarea>
-            <mat-hint align="end" style="text-align: end;">{{lugar.value.length}} / 250</mat-hint>
-          </mat-form-field>
-        </div>
+      <div class="fieldImputText">
+        <mat-form-field class="matFormField">
+          <p class="label">Productos resultados de actividades de Generación de Nuevo Conocimiento</p>
+          <p class="label2">Identificar y establecer los productos esperados en el proyecto. Minciencias 2021: Articulos
+            de investigación,
+            tipo A1, A2, B, C y D; Notas cientificas, tipo A1, A2, B, C y D; Libros resultados de investigación; Libros
+            de formación en cuartil Q1;
+            Capitulos en libro resultadosd e investigación; Productos tecnológicos patentados o en proceso de concesión
+            de la patente; Variedades
+            vegetales, variedades animales y poblaciones mejoradas de razas pecuarias y obras o productos resultados de
+            creación e
+            investigación-creación, Arquitectura y Diseño
+          </p>
+          <textarea #Productos class="textA" matInput
+            placeholder="Productos resultados de actividades de Generación de Nuevo Conocimiento"></textarea>
+          <mat-hint align="end" style="text-align: end;">{{Productos.value.length}} / 250</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="fieldImputText">
+        <mat-form-field class="matFormField">
+          <p class="label">Productos resultados de actividades de Desarrollo tecnológico e Innovación</p>
+          <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Productos
+            empresariales, regulaciones,
+            normas, reglamentos o legislaciones, Conceptos técnicos y Registros de Acuerdos de licencia para explotación
+            de obras de investigación + Creación en Artes,
+            Arquitectura y Diseño protegidas por derechos de auto.
+          </p>
+          <textarea #ProductosDesarrollo class="textA" matInput
+            placeholder="Productos resultados de actividades de Desarrollo tecnológico e Innovación"></textarea>
+          <mat-hint align="end" style="text-align: end;">{{ProductosDesarrollo.value.length}} / 250</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="fieldImputText">
+        <mat-form-field class="matFormField">
+          <p class="label">Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación
+            Publica de la Ciencia</p>
+          <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021:
+            Reconocimiento de Contexto. la Participación;
+            Dialogo de Saberes y conocimientos; Confianza y Reflexión Crítica
+          </p>
+          <textarea #ProductosApropiacion class="textA" matInput
+            placeholder="Productos resultados de actividades de Desarrollo tecnológico e Innovación"></textarea>
+          <mat-hint align="end" style="text-align: end;">{{ProductosApropiacion.value.length}} / 250</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="fieldImputText">
+        <mat-form-field class="matFormField">
+          <p class="label">Productos resultados de actividades de Formación del Recurso Humano para la CTeI</p>
+          <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Realización
+            de una tésis o trabajo de grado
+            que otorga el título de doctor(a), magister o profesional (respectivamente); la ejecución de proyectos de
+            ID+I con formación y apoyo a programas
+            de formación; y la gestión de proyectos de investigación que permitan la consecución de los recursos
+            necesarios para el desarrollo de la investigación
+            o la innovación.
+          </p>
+          <textarea #ProductosFRH class="textA" matInput
+            placeholder="Productos resultados de actividades de Desarrollo tecnológico e Innovación"></textarea>
+          <mat-hint align="end" style="text-align: end;">{{ProductosFRH.value.length}} / 250</mat-hint>
+        </mat-form-field>
+      </div>
 
     </div>
 
+    <div class="formStyleFields">
+
+      <div class="fieldImputText">
+        <p class="label">Pregunta o problema que origina la ídea</p>
+        <p class="label2">(250 palabras) Identificar de manera sistemática, organizada y objetiva un problema o
+          necesidad y el contexto de su concurrencia con el
+          proposito de responder a una pregunta que aumente el conocimiento y la información sobre algo desconocido,
+          mejorar algun proceso o construir una herramienta
+          tecnológica. Responde a la pregunta ¿Que se quiere saber sobre el problema a analizar? se debe indagar que
+          esta ocurriendo, realizar un diagnostico de lo que
+          esta pasando; en caso de querer comparar, tambien se debe indagar cómo se presenta el problema en varios
+          contextos. Se deben definir si se desea saber las causas
+          del problema, predecir que sucederá en el futuro, o resolverlo.
+        </p>
+
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+        </ngx-editor-menu>
+        <ngx-editor [editor]="editor">
+        </ngx-editor>
+
+
+
+      </div>
+    </div>
   </div>
 
 
