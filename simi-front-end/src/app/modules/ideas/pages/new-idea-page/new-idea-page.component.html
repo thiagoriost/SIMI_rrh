@@ -1,6 +1,6 @@
 <div class="newIdeaContainer">
 
-  <div class="breadCrumb">Ideas · Registrar idea</div>
+  <div class="breadCrumb"> <span class="pointer" (click)="goDashBoard()">Ideas</span> · Registrar idea</div>
 
   <div class="title1Div">
     <h1 class="tittle1">Registrar Idea</h1>
@@ -213,7 +213,7 @@
             Dialogo de Saberes y conocimientos; Confianza y Reflexión Crítica
           </p>
           <textarea #ProductosApropiacion class="textA" matInput
-            placeholder="Productos resultados de actividades de Desarrollo tecnológico e Innovación"></textarea>
+            placeholder="Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación Publica de la Ciencia"></textarea>
           <mat-hint align="end" style="text-align: end;">{{ProductosApropiacion.value.length}} / 250</mat-hint>
         </mat-form-field>
       </div>
@@ -229,7 +229,7 @@
             o la innovación.
           </p>
           <textarea #ProductosFRH class="textA" matInput
-            placeholder="Productos resultados de actividades de Desarrollo tecnológico e Innovación"></textarea>
+            placeholder="Productos resultados de actividades de Formación del Recurso Humano para la CTeI"></textarea>
           <mat-hint align="end" style="text-align: end;">{{ProductosFRH.value.length}} / 250</mat-hint>
         </mat-form-field>
       </div>

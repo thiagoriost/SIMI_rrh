@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { intf_camposFieldEditText } from '../../share/interface/interfaces';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-field-input-edit-text',
   standalone: true,
-  imports: [NgxEditorModule],
+  imports: [NgxEditorModule, MatDividerModule],
   templateUrl: './field-input-edit-text.component.html',
   styleUrl: './field-input-edit-text.component.scss'
 })
