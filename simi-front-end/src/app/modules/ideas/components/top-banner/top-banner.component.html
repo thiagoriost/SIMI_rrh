@@ -1,7 +1,7 @@
 <div class="topBannerContainer">
   <app-swiper swiperContainerId="why-us-swiper" class="subContainerSwiper">
     <swiper-container #swiper class="swiper" pagination="true" autoplay="true">
-      @for (slide of slides; track slide; let i = $index) {
+      @for (slide of convocatorias; track slide; let i = $index) {
         <swiper-slide  class="pointer">
           <div class="card mx-2">
             <!-- <div class="card-body">
@@ -9,7 +9,7 @@
                 {{ slide.description }}
               </p>
             </div> -->
-            <img (click)="goConvocatoria(slide)" class="imgSwiper" height="400" [src]="slide.yek" alt="Image {{ i + 1 }}" />
+            <img (click)="goConvocatoria(slide)" class="imgSwiper" height="400" [src]="slide.Poster_Convocatoria" alt="Image {{ i + 1 }}" />
           </div>
         </swiper-slide>
         }

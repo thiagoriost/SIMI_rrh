@@ -3,6 +3,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router} from '@angular/router';
 import { StoreApp } from '../../../../core/store/storeApp';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { usersSIMI } from '../../../../core/api/api';
 
 @Component({
   selector: 'app-new-convocatoria-page',
@@ -17,25 +19,49 @@ export class NewConvocatoriaPageComponent implements OnInit {
   private route = inject(ActivatedRoute)
   convocatoriaId: string | null | undefined;
   tittleConcocatoria: string = "¿Como medir la contaminación del Río Bogotá?";
-  fechaConvocatoria: string = "Abril 01-2024";
-  detalleConvocatoria: string = `
-  Aliq uip ex id cupidatat iq uip ex id cupidatat uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate cu uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate1
-  Aliq uip ex id cupidatat iq uip ex id cupidatat uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate cu uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate2
-  Aliq uip ex id cupidatat iq uip ex id cupidatat uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate cu uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate2
-  Aliq uip ex id cupidatat iq uip ex id cupidatat uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate cu uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate2
-  Aliq uip ex id cupidatat iq uip ex id cupidatat uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate cu uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate2
-  Aliq uip ex id cupidatat iq uip ex id cupidatat uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate cu uip ex id uip ex id cupidatat voluptate culp cupidatat voluptate2
-
-  `;
+  fechaConvocatoria: string;
+  detalleConvocatoria: string = ``;
   padding: string = '';
+  fechaLimite: Date;
+  responsable: string;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private _snackBar: MatSnackBar) {
+    const convocatoriaSelected = this.store.convocatoriaSelected()
 
-  ngOnInit(): void {
-    this.convocatoriaId = this.route.snapshot.paramMap.get('id');
-    console.log(this.convocatoriaId);
-    console.log("leng => ", this.detalleConvocatoria.length);
-    this.ajustePaddingDetalleConvocatoria()
+    if(!convocatoriaSelected.Codigo_Convocatoria)this.router.navigate([`/home`]);
+    console.log({convocatoriaSelected});
+
+    this.convocatoriaId = convocatoriaSelected.Id_Convocatoria;
+    this.tittleConcocatoria = convocatoriaSelected.Nombre_Convocatoria;
+    this.detalleConvocatoria = convocatoriaSelected.Descripcion;
+    this.fechaLimite = convocatoriaSelected.Fecha_Limite
+    this.fechaConvocatoria = new Date(convocatoriaSelected.Fecha_Creacion).toLocaleDateString()
+    this.responsable = convocatoriaSelected.Id_Responsable
+  }
+
+  async ngOnInit(): Promise<void> {
+    if (localStorage.getItem("auth_token")) {
+      this.convocatoriaId = this.route.snapshot.paramMap.get('id');
+      console.log(this.convocatoriaId);
+      console.log("leng => ", this.detalleConvocatoria.length);
+      this.ajustePaddingDetalleConvocatoria()
+      //
+
+
+      const user = await usersSIMI();
+//
+    } else {
+      this._snackBar.open(`Sesión expirada`, '', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 5000,
+        direction:'ltr',
+        data:{
+          message:'hihihih'
+        }
+      });
+      this.router.navigate([`/login`]);
+    }
 
   }
   ajustePaddingDetalleConvocatoria() {

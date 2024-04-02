@@ -60,7 +60,7 @@ export class LoginPageComponent {
         .then((resp) => {
           console.log({resp});
           this.authenticated = true;
-          this._snackBar.open(`Welcome ${this.email}`, '', {
+          this._snackBar.open(`Bienvenid@ ${this.email}`, '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
             duration: 5000,
@@ -76,10 +76,27 @@ export class LoginPageComponent {
         })
         .catch((e) => {
           if (e.parent.code == 'ERR_NETWORK') {
-            window.alert('Fallo de conexión');
+            this._snackBar.open(`Fallo de conexión`, '', {
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              duration: 5000,
+              direction:'ltr',
+              data:{
+                message:'hihihih'
+              }
+            });
           } else {
-            window.alert('Credenciales invalidas');
+            this._snackBar.open(`Credenciales invalidas`, '', {
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              duration: 5000,
+              direction:'ltr',
+              data:{
+                message:'hihihih'
+              }
+            });
           }
+          this.store.changeSpinner(false);
         });
       if (this.authenticated) {
         this.router.navigate(['/home']);
