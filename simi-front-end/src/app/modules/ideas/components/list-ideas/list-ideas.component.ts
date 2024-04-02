@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, OnInit, signal } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, OnInit, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { directus } from '../../../../core/services/directus';
 import { Ideas_Investigacion, Response_Ideas_Investigacion } from '../../../../share/interface/interfaces';
+import { StoreApp } from '../../../../core/store/storeApp';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-ideas',
@@ -17,7 +19,7 @@ import { Ideas_Investigacion, Response_Ideas_Investigacion } from '../../../../s
 })
 export class ListIdeasComponent implements OnInit {
 
-
+  store = inject(StoreApp)
 
   displayedColumns: string[] = ['codigo', 'tituloIdea', 'tipoProyecto', 'anio', 'fechaHoraRegistro', 'estado', 'actions'];
 
@@ -27,11 +29,26 @@ export class ListIdeasComponent implements OnInit {
   paginator!: MatPaginator;
   // usuario: any;
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private _snackBar: MatSnackBar){}
 
   ngOnInit(): void {
     console.log("ngOnInit ListIdeasComponent");
-    this.getIdeas_Investigacion();
+
+    if (localStorage.getItem("auth_token")) {
+      this.getIdeas_Investigacion()
+    } else {
+      this._snackBar.open(`Sesión expirada`, '', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 5000,
+        direction:'ltr',
+        data:{
+          message:'hihihih'
+        }
+      });
+      this.router.navigate([`/login`]);
+
+    }
 
   }
   async getIdeas_Investigacion() {

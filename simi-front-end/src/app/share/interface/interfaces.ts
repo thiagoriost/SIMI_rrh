@@ -46,3 +46,20 @@ export interface intf_camposFieldEditText{
   label: string;
   SubLabel: string;
 }
+
+export interface responseConvocatorias {
+  data: intf_convocatoria[];
+}
+
+export interface intf_convocatoria {
+  Id_Convocatoria:     string;
+  Usuario_Creador:     string;
+  Fecha_Creacion:      Date;
+  Codigo_Convocatoria: string;
+  Nombre_Convocatoria: string;
+  Id_Responsable:      string;
+  Fecha_Inicio:        Date;
+  Fecha_Limite:        Date;
+  Descripcion:         string;
+  Poster_Convocatoria: string;
+}

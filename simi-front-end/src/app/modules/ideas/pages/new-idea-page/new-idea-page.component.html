@@ -6,15 +6,7 @@
     <h1 class="tittle1">Registrar Idea</h1>
   </div>
 
-  <div class="notas">
-    <div class="pestania"></div>
-    <mat-icon aria-hidden="false" aria-label="Info" fontIcon="info" class="pointer"></mat-icon>
-    <p class="parrafNotes">Velit culpa pariatur fugiat magna cupidatat id irure in deserunt laborum. Elit enim ipsum
-      aute exercitation. Sit et ex aliquip do ex veniam nisi veniam ullamco aliqua. In minim voluptate pariatur elit non
-      enim laboris dolore adipisicing tempor. Est ut incididunt officia cupidatat aliqua laboris commodo excepteur et
-      non consectetur incididunt occaecat voluptate. Non aute nulla cillum est ex ut aliqua occaecat in qui aliquip anim
-      minim reprehenderit. Anim adipisicing fugiat nostrud irure labore et reprehenderit ut amet dolore veniam.</p>
-  </div>
+  <app-toast-msg mensaje="{{textToastMensaje}}"></app-toast-msg>
 
   <div class="gdp">
     <h2>General Del Proponente</h2>
@@ -47,7 +39,6 @@
       <mat-label>Correo electrónico</mat-label>
       <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
         placeholder="Ex. pat@example.com">
-      <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
       @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
       <mat-error>Porfavor ingresar una direccion de correo valida </mat-error>
       }
@@ -63,9 +54,7 @@
 
     <mat-form-field class="example-full-width">
       <mat-label>Célular de contacto</mat-label>
-      <!-- <span matTextPrefix>+1 &nbsp;</span> -->
       <input type="tel" matInput placeholder="321-9876543">
-      <!-- <mat-icon matSuffix>mode_edit</mat-icon> -->
     </mat-form-field>
 
   </div>
