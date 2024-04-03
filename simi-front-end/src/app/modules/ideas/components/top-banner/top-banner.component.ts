@@ -3,8 +3,9 @@ import { SwiperComponent } from '../../../../components/swiper/swiper.component'
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { directus } from '../../../../core/services/directus';
-import { intf_convocatoria, responseConvocatorias } from '../../../../share/interface/interfaces';
+import { Intf_user, Users, intf_convocatoria, responseConvocatorias } from '../../../../share/interface/interfaces';
 import { StoreApp } from '../../../../core/store/storeApp';
+import { getposter } from '../../../../core/api/api';
 
 
 @Component({
@@ -41,9 +42,29 @@ export class TopBannerComponent implements OnInit{
 
   async getConvocatorias() {
     let getConvocatorias: responseConvocatorias = await directus.items('Convocatorias').readByQuery({ sort: ['Id_Convocatoria'] }) as responseConvocatorias;
-    console.log(getConvocatorias);
+    let convocatorias:intf_convocatoria[] = getConvocatorias.data;
+    console.log({convocatorias});
+    // let getConvocatorias: responseConvocatorias = await directus.items('Convocatorias').readByQuery({ limit: -1 }) as responseConvocatorias;
+    // let getConvocatorias: responseConvocatorias = await directus.items('Convocatorias').readByQuery({ fields:'*' }) as responseConvocatorias;
+    // let getConvocatorias = await directus.collections.readOne('Convocatorias') ;
+    // let getCollections = await directus.collections.readAll() ; // trae todas las colleciones
+    // console.log({getCollections});
+    let getUsers: Users = await directus.items('directus_users').readByQuery({ fields:'*' }) as Users; // trae todos los usuarios
+    let users: Intf_user[] = getUsers.data;
+    console.log({users});
+    for (let conv = 0; conv < convocatorias.length; conv++) {
+      convocatorias[conv]["MetadataUser"] = users.filter(e => e.id == convocatorias[conv].Id_Responsable)[0]
+    }
+    console.log({convocatorias});
+    // let getConvocatorias =  await directus.items('Convocatorias').readMany(['00002']);
+    /** logica para traer poster img */
+    const token: string = localStorage.getItem("auth_token") || "";
+    const respoPoster = await getposter(token)
+    console.log({respoPoster});
 
-    this.convocatorias = [...this.convocatorias, ...getConvocatorias.data]
+    // let getPoster = await directus.files.import();
+
+    this.convocatorias = [...this.convocatorias, ...convocatorias]
 
   }
 

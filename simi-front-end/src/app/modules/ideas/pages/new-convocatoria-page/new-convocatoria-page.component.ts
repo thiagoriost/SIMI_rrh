@@ -36,7 +36,7 @@ export class NewConvocatoriaPageComponent implements OnInit {
     this.detalleConvocatoria = convocatoriaSelected.Descripcion;
     this.fechaLimite = convocatoriaSelected.Fecha_Limite
     this.fechaConvocatoria = new Date(convocatoriaSelected.Fecha_Creacion).toLocaleDateString()
-    this.responsable = convocatoriaSelected.Id_Responsable
+    this.responsable = convocatoriaSelected.MetadataUser?.first_name + " " +  convocatoriaSelected.MetadataUser?.last_name || convocatoriaSelected.Id_Responsable;
   }
 
   async ngOnInit(): Promise<void> {
