@@ -72,11 +72,7 @@ export class NewConvocatoriaPageComponent implements OnInit {
     }
   }
   goIdea(idIdea: string|null|undefined) {
-    this.store.changeSpinner(true);
-    setTimeout(() => {
-      this.store.changeSpinner(false);
       this.router.navigate([`/home/idea/${this.convocatoriaId}`])
-    }, 3000);
   }
 
 
