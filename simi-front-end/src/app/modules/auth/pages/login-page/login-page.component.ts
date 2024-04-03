@@ -30,56 +30,29 @@ export class LoginPageComponent {
 
       console.log("goHome");
 
-      this.store.updateLogin({
-        "data": {
-          "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYxNmRiNTMzLTc2NWItNDAzMC1hNmZkLTA1N2EwNTRkNTM4OCIsInJvbGUiOiJlOTRkNmI5Yy02M2JjLTRkNzEtOTAyYS1kZTU3MjJiNjg3ZmEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTcxMTQ4NjM3OSwiZXhwIjoxNzExNDg3Mjc5LCJpc3MiOiJkaXJlY3R1cyJ9.ZUi1IaFht8JUkMY0YfCb4wd8u7BHLvxnZFon_JvgPFo",
-          "expires": 900000
-        }
-      })
-      this.store.changeSpinner(true);
 
-      setTimeout(() => {
-        this._snackBar.open(`Welcome ${this.email}`, '', {
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          duration: 5000,
-          direction:'ltr',
-          data:{
-            message:'hihihih'
-          }
-        });
-        console.log("spinner off");
-        this.store.changeSpinner(false);
-        this.router.navigate(['/home']);
-      }, 3000);
-
-
-    if (/* this.validarCredenciales() */0) {
+    if (this.validarCredenciales()) {
       await directus.auth
         .login({ 'email': this.email, password: this.passw })
         .then((resp) => {
           console.log({resp});
           this.authenticated = true;
-          this.store.updateLogin({
-            "data": {
-                "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYxNmRiNTMzLTc2NWItNDAzMC1hNmZkLTA1N2EwNTRkNTM4OCIsInJvbGUiOiJlOTRkNmI5Yy02M2JjLTRkNzEtOTAyYS1kZTU3MjJiNjg3ZmEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTcxMTQ4NjM3OSwiZXhwIjoxNzExNDg3Mjc5LCJpc3MiOiJkaXJlY3R1cyJ9.ZUi1IaFht8JUkMY0YfCb4wd8u7BHLvxnZFon_JvgPFo",
-                "expires": 900000
-            }
-        })
-          sessionStorage.setItem('usuario', JSON.stringify(resp));
+          alert(`Bienvenid@ ${this.email}`);
+
+        this.router.navigate(['/home']);
 
         })
         .catch((e) => {
           if (e.parent.code == 'ERR_NETWORK') {
-            window.alert('Fallo de conexión');
+            alert(`Fallo de conexión`)
           } else {
-            window.alert('Credenciales invalidas');
+            alert(`Credenciales invalidas`)
           }
         });
       if (this.authenticated) {
         this.router.navigate(['/home']);
       } else {
-        console.log("Credencailes erroneas");
+        alert("Credencailes erroneas");
       }
     };
   }

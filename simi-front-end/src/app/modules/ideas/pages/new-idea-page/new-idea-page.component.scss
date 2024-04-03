@@ -16,32 +16,11 @@
     }
   }
 
-  .notas{
-    align-items: center;
-    background-color: #deedff;
-    color: #4199ff;
-    display: flex;
-    padding: 0px 10px 0px 0px;
-    border-radius: 10px;
-    flex-direction: row;
 
-    .parrafNotes{
-      margin: 0;
-      padding: 10px;
-    }
-    .pestania{
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-      width: 20px;
-      height: 100%;
-      background-color: #4199ff;
-      margin-right: 10px;
-    }
-  }
 
   .gdp{
     text-align: justify;
-    margin-top: 10px;
+    // margin-top: 10px;
   }
   .generalDelProponente{
     display: grid;
@@ -94,7 +73,7 @@
     border: 1px solid blue;
     // background-color: aqua;
 
-    .tituloIdea{
+    .fieldImputText{
       // background-color: #4199ff;
       // width: 100%;
 
@@ -104,7 +83,7 @@
 
         .textA{
           // background-color: blue;
-          width: 92vw;
+          width: 85vw;
         }
       }
     }
@@ -135,7 +114,7 @@
         border-bottom: 1px solid gray;
         height: 30px;
         .titleGI{
-
+          font-weight: bold;
           margin: 0;
           padding-top: 7px;
         }
@@ -157,8 +136,23 @@
         }
       }
     }
+    .grupoLineaIvestigacion{
+      margin-bottom: 20px;
+    }
+    .formStyleFields{
+      // background-color: #4199ff;
+      margin-left: -10px;
+
+
+    }
   }
 
+
+
+}
+
+.NgxEditor__Wrapper{
+  background-color: #4199ff !important;
 }
 
 h2{
@@ -169,17 +163,7 @@ h2{
   width: 100%;
 }
 
-.label{
-  // background-color: blueviolet;
-  font-weight: bold;
-  margin-bottom: 1px;
-}
-.label2{
-  // background-color: aqua;
-  color: #4199ff;
-  width: max-content;
-  font-size: small;
-}
+
 
 .divider{
   margin-bottom: 10px;
@@ -191,4 +175,21 @@ h2{
 
 .br1{
   border-right: 1px solid gray;
+}
+
+.label{
+  // background-color: blueviolet;
+  font-weight: bold;
+  margin-bottom: 1px;
+  margin-top: 15px;
+  width: 90vw;
+
+}
+.label2{
+  // background-color: aqua;
+  color: #4199ff;
+  font-size: small;
+  text-align: justify;
+  // width: max-content;
+  width: 85vw;
 }
