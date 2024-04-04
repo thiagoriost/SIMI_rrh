@@ -63,6 +63,7 @@ export interface intf_convocatoria {
   Descripcion:         string;
   Poster_Convocatoria: string;
   MetadataUser?: Intf_user;
+  img?: string;
 }
 /**
  * interfaz para usuarios

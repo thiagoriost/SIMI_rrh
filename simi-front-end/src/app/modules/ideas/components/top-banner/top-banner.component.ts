@@ -54,6 +54,7 @@ export class TopBannerComponent implements OnInit{
     console.log({users});
     for (let conv = 0; conv < convocatorias.length; conv++) {
       convocatorias[conv]["MetadataUser"] = users.filter(e => e.id == convocatorias[conv].Id_Responsable)[0]
+      convocatorias[conv]["img"] = 'https://media.macphun.com/img/uploads/customer/how-to/608/15542038745ca344e267fb80.28757312.jpg?q=85&w=1340' // temporal hasta q se estables la img
     }
     console.log({convocatorias});
     // let getConvocatorias =  await directus.items('Convocatorias').readMany(['00002']);

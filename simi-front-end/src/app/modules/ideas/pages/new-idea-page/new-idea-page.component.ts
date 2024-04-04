@@ -1,18 +1,18 @@
-import { Component/* , OnDestroy, OnInit */} from '@angular/core';
-import { FormControl, /* FormGroup, */ FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component} from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { MyErrorStateMatcher } from '../../../../share/utils/complements';
+
 import {MatDividerModule} from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { /* Editor,  */NgxEditorModule/* , Toolbar */ } from 'ngx-editor';
-// import jsonDoc from './doc';
+import { NgxEditorModule } from 'ngx-editor';
 import { FieldInputEditTextComponent } from '../../../../components/field-input-edit-text/field-input-edit-text.component';
 import { intf_camposFieldEditText } from '../../../../share/interface/interfaces';
 import { ToastMsgComponent } from '../../../../components/toast-msg/toast-msg.component';
+import { GeneralProponenteComponent } from '../../components/general-proponente/general-proponente.component';
 
 
 
@@ -20,7 +20,7 @@ import { ToastMsgComponent } from '../../../../components/toast-msg/toast-msg.co
   selector: 'app-new-idea-page',
   standalone: true,
   imports: [MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule, ReactiveFormsModule, MatIconModule, MatDividerModule, MatCheckboxModule,
-    NgxEditorModule, FieldInputEditTextComponent, ToastMsgComponent],
+    NgxEditorModule, FieldInputEditTextComponent, ToastMsgComponent, GeneralProponenteComponent],
   templateUrl: './new-idea-page.component.html',
   styleUrl: './new-idea-page.component.scss',
 })
@@ -57,68 +57,16 @@ export class NewIdeaPageComponent /* implements OnInit, OnDestroy */{
   //   ),
   // });
 
-  /**
-   * Propiedades para la configuracipon del campo email
-   */
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  matcher = new MyErrorStateMatcher();
+  public formulario: FormGroup = this.fb.group({
+    entida: ['',[],[]],
+    fecha: ['',[],[]],
+    nombreProponente: ['',[],[]],
+    email: ['',[Validators.required, Validators.email],[]],
+    cedula: [,[],[]],
+    celular: [,[],[]],
+  })
 
-  /**
-   * Parametros de configuración para el campo select
-   */
-  selected: any = 'option2';
-  states: string[] = [
-    'Alabama',
-    'Alaska',
-    'Arizona',
-    'Arkansas',
-    'California',
-    'Colorado',
-    'Connecticut',
-    'Delaware',
-    'Florida',
-    'Georgia',
-    'Hawaii',
-    'Idaho',
-    'Illinois',
-    'Indiana',
-    'Iowa',
-    'Kansas',
-    'Kentucky',
-    'Louisiana',
-    'Maine',
-    'Maryland',
-    'Massachusetts',
-    'Michigan',
-    'Minnesota',
-    'Mississippi',
-    'Missouri',
-    'Montana',
-    'Nebraska',
-    'Nevada',
-    'New Hampshire',
-    'New Jersey',
-    'New Mexico',
-    'New York',
-    'North Carolina',
-    'North Dakota',
-    'Ohio',
-    'Oklahoma',
-    'Oregon',
-    'Pennsylvania',
-    'Rhode Island',
-    'South Carolina',
-    'South Dakota',
-    'Tennessee',
-    'Texas',
-    'Utah',
-    'Vermont',
-    'Virginia',
-    'Washington',
-    'West Virginia',
-    'Wisconsin',
-    'Wyoming',
-  ];
+
 
 
   camposFieldEditText: intf_camposFieldEditText[] = [
@@ -154,13 +102,17 @@ export class NewIdeaPageComponent /* implements OnInit, OnDestroy */{
   minim reprehenderit. Anim adipisicing fugiat nostrud irure labore et reprehenderit ut amet dolore veniam.`;
 
 
-  constructor(private router: Router){
+  constructor(private router: Router, private fb: FormBuilder){
   }
 
 
   goDashBoard() {
 
     this.router.navigate(['/home/dashboard']);
+
+  }
+  onSave():void{
+    console.log(this.formulario);
 
   }
 

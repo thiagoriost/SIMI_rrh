@@ -11,53 +11,7 @@
   <div class="gdp">
     <h2>General Del Proponente</h2>
   </div>
-  <div class="generalDelProponente">
-
-    <mat-form-field>
-      <mat-label>Entidad o dependencia originadora de la idea</mat-label>
-      <mat-select value="{{selected}}">
-        <mat-option>Seleccione...</mat-option>
-        @for (state of states; track state) {
-        <mat-option [value]="state">{{state}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <div class="date">
-      <p class="dateTitle">Día / Mes Año</p>
-      <div class="dateContainer">
-        <input matInput placeholder="Fecha" type="date" class="inputDate">
-      </div>
-    </div>
-
-    <mat-form-field>
-      <mat-label>Nombre del proponente de la idea</mat-label>
-      <input matInput placeholder="Proponente" value="">
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Correo electrónico</mat-label>
-      <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-        placeholder="Ex. pat@example.com">
-      @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
-      <mat-error>Porfavor ingresar una direccion de correo valida </mat-error>
-      }
-      @if (emailFormControl.hasError('required')) {
-      <mat-error>Email is <strong>required</strong></mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Cédula</mat-label>
-      <input matInput placeholder="Cédula" value="">
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width">
-      <mat-label>Célular de contacto</mat-label>
-      <input type="tel" matInput placeholder="321-9876543">
-    </mat-form-field>
-
-  </div>
+  <app-general-proponente [formulario]="formulario"></app-general-proponente>
 
   <!-- Aspectos técnicos de la ídea de Investigación, Desarrollo tecnológico o Innovación -->
   <div class="mt20 gdp">

@@ -1,0 +1,77 @@
+.generalDelProponente{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 0px;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid blue;
+
+  .date{
+    text-align: justify;
+    color: gray;
+
+    .dateTitle{
+      margin: 0;
+      background-color: #f9f6f6;
+      padding: 8px 0px 10px 15px;
+    }
+    .dateContainer{
+      background-color: #f9f6f6;
+      border-bottom: 1px solid gray;
+      padding-left: 15px;
+
+      .inputDate{
+        width: 25%;
+        border: none;
+        color: gray;
+        font-size: medium;
+      }
+      input[type="date"]:focus {
+        outline: none; /* Elimina el borde de enfoque */
+    }
+    }
+  }
+
+}
+.tootlip{
+  display: none;
+  width: max-content;
+  background-color: blue;
+  color: #f9f6f6;
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  padding-bottom: 5px; /* Espaciado interno */
+  border-radius: 5px;
+}
+/* Estilo del tootlip cuando se muestra */
+.contenedor:hover .tootlip {
+  display: block; /* Mostrar el tootlip cuando se pasa el cursor sobre el contenedor */
+  // top: 100%; /* Colocar el tootlip debajo del contenedor */
+  // left: 0; /* Alinear el tootlip a la izquierda del contenedor */
+  // background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+  // color: white; /* Color del texto */
+  /* Bordes redondeados */
+  // width: 200px; /* Ancho del tootlip */
+  transition: opacity 0.6s ease; /* Transición suave */
+  opacity: 0; /* Inicialmente invisible */
+}
+/* Estilo del tootlip cuando se muestra */
+.contenedor:hover .tootlip {
+  opacity: 2; /* Hacer el tootlip completamente visible */
+}
+
+@media only screen and (max-width: 600px) {
+  .generalDelProponente{
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    // padding: 20px;
+    // border-radius: 20px;
+    // border: 1px solid blue;
+  }
+
+}

@@ -8,6 +8,7 @@
   /* text-align: center; */
   padding: 30px 10px 5px 10px;
   overflow: auto;
+  width: 94vw;
 
   .title1Div{
     padding-top: 20px;
@@ -22,45 +23,7 @@
     text-align: justify;
     // margin-top: 10px;
   }
-  .generalDelProponente{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 0px;
-    padding: 20px;
-    border-radius: 20px;
-    border: 1px solid blue;
 
-    .entidadHoriginadora{
-
-    }
-    .date{
-      text-align: justify;
-      color: gray;
-
-
-      .dateTitle{
-        margin: 0;
-        background-color: #f9f6f6;
-        padding: 8px 0px 10px 0px;
-      }
-      .dateContainer{
-        background-color: #f9f6f6;
-        border-bottom: 1px solid gray;
-
-        .inputDate{
-          width: 25%;
-          border: none;
-          color: gray;
-          font-size: medium;
-        }
-        input[type="date"]:focus {
-          outline: none; /* Elimina el borde de enfoque */
-      }
-      }
-    }
-  }
 
   .aspectosTecnicos{
     display: flex;
@@ -163,8 +126,6 @@ h2{
   width: 100%;
 }
 
-
-
 .divider{
   margin-bottom: 10px;
 }
@@ -192,4 +153,14 @@ h2{
   text-align: justify;
   // width: max-content;
   width: 85vw;
+}
+
+@media only screen and (max-width: 600px) {
+  .newIdeaContainer{
+    width: 99vw;
+    .breadCrumb{
+      padding-left: 30px;
+    }
+  }
+
 }
