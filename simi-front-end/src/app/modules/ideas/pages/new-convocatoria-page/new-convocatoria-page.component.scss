@@ -40,12 +40,16 @@
 
       .cardHeader{
         align-content: center;
-        background-color: rgb(3 8 69);
+        // background-color: rgb(3 8 69);
         border-radius: 20px;
         padding: 10px 10px 10px 30px;
         text-align: justify;
         height: 60%;
         color: white;
+        background-image: url("http://172.19.3.143:8055/assets/e2c23cbf-f312-44f9-9306-62470b8afbed?fit=contain&width=2000&height=2000&quality=100");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
 
         .date{
           font-size: small;

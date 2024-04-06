@@ -8,25 +8,74 @@
       width: 200px !important;
     }
 
-    .imgSwiper{
-      position: relative;
-      height: 210px !important;
-      background-color: transparent;
-      width: 100%;
-      // height: 100%;
-      object-fit: contain;
-      object-position: center center;
 
-    }
 
     .card{
       background-color: transparent;
       border-color: transparent;
+      display: flex;
+      justify-content: center;
+      width: 100%; /* Ancho del contenedor */
+      height: 200px; /* Alto del contenedor */
+      // border: 1px solid #ccc; /* Borde para visualización */
+      overflow: hidden; /* Oculta el desbordamiento de la imagen */
+      position: relative;
+
+      .card-body{
+        // background-color: aqua;
+        text-align: justify;
+        margin-top: 10px;
+        color: white;
+        padding: 15px 0px 0px 80px;
+        position: absolute;
+        height: 150px;
+        width: 70%;
+        z-index: 9;
+
+        .item{
+          font-weight: bold;
+        }
+      }
+
+      .imgSwiper{
+        background-color: transparent;
+        border-radius: 20px;
+        margin-top: 10px;
+        position: relative;
+        height: 150px !important;
+        width: 70%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+
+      }
     }
 
     .swiper-pagination{
       top: 221px !important;
     }
+
+  }
+
+  @media only screen and (max-width: 600px) {
+
+    .topBannerContainer{
+      .card{
+        .card-body{
+          width: 100%;
+          padding: 10px 0px 0px 50px;
+        }
+        .imgSwiper{
+          width: 100%;
+          height: 70px !important;
+          margin-top: 0px;
+          border-radius: 0px;
+          height: 126px !important;
+        }
+      }
+  }
+
+
 
   }
 

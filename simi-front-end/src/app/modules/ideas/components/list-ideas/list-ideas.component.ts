@@ -55,6 +55,7 @@ export class ListIdeasComponent implements OnInit {
     let publicData: Response_Ideas_Investigacion = await directus.items('Ideas_Investigacion').readByQuery({ sort: ['Codigo_Idea'] })  as Response_Ideas_Investigacion;
     console.log(publicData.data);
     /// guardar respuesta en dataStorage
+
     this.dataSource.data = publicData.data
     // this.fixDataToRender(publicData.data)
   }

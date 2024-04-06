@@ -31,7 +31,7 @@
     top: auto;
     width: 30px;
     height: 30px;
-    margin-right: 95px;
+    margin-right: 210px;
     display: flex;
     align-items: center;
     font-weight: bold;
@@ -45,7 +45,7 @@
     top: auto;
     width: 30px;
     height: 30px;
-    margin-left: 35px;
+    margin-left: 210px;
     display: flex;
     align-items: center;
     font-weight: bold;
@@ -55,21 +55,21 @@
     position: relative;
   }
 
-  @media only screen and (max-width: 600px) {
 
+}
+@media only screen and (max-width: 600px) {
+
+  .btnsArrowSiwper{
+    top: -150px;
     .swiper-button-next-unique{
-      margin-right: 35px;
+      margin-right: 10px;
     }
-
-
+    .swiper-button-prev-unique{
+      margin-left: 10px;
+    }
 
   }
 
+
+
 }
-
-// .swiper-pagination{
-//   top: 221px !important;
-// }
-
-
-

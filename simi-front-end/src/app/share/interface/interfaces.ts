@@ -54,7 +54,7 @@ export interface responseConvocatorias {
 export interface intf_convocatoria {
   Id_Convocatoria:     string;
   Usuario_Creador:     string;
-  Fecha_Creacion:      Date;
+  Fecha_Creacion:      Date | string;
   Codigo_Convocatoria: string;
   Nombre_Convocatoria: string;
   Id_Responsable:      string;

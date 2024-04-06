@@ -10,11 +10,11 @@
     <p class="tittleConvocatoria">{{tittleConcocatoria}}</p>
   <div class="cardsConvocatoria">
     <div class="cardLeft">
-      <div class="cardHeader">
-        <p class="date">{{fechaConvocatoria}}</p>
+      <div class="cardHeader" [style.background-image]="'url(' + imgBackGround + ')'">
+       <!--  <p class="date">{{fechaConvocatoria}}</p>
         <p class="fixText">Nueva convocatoria.</p>
         <p class="tittleConv2">{{tittleConcocatoria}}</p>
-        <p class="fixText2">APORTE SUS IDEAS</p>
+        <p class="fixText2">APORTE SUS IDEAS</p> -->
       </div>
       <div class="cardDetailConvocatoria scrollBarApp" [style.padding]="padding">
         <P class="detailConvocatoria scrollBarApp">{{detalleConvocatoria}}</P>

@@ -2,14 +2,33 @@
   <app-swiper swiperContainerId="why-us-swiper" class="subContainerSwiper">
     <swiper-container #swiper class="swiper" pagination="true" autoplay="true">
       @for (slide of convocatorias; track slide; let i = $index) {
-        <swiper-slide  class="pointer">
+        <swiper-slide (click)="goConvocatoria(slide)"  class="pointer">
           <div class="card mx-2">
+
             <!-- <div class="card-body">
-              <p class="card-text">
-                {{ slide.description }}
-              </p>
+              <div class="">
+                <p>
+                  {{slide.Fecha_Creacion }}
+                </p>
+              </div>
+              <div class="item">
+                <p>
+                  Nueva convocatoria.
+                </p>
+              </div>
+              <div class="item">
+                <p>
+                  {{slide.Nombre_Convocatoria}}
+                </p>
+              </div>
+              <div class="item">
+                <p>
+                  APORTE SUS IDEAS
+                </p>
+              </div>
             </div> -->
-            <img (click)="goConvocatoria(slide)" class="imgSwiper" height="400" [src]="slide.img" alt="Image {{ i + 1 }}" />
+
+            <img  class="imgSwiper" height="400" [src]="slide.img" alt="Image {{ i + 1 }}" />
           </div>
         </swiper-slide>
         }

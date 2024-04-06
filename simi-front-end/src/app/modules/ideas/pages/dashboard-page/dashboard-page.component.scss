@@ -9,13 +9,24 @@
   .top-banner{
     align-content: center;
     // background-color: antiquewhite;
-    height: 30%;
+    height: 24%;
   }
 
   .listIdeas{
     align-content: center;
     // background-color: aquamarine;
     height: 70%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+
+  #dashBoardPageContainer{
+
+    .listIdeas{
+      // margin-top: -108px;
+      height: 100%;
+    }
   }
 }
 

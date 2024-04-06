@@ -26,6 +26,7 @@ grid-row-gap: 0px; */
 #smallNavBar{
   display: none;
   width: 0px;
+  bottom: 0;
 }
 
 
@@ -38,6 +39,8 @@ grid-row-gap: 0px; */
 
   #smallNavBar{
     display: flex;
+    background-color: gray;
+    z-index: 99;
   }
 }
 

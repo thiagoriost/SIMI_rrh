@@ -1,4 +1,4 @@
-<div class="newIdeaContainer">
+<form [formGroup]="formulario" (ngSubmit)="onSave()" class="newIdeaContainer" autocomplete="off">
 
   <div class="breadCrumb"> <span class="pointer" (click)="goDashBoard()">Ideas</span> · Registrar idea</div>
 
@@ -11,10 +11,66 @@
   <div class="gdp">
     <h2>General Del Proponente</h2>
   </div>
-  <app-general-proponente [formulario]="formulario"></app-general-proponente>
+  <div  class="generalDelProponente">
+
+    <div class="contenedor">
+        <mat-form-field>
+          <p class="tootlip">Entidad o dependencia originadora de la idea</p>
+          <mat-label >Entidad o dependencia originadora de la idea</mat-label>
+          <!-- <mat-select disableOptionCentering="true" formControlName="Entidad">
+            <mat-option>Seleccione...</mat-option>
+            @for (state of states; track state) {
+              <mat-option [value]="state">{{state}}</mat-option>
+            }
+        </mat-select> -->
+          <input formControlName="Entidad" matInput placeholder="Proponente" value="">
+          @if (!validacionCampo("Entidad")) { <mat-error>{{getErrorCampo("Entidad")}}</mat-error> }
+      </mat-form-field>
+    </div>
+
+    <div class="contenedor date">
+        <p class="dateTitle">Día / Mes Año</p>
+        <div class="dateContainer">
+          <input formControlName="Fecha_Idea" matInput placeholder="Fecha" type="date" class="inputDate">
+        </div>
+        @if (validacionFecha) { <mat-error>{{getErrorCampo("Fecha_Idea")}}</mat-error> }
+
+    </div>
+
+    <div class="contenedor">
+      <mat-form-field>
+        <p class="tootlip">Nombre del proponente de la idea</p>
+        <mat-label>Nombre del proponente de la idea</mat-label>
+        <input formControlName="nombreProponente" matInput placeholder="Proponente" value="">
+        @if (!validacionCampo("nombreProponente")) { <mat-error>{{getErrorCampo("nombreProponente")}}</mat-error> }
+      </mat-form-field>
+    </div>
+
+    <div class="contenedor">
+      <mat-form-field>
+        <mat-label>Correo electrónico</mat-label>
+        <input type="email" matInput formControlName="email"
+          placeholder="Ex. pat@example.com" value="">
+          @if (!validacionCampo("email")) { <mat-error>{{getErrorCampo("email")}}</mat-error> }
+      </mat-form-field>
+    </div>
+
+    <mat-form-field>
+      <mat-label>Cédula</mat-label>
+      <input matInput type="number" formControlName="cedula" placeholder="Cédula" value="">
+      @if (!validacionCampo("cedula")) { <mat-error>{{getErrorCampo("cedula")}}</mat-error> }
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Célular de contacto</mat-label>
+      <input type="number" formControlName="celular"  matInput placeholder="3219876543">
+      @if (!validacionCampo("celular")) { <mat-error>{{getErrorCampo("celular")}}</mat-error> }
+    </mat-form-field>
+
+  </div>
 
   <!-- Aspectos técnicos de la ídea de Investigación, Desarrollo tecnológico o Innovación -->
-  <div class="mt20 gdp">
+ <div class="mt20 gdp">
     <h2>Aspectos técnicos de la ídea de Investigación, Desarrollo tecnológico o Innovación</h2>
   </div>
 
@@ -25,17 +81,17 @@
         <p class="label">Título de la ídea</p>
         <p class="label2">Un buen título, además de la exactitud y la confiabilidad, debe ser claro, conciso, específico
           y, si es posible, llamativo de forma tal que capture la atención del lector y enmarque la ídea principal.</p>
-        <textarea #idea class="textA" matInput placeholder="Título de la ídea"></textarea>
+        <textarea formControlName="Titulo_Idea" #idea class="textA" matInput placeholder="Título de la ídea"></textarea>
         <mat-hint align="end" style="text-align: end;">{{idea.value.length}} / 250</mat-hint>
+        @if (!validacionCampo("Titulo_Idea")) { <mat-error>{{getErrorCampo("Titulo_Idea")}}</mat-error> }
       </mat-form-field>
     </div>
 
     <br />
-
+<!--
     <mat-divider class="divider"></mat-divider>
     <div class="tipoProyecto">
-      <!-- <mat-form-field >
-        <mat-label>Tipo de proyecto</mat-label> -->
+
       <p class="label">Tipo de proyecto</p>
       <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
       <section class="Section">
@@ -43,7 +99,7 @@
         <mat-checkbox color="primary">Desarrollo tecnológico</mat-checkbox>
         <mat-checkbox color="primary">Innovación</mat-checkbox>
       </section>
-      <!-- </mat-form-field> -->
+
     </div>
     <mat-divider></mat-divider>
     <div class="grupoLineaIvestigacion">
@@ -186,9 +242,35 @@
       }
 
     </div>
-
+ -->
   </div>
 
-
+<div style="display: flex; flex-direction: column;">
+  <div style="display: flex; justify-content: center;">
+    <span style="width: fit-content; margin-right: 20px; font-weight: bold;">
+      formulario.valid:</span>
+    <pre>{{ formulario.valid | json }}</pre>
+  </div>
+  <div style="display: flex; justify-content: center;">
+    <span style="width: fit-content; margin-right: 20px; font-weight: bold;">
+      formulario.pristine:</span>
+    <pre>{{ formulario.pristine | json }}</pre>
+  </div>
+  <div style="display: flex; justify-content: center;">
+    <span style="width: fit-content; margin-right: 20px; font-weight: bold;">
+      formulario.touched:</span>
+    <pre>{{ formulario.touched | json }}</pre>
+  </div>
+  <div style="display: flex; justify-content: center;">
+    <span style="width: fit-content; margin-right: 20px; font-weight: bold;">
+      Fecha_Idea:</span>
+    <pre>{{ formulario.controls["Fecha_Idea"].errors | json }}</pre>
+    <pre>{{ formulario.controls["Fecha_Idea"].touched | json }}</pre>
+    <pre>{{ formulario.controls["Fecha_Idea"].value | json }}</pre>
+    <pre>{{ formulario.controls["Fecha_Idea"].status | json }}</pre>
+  </div>
 
 </div>
+
+  <button type="submit">Guardar</button>
+</form>

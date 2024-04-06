@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -12,19 +12,20 @@ import { NgxEditorModule } from 'ngx-editor';
 import { FieldInputEditTextComponent } from '../../../../components/field-input-edit-text/field-input-edit-text.component';
 import { intf_camposFieldEditText } from '../../../../share/interface/interfaces';
 import { ToastMsgComponent } from '../../../../components/toast-msg/toast-msg.component';
-import { GeneralProponenteComponent } from '../../components/general-proponente/general-proponente.component';
+import { CommonModule } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-new-idea-page',
   standalone: true,
-  imports: [MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule, ReactiveFormsModule, MatIconModule, MatDividerModule, MatCheckboxModule,
-    NgxEditorModule, FieldInputEditTextComponent, ToastMsgComponent, GeneralProponenteComponent],
+  imports: [CommonModule, MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule, ReactiveFormsModule, MatIconModule, MatDividerModule, MatCheckboxModule,
+    NgxEditorModule, FieldInputEditTextComponent, ToastMsgComponent],
   templateUrl: './new-idea-page.component.html',
   styleUrl: './new-idea-page.component.scss',
 })
-export class NewIdeaPageComponent /* implements OnInit, OnDestroy */{
+export class NewIdeaPageComponent implements OnInit, OnDestroy{
+
 
 
   /**
@@ -43,27 +44,80 @@ export class NewIdeaPageComponent /* implements OnInit, OnDestroy */{
   //   ['text_color', 'background_color'],
   //   ['align_left', 'align_center', 'align_right', 'align_justify'],
   // ];
-  /* ngOnInit(): void {
-    this.editor = new Editor();
+  ngOnInit(): void {
+    // this.editor = new Editor();
+    this.resetFormulario()
   }
 
   ngOnDestroy(): void {
-    this.editor?.destroy();
-  } */
+    // this.editor?.destroy();
+  }
   // form = new FormGroup({
   //   editorContent: new FormControl(
   //     { value: jsonDoc, disabled: false },
   //     // Validators.required()
   //   ),
   // });
-
+  states: string[] = [
+    'Alabama',
+    'Alaska',
+    'Arizona',
+    'Arkansas',
+    'California',
+    'Colorado',
+    'Connecticut',
+    'Delaware',
+    'Florida',
+    'Georgia',
+    'Hawaii',
+    'Idaho',
+    'Illinois',
+    'Indiana',
+    'Iowa',
+    'Kansas',
+    'Kentucky',
+    'Louisiana',
+    'Maine',
+    'Maryland',
+    'Massachusetts',
+    'Michigan',
+    'Minnesota',
+    'Mississippi',
+    'Missouri',
+    'Montana',
+    'Nebraska',
+    'Nevada',
+    'New Hampshire',
+    'New Jersey',
+    'New Mexico',
+    'New York',
+    'North Carolina',
+    'North Dakota',
+    'Ohio',
+    'Oklahoma',
+    'Oregon',
+    'Pennsylvania',
+    'Rhode Island',
+    'South Carolina',
+    'South Dakota',
+    'Tennessee',
+    'Texas',
+    'Utah',
+    'Vermont',
+    'Virginia',
+    'Washington',
+    'West Virginia',
+    'Wisconsin',
+    'Wyoming',
+  ];
   public formulario: FormGroup = this.fb.group({
-    entida: ['',[],[]],
-    fecha: ['',[],[]],
-    nombreProponente: ['',[],[]],
+    Entidad: ['',[Validators.required, Validators.maxLength(100), Validators.minLength(3)],[]],
+    Fecha_Idea: ['',[Validators.required],[]],
+    nombreProponente: ['',[Validators.required],[]],
     email: ['',[Validators.required, Validators.email],[]],
-    cedula: [,[],[]],
-    celular: [,[],[]],
+    cedula: [,[Validators.required, Validators.minLength(6), Validators.maxLength(14)],[]],
+    celular: [,[Validators.required],[]],
+    Titulo_Idea: [,[Validators.required],[]],
   })
 
 
@@ -101,19 +155,82 @@ export class NewIdeaPageComponent /* implements OnInit, OnDestroy */{
   non consectetur incididunt occaecat voluptate. Non aute nulla cillum est ex ut aliqua occaecat in qui aliquip anim
   minim reprehenderit. Anim adipisicing fugiat nostrud irure labore et reprehenderit ut amet dolore veniam.`;
 
-
   constructor(private router: Router, private fb: FormBuilder){
   }
-
 
   goDashBoard() {
 
     this.router.navigate(['/home/dashboard']);
 
   }
+
   onSave():void{
     console.log(this.formulario);
 
+    const fnValidacionFecha = this.fnValidacionFecha();
+
+    console.log({fnValidacionFecha});
+    /* if (this.formulario.status == "VALID") {
+      alert("ready")
+    } else {
+      alert("with erros")
+    } */
+
+    // this.resetFormulario()
+
+  }
+
+  fnValidacionFecha():boolean{
+    this.validacionFecha = (this.formulario.controls["Fecha_Idea"].errors)?true:false
+    return (this.formulario.controls["Fecha_Idea"].errors)?true:false
+  }
+
+  validacionFecha = false
+
+  resetFormulario():void{
+    this.formulario.reset(
+      {
+        Entidad:'',
+        Fecha_Idea:'',
+        nombreProponente:'',
+        email:'',
+        cedula:'',
+        celular:'',
+      }
+    )
+  }
+
+  validacionCampo(field: string){
+
+    return this.formulario.controls[field].errors
+      && this.formulario.controls[field].touched;
+  }
+
+  getErrorCampo(campo: string): string {
+
+    let respuesta = "";
+    const errores = this.formulario.controls[campo].errors || {}
+    for (const key of Object.keys(errores)) {
+      console.log(key);
+
+      switch (key) {
+        case 'required':
+          respuesta = 'Este campo es requerido'
+        break;
+
+        case 'minlength':
+          respuesta = `Mínimo ${errores['minlength'].requiredLength} caracteres.`
+        break;
+
+        case 'email':
+          respuesta = `Ingrese un correo electrónico valido.`
+        break;
+
+        default:
+          break;
+      }
+    }
+    return respuesta
   }
 
 

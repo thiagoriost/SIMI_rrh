@@ -37,9 +37,6 @@ table {
   width: 100%;
 }
 
-
-
-
 .headerTable{
   background-color: #cdcbcb;
 }
@@ -87,3 +84,14 @@ h1{
   justify-content: space-around;
 }
 
+
+@media only screen and (max-width: 600px) {
+
+
+.dataTableIdeas{
+  position: absolute;
+  z-index: 9;
+}
+
+
+}

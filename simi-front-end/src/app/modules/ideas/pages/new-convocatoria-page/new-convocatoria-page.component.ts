@@ -24,6 +24,7 @@ export class NewConvocatoriaPageComponent implements OnInit {
   padding: string = '';
   fechaLimite: Date;
   responsable: string;
+  imgBackGround: string | undefined;
 
   constructor(private router: Router, private _snackBar: MatSnackBar) {
     const convocatoriaSelected = this.store.convocatoriaSelected()
@@ -37,6 +38,7 @@ export class NewConvocatoriaPageComponent implements OnInit {
     this.fechaLimite = convocatoriaSelected.Fecha_Limite
     this.fechaConvocatoria = new Date(convocatoriaSelected.Fecha_Creacion).toLocaleDateString()
     this.responsable = convocatoriaSelected.MetadataUser?.first_name + " " +  convocatoriaSelected.MetadataUser?.last_name || convocatoriaSelected.Id_Responsable;
+    this.imgBackGround = convocatoriaSelected.img;
   }
 
   async ngOnInit(): Promise<void> {
@@ -72,11 +74,7 @@ export class NewConvocatoriaPageComponent implements OnInit {
     }
   }
   goIdea(idIdea: string|null|undefined) {
-    this.store.changeSpinner(true);
-    setTimeout(() => {
-      this.store.changeSpinner(false);
-      this.router.navigate([`/home/idea/${this.convocatoriaId}`])
-    }, 3000);
+    this.router.navigate([`/home/idea/${this.convocatoriaId}`])
   }
 
 
