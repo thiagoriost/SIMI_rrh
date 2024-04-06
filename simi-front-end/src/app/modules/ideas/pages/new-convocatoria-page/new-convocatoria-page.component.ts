@@ -75,6 +75,7 @@ export class NewConvocatoriaPageComponent implements OnInit {
   }
   goIdea(idIdea: string|null|undefined) {
     this.router.navigate([`/home/idea/${this.convocatoriaId}`])
+      this.router.navigate([`/home/idea/${this.convocatoriaId}`])
   }
 
 
