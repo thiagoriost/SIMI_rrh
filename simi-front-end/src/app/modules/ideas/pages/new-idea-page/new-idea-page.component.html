@@ -70,182 +70,315 @@
   </div>
 
   <!-- Aspectos técnicos de la ídea de Investigación, Desarrollo tecnológico o Innovación -->
- <div class="mt20 gdp">
-    <h2>Aspectos técnicos de la ídea de Investigación, Desarrollo tecnológico o Innovación</h2>
+  <div class="aspectosTecnicos">
+    <div class="mt20 gdp">
+       <h2>Aspectos técnicos de la ídea de Investigación, Desarrollo tecnológico o Innovación</h2>
+     </div>
+
+     <div class="aspectosTecnicos full-width">
+
+       <div class="fieldImputText">
+         <p class="label">Título de la ídea</p>
+         <p class="label2">Un buen título, además de la exactitud y la confiabilidad, debe ser claro, conciso, específico
+           y, si es posible, llamativo de forma tal que capture la atención del lector y enmarque la ídea principal.</p>
+         <mat-form-field class="matFormField">
+           <textarea formControlName="Titulo_Idea" #idea class="textA" matInput placeholder="Título de la ídea" value=""></textarea>
+           <mat-hint align="end" style="text-align: end;">{{idea.value.length}} / 200</mat-hint>
+           @if (!validacionCampo("Titulo_Idea")) { <mat-error>{{getErrorCampo("Titulo_Idea")}}</mat-error> }
+         </mat-form-field>
+       </div>
+
+       <br />
+
+       <mat-divider class="divider"></mat-divider>
+       <div class="tipoProyecto">
+
+         <p class="label">Tipo de proyecto</p>
+         <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
+         <section class="Section">
+           <mat-checkbox formControlName="Investigacion_Cientifica" color="primary" [checked]="false">Investigación</mat-checkbox>
+           <!-- @if (!validacionCampo("Investigacion_Cientifica")) { <mat-error>{{getErrorCampo("Investigacion_Cientifica")}}</mat-error> } -->
+           <mat-checkbox formControlName="Desarrollo_Tecnologico" color="primary" checked="false">Desarrollo tecnológico</mat-checkbox>
+           <!-- @if (!validacionCampo("Desarrollo_Tecnologico")) { <mat-error>{{getErrorCampo("Desarrollo_Tecnologico")}}</mat-error> } -->
+           <mat-checkbox formControlName="Innovacion" color="primary" checked="false">Innovación</mat-checkbox>
+           <!-- @if (!validacionCampo("Innovacion")) { <mat-error>{{getErrorCampo("Innovacion")}}</mat-error> } -->
+         </section>
+
+
+       </div>
+
+       <mat-divider></mat-divider>
+
+       <div class="grupoLineaIvestigacion">
+         <p class="label mt20">Grupo y línea de investigación a la cual estará adscrito el proyecto de investigación,
+           desarrollo tecnológico o innovación - I+D+i</p>
+         <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
+         <div class="titleGrupoInves">
+           <p class="pTitleInves">GRUPO DE INVESTIGACIÓN</p>
+         </div>
+         <div class="grupos">
+          @for (grupo of gruposInvestigacion; track $index) {
+            <p class="titleGI br1">{{grupo.Nombre_Grupo}}</p>
+          }
+           <!-- <p class="titleGI br1">GEOMATICA</p>
+           <p class="titleGI br1">SUELOS Y ECOLOGÍA</p>
+           <p class="titleGI">ESTUDIOS TERRITORIALES</p> -->
+         </div>
+         <p class="lineasInvs">LÍNEAS DE INVESTIGACIÓN</p>
+         <div class="father">
+          @for (GI of gruposInvestigacion; track $index) {
+            <div class="LI">
+              <section class="Section">
+                @for (LI of GI.lineasInvestigacion; track $index) {
+                  <mat-checkbox (change)="checkedLI(GI, LI)"  chcolor="primary">{{LI.Nombre_Linea_Investigacion}}</mat-checkbox>
+                }
+              </section>
+            </div>
+          }
+          <!-- <div class="left">
+            <section class="Section">
+              <mat-checkbox formControlName="geodesia" color="primary">Geodesia</mat-checkbox>
+             @if (!validacionCampo("geodesia")) { <mat-error>{{getErrorCampo("geodesia")}}</mat-error> }
+              <mat-checkbox formControlName="gestionConocimiento" color="primary">Gestión de conocimiento</mat-checkbox>
+              @if (!validacionCampo("gestionConocimiento")) { <mat-error>{{getErrorCampo("gestionConocimiento")}}</mat-error> }
+              <mat-checkbox formControlName="infraDatoEspaciales" color="primary">Infraestructura de datos espaciales</mat-checkbox>
+              @if (!validacionCampo("infraDatoEspaciales")) { <mat-error>{{getErrorCampo("infraDatoEspaciales")}}</mat-error> }
+              <mat-checkbox formControlName="percepcionRemota" color="primary">Percepción Remota</mat-checkbox>
+              @if (!validacionCampo("percepcionRemota")) { <mat-error>{{getErrorCampo("percepcionRemota")}}</mat-error> }
+              <mat-checkbox formControlName="sig" color="primary">Sistema de información geográfica</mat-checkbox>
+              @if (!validacionCampo("sig")) { <mat-error>{{getErrorCampo("sig")}}</mat-error> }
+              <mat-checkbox formControlName="tic" color="primary">Tecnologías de la información y la comunicación (TIC) para la Gestión del
+               @if (!validacionCampo("tic")) { <mat-error>{{getErrorCampo("tic")}}</mat-error> }
+                Conocimientos en las Organizaciones</mat-checkbox>
+              <mat-checkbox formControlName="catastroMP" color="primary">Catastro Multipropósito</mat-checkbox>
+              @if (!validacionCampo("catastroMP")) { <mat-error>{{getErrorCampo("catastroMP")}}</mat-error> }
+            </section>
+          </div> -->
+           <!-- <div class="left">
+             <section class="Section">
+               <mat-checkbox formControlName="geodesia" color="primary">Geodesia</mat-checkbox>
+              @if (!validacionCampo("geodesia")) { <mat-error>{{getErrorCampo("geodesia")}}</mat-error> }
+               <mat-checkbox formControlName="gestionConocimiento" color="primary">Gestión de conocimiento</mat-checkbox>
+               @if (!validacionCampo("gestionConocimiento")) { <mat-error>{{getErrorCampo("gestionConocimiento")}}</mat-error> }
+               <mat-checkbox formControlName="infraDatoEspaciales" color="primary">Infraestructura de datos espaciales</mat-checkbox>
+               @if (!validacionCampo("infraDatoEspaciales")) { <mat-error>{{getErrorCampo("infraDatoEspaciales")}}</mat-error> }
+               <mat-checkbox formControlName="percepcionRemota" color="primary">Percepción Remota</mat-checkbox>
+               @if (!validacionCampo("percepcionRemota")) { <mat-error>{{getErrorCampo("percepcionRemota")}}</mat-error> }
+               <mat-checkbox formControlName="sig" color="primary">Sistema de información geográfica</mat-checkbox>
+               @if (!validacionCampo("sig")) { <mat-error>{{getErrorCampo("sig")}}</mat-error> }
+               <mat-checkbox formControlName="tic" color="primary">Tecnologías de la información y la comunicación (TIC) para la Gestión del
+                @if (!validacionCampo("tic")) { <mat-error>{{getErrorCampo("tic")}}</mat-error> }
+                 Conocimientos en las Organizaciones</mat-checkbox>
+               <mat-checkbox formControlName="catastroMP" color="primary">Catastro Multipropósito</mat-checkbox>
+               @if (!validacionCampo("catastroMP")) { <mat-error>{{getErrorCampo("catastroMP")}}</mat-error> }
+             </section>
+           </div>
+           <div class="center">
+             <section class="Section">
+               <mat-checkbox formControlName="contaminacionSuelos" color="primary">Contaminicación de Suelos</mat-checkbox>
+               @if (!validacionCampo("contaminacionSuelos")) { <mat-error>{{getErrorCampo("contaminacionSuelos")}}</mat-error> }
+               <mat-checkbox formControlName="geografiaSuelos" color="primary">Geografía de Suelos</mat-checkbox>
+               @if (!validacionCampo("geografiaSuelos")) { <mat-error>{{getErrorCampo("geografiaSuelos")}}</mat-error> }
+               <mat-checkbox formControlName="planificacionUsoTierras" color="primary">Planificación y uso de las tierras</mat-checkbox>
+               @if (!validacionCampo("planificacionUsoTierras")) { <mat-error>{{getErrorCampo("planificacionUsoTierras")}}</mat-error> }
+             </section>
+           </div>
+           <div class="rigth">
+             <section class="Section">
+               <mat-checkbox formControlName="geopoliticaLimites" color="primary">Geopolítica y límites</mat-checkbox>
+               @if (!validacionCampo("geopoliticaLimites")) { <mat-error>{{getErrorCampo("geopoliticaLimites")}}</mat-error> }
+               <mat-checkbox formControlName="planificacionUrbanoRegional" color="primary">Planificación urbano-regional</mat-checkbox>
+               @if (!validacionCampo("planificacionUrbanoRegional")) { <mat-error>{{getErrorCampo("planificacionUrbanoRegional")}}</mat-error> }
+               <mat-checkbox formControlName="sociedadEspacio" color="primary">Sociedad y espacio</mat-checkbox>
+               @if (!validacionCampo("sociedadEspacio")) { <mat-error>{{getErrorCampo("sociedadEspacio")}}</mat-error> }
+             </section>
+           </div> -->
+         </div>
+       </div>
+       <mat-divider></mat-divider>
+
+       <div class="fieldImputText">
+         <p class="label">Tiempo de ejecución del proyecto I+D+i</p>
+         <p class="label2">Establezca un cronograma preliminar del proyecto y duración del mismo en meses.</p>
+         <mat-form-field class="matFormField">
+           <textarea formControlName="Tiempo_Ejecucion_Proyecto" #tiempo class="textA" matInput placeholder="Tiempo de ejecución del proyecto I+D+i"></textarea>
+           <mat-hint align="end" style="text-align: end;">{{tiempo.value.length}} / 50</mat-hint>
+           @if (!validacionCampo("Tiempo_Ejecucion_Proyecto")) { <mat-error>{{getErrorCampo("Tiempo_Ejecucion_Proyecto")}}</mat-error> }
+         </mat-form-field>
+       </div>
+
+       <div class="fieldImputText">
+         <mat-form-field class="matFormField">
+           <p class="label">Lugar de ejecución</p>
+           <p class="label2">Defina el lugar donde se ejecutará el proyecto I+D+i.</p>
+           <textarea formControlName="Lugar_Ejecucion" #lugar class="textA" matInput
+             placeholder="Defina el lugar donde se ejecutará el proyecto I+D+i"></textarea>
+           <mat-hint align="end" style="text-align: end;">{{lugar.value.length}} / 50</mat-hint>
+           @if (!validacionCampo("Lugar_Ejecucion")) { <mat-error>{{getErrorCampo("Lugar_Ejecucion")}}</mat-error> }
+         </mat-form-field>
+       </div>
+
+       <div class="fieldImputText">
+         <p class="label">Productos resultados de la investigación</p>
+         <p class="label2">Identificaser, seleccionar y relacionar los productos resultado de la investigación que se
+           obtienen, segun las tipologías de
+           Minciencias corresponden a: Generación de nuevo conocimiento, desarrollo tecnológico e innovación; Apropiación
+           social del conocimiento y divulgación
+           pública de la ciencia y la Formación de recurso humano en ciencia Tecnología e Innovación - CTeI.</p>
+
+         <div class="fieldImputText">
+           <p class="label">Productos resultados de actividades de Generación de Nuevo Conocimiento</p>
+           <p class="label2">Identificar y establecer los productos esperados en el proyecto. Minciencias 2021: Articulos
+             de investigación,
+             tipo A1, A2, B, C y D; Notas cientificas, tipo A1, A2, B, C y D; Libros resultados de investigación; Libros
+             de formación en cuartil Q1;
+             Capitulos en libro resultadosd e investigación; Productos tecnológicos patentados o en proceso de concesión
+             de la patente; Variedades
+             vegetales, variedades animales y poblaciones mejoradas de razas pecuarias y obras o productos resultados de
+             creación e
+             investigación-creación, Arquitectura y Diseño
+           </p>
+           <mat-form-field class="matFormField">
+             <textarea matInput formControlName="Nuevo_Conocimiento" #Productos class="textA" matInput
+               placeholder="Productos resultados de actividades de Generación de Nuevo Conocimiento"></textarea>
+             <mat-hint align="end" style="text-align: end;">{{Productos.value.length}} / 200</mat-hint>
+             @if (!validacionCampo("Nuevo_Conocimiento")) { <mat-error>{{getErrorCampo("Nuevo_Conocimiento")}}</mat-error> }
+           </mat-form-field>
+         </div>
+         <div class="fieldImputText">
+           <p class="label">Productos resultados de actividades de Desarrollo tecnológico e Innovación</p>
+           <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Productos
+             empresariales, regulaciones,
+             normas, reglamentos o legislaciones, Conceptos técnicos y Registros de Acuerdos de licencia para explotación
+             de obras de investigación + Creación en Artes,
+             Arquitectura y Diseño protegidas por derechos de auto.
+           </p>
+           <mat-form-field class="matFormField">
+             <textarea matInput formControlName="Desarrollo_Tecnologico2" #ProductosDesarrollo class="textA" matInput
+               placeholder="Productos resultados de actividades de Desarrollo tecnológico e Innovación"></textarea>
+             <mat-hint align="end" style="text-align: end;">{{ProductosDesarrollo.value.length}} / 200</mat-hint>
+             @if (!validacionCampo("Desarrollo_Tecnologico2")) { <mat-error>{{getErrorCampo("Desarrollo_Tecnologico2")}}</mat-error> }
+           </mat-form-field>
+         </div>
+         <div class="fieldImputText">
+           <p class="label">Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación
+             Publica de la Ciencia</p>
+           <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021:
+             Reconocimiento de Contexto. la Participación;
+             Dialogo de Saberes y conocimientos; Confianza y Reflexión Crítica
+           </p>
+           <mat-form-field class="matFormField">
+             <textarea matInput formControlName="Apropiacion_Conocimiento" #ProductosApropiacion class="textA" matInput
+               placeholder="Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación Publica de la Ciencia"></textarea>
+             <mat-hint align="end" style="text-align: end;">{{ProductosApropiacion.value.length}} / 200</mat-hint>
+             @if (!validacionCampo("Apropiacion_Conocimiento")) { <mat-error>{{getErrorCampo("Apropiacion_Conocimiento")}}</mat-error> }
+           </mat-form-field>
+         </div>
+         <div class="fieldImputText">
+           <p class="label">Productos resultados de actividades de Formación del Recurso Humano para la CTeI</p>
+           <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Realización
+             de una tésis o trabajo de grado
+             que otorga el título de doctor(a), magister o profesional (respectivamente); la ejecución de proyectos de
+             ID+I con formación y apoyo a programas
+             de formación; y la gestión de proyectos de investigación que permitan la consecución de los recursos
+             necesarios para el desarrollo de la investigación
+             o la innovación.
+           </p>
+           <mat-form-field class="matFormField">
+             <textarea matInput formControlName="Formacion_CTEL" #ProductosFRH class="textA" matInput
+               placeholder="Productos resultados de actividades de Formación del Recurso Humano para la CTeI"></textarea>
+             <mat-hint align="end" style="text-align: end;">{{ProductosFRH.value.length}} / 200</mat-hint>
+             @if (!validacionCampo("Formacion_CTEL")) { <mat-error>{{getErrorCampo("Formacion_CTEL")}}</mat-error> }
+           </mat-form-field>
+         </div>
+
+       </div>
+
+       <div class="formStyleFields">
+
+         <!-- @for (item of camposFieldEditText; track $index) {
+           <app-field-input-edit-text [formulario]="formulario"  [item]="item"></app-field-input-edit-text>
+         } -->
+        <!-- @for (item of camposFieldEditText; track $index) { -->
+
+          <!-- <div class="fieldImputText">
+            <mat-divider class="divider"></mat-divider>
+            <p class="label">{{camposFieldEditText[0].label}}</p>
+            <p class="label2">{{camposFieldEditText[0].SubLabel}}</p>
+
+
+            <ngx-editor-menu id="5555" [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+            <ngx-editor
+              id="5555"
+              [id]="5555"
+              [editor]="editor"
+
+              formControlName="{{camposFieldEditText[0].nameField}}"
+
+              [placeholder]="'Type here...'"
+            ></ngx-editor>
+
+            <button (click)="TestingEditField(camposFieldEditText[0].nameField)" type="button">TESTING - {{camposFieldEditText[0].label}}</button>
+
+
+
+          </div>
+          <div class="fieldImputText">
+            <mat-divider class="divider"></mat-divider>
+            <p class="label">{{camposFieldEditText[1].label}}</p>
+            <p class="label2">{{camposFieldEditText[1].SubLabel}}</p>
+
+
+            <ngx-editor-menu id="1111" [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+            <ngx-editor
+              [id]="1111"
+              id="1111"
+              [editor]="editor"
+
+              formControlName="{{camposFieldEditText[1].nameField}}"
+
+              [placeholder]="'Type here...'"
+            ></ngx-editor>
+
+            <button (click)="TestingEditField(camposFieldEditText[1].nameField)" type="button">TESTING - {{camposFieldEditText[1].label}}</button>
+
+
+
+          </div> -->
+        <!-- } -->
+        <!-- ////////// @kolkov/angular-editor ////////////// -->
+
+        @for (item of camposFieldEditText; track $index) {
+
+          <div class="fieldImputText">
+              <mat-divider class="divider"></mat-divider>
+              <p class="label">{{item.label}}</p>
+              <p class="label2">{{item.SubLabel}}</p>
+              <div class="containerEditor">
+                <angular-editor id="{{item.nameField}}" [placeholder]="'Ingresar texto...'"
+                  formControlName="{{item.nameField}}" [config]="config"></angular-editor>
+              </div>
+
+            <!-- <h5 class="html-header">HTML Output</h5>
+            <div class="html">
+              {{ formulario.controls[item.nameField].value }}
+            </div> -->
+          </div>
+        }
+
+        <!-- ////////// @kolkov/angular-editor ////////////// -->
+      </div>
+
+     </div>
+     <button type="submit">Guardar</button>
   </div>
 
-  <div class="aspectosTecnicos full-width">
 
-    <div class="fieldImputText">
-      <mat-form-field class="matFormField">
-        <p class="label">Título de la ídea</p>
-        <p class="label2">Un buen título, además de la exactitud y la confiabilidad, debe ser claro, conciso, específico
-          y, si es posible, llamativo de forma tal que capture la atención del lector y enmarque la ídea principal.</p>
-        <textarea formControlName="Titulo_Idea" #idea class="textA" matInput placeholder="Título de la ídea"></textarea>
-        <mat-hint align="end" style="text-align: end;">{{idea.value.length}} / 250</mat-hint>
-        @if (!validacionCampo("Titulo_Idea")) { <mat-error>{{getErrorCampo("Titulo_Idea")}}</mat-error> }
-      </mat-form-field>
-    </div>
 
-    <br />
-<!--
-    <mat-divider class="divider"></mat-divider>
-    <div class="tipoProyecto">
-
-      <p class="label">Tipo de proyecto</p>
-      <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
-      <section class="Section">
-        <mat-checkbox color="primary">Investigación</mat-checkbox>
-        <mat-checkbox color="primary">Desarrollo tecnológico</mat-checkbox>
-        <mat-checkbox color="primary">Innovación</mat-checkbox>
-      </section>
-
-    </div>
-    <mat-divider></mat-divider>
-    <div class="grupoLineaIvestigacion">
-      <p class="label mt20">Grupo y línea de investigación a la cual estará adscrito el proyecto de investigación,
-        desarrollo tecnológico o innovación - I+D+i</p>
-      <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
-      <div class="titleGrupoInves">
-        <p class="pTitleInves">GRUPO DE INVESTIGACIÓN</p>
-      </div>
-      <div class="grupos">
-        <p class="titleGI br1">GEOMATICA</p>
-        <p class="titleGI br1">SUELOS Y ECOLOGÍA</p>
-        <p class="titleGI">ESTUDIOS TERRITORIALES</p>
-      </div>
-      <p class="lineasInvs">LÍNEAS DE INVESTIGACIÓN</p>
-      <div class="father">
-        <div class="left">
-          <section class="Section">
-            <mat-checkbox color="primary">Geodesia</mat-checkbox>
-            <mat-checkbox color="primary">Gestión de conocimiento</mat-checkbox>
-            <mat-checkbox color="primary">Infraestructura de datos espaciales</mat-checkbox>
-            <mat-checkbox color="primary">Percepción Remota</mat-checkbox>
-            <mat-checkbox color="primary">Sistema de información geográfica</mat-checkbox>
-            <mat-checkbox color="primary">Tecnologías de la información y la comunicación (TIC) para la Gestión del
-              Conocimientos en las Organizaciones</mat-checkbox>
-            <mat-checkbox color="primary">Catastro Multipropósito</mat-checkbox>
-          </section>
-        </div>
-        <div class="center">
-          <section class="Section">
-            <mat-checkbox color="primary">Contaminicación de Suelos</mat-checkbox>
-            <mat-checkbox color="primary">Geografía de Suelos</mat-checkbox>
-            <mat-checkbox color="primary">Planificación y uso de las tierras</mat-checkbox>
-          </section>
-        </div>
-        <div class="rigth">
-          <section class="Section">
-            <mat-checkbox color="primary">Geopolítica y límites</mat-checkbox>
-            <mat-checkbox color="primary">Planificación urbano-regional</mat-checkbox>
-            <mat-checkbox color="primary">Sociedad y espacio</mat-checkbox>
-          </section>
-        </div>
-      </div>
-    </div>
-    <mat-divider></mat-divider>
-
-    <div class="fieldImputText">
-      <mat-form-field class="matFormField">
-        <p class="label">Tiempo de ejecución del proyecto I+D+i</p>
-        <p class="label2">Establezca un cronograma preliminar del proyecto y duración del mismo en meses.</p>
-        <textarea #tiempo class="textA" matInput placeholder="Tiempo de ejecución del proyecto I+D+i"></textarea>
-        <mat-hint align="end" style="text-align: end;">{{tiempo.value.length}} / 250</mat-hint>
-      </mat-form-field>
-    </div>
-    <div class="fieldImputText">
-      <mat-form-field class="matFormField">
-        <p class="label">Lugar de ejecución</p>
-        <p class="label2">Defina el lugar donde se ejecutará el proyecto I+D+i.</p>
-        <textarea #lugar class="textA" matInput
-          placeholder="Defina el lugar donde se ejecutará el proyecto I+D+i"></textarea>
-        <mat-hint align="end" style="text-align: end;">{{lugar.value.length}} / 250</mat-hint>
-      </mat-form-field>
-    </div>
-    <div class="fieldImputText">
-      <p class="label">Productos resultados de la investigación</p>
-      <p class="label2">Identificaser, seleccionar y relacionar los productos resultado de la investigación que se
-        obtienen, segun las tipologías de
-        Minciencias corresponden a: Generación de nuevo conocimiento, desarrollo tecnológico e innovación; Apropiación
-        social del conocimiento y divulgación
-        pública de la ciencia y la Formación de recurso humano en ciencia Tecnología e Innovación - CTeI.</p>
-
-      <div class="fieldImputText">
-        <mat-form-field class="matFormField">
-          <p class="label">Productos resultados de actividades de Generación de Nuevo Conocimiento</p>
-          <p class="label2">Identificar y establecer los productos esperados en el proyecto. Minciencias 2021: Articulos
-            de investigación,
-            tipo A1, A2, B, C y D; Notas cientificas, tipo A1, A2, B, C y D; Libros resultados de investigación; Libros
-            de formación en cuartil Q1;
-            Capitulos en libro resultadosd e investigación; Productos tecnológicos patentados o en proceso de concesión
-            de la patente; Variedades
-            vegetales, variedades animales y poblaciones mejoradas de razas pecuarias y obras o productos resultados de
-            creación e
-            investigación-creación, Arquitectura y Diseño
-          </p>
-          <textarea #Productos class="textA" matInput
-            placeholder="Productos resultados de actividades de Generación de Nuevo Conocimiento"></textarea>
-          <mat-hint align="end" style="text-align: end;">{{Productos.value.length}} / 250</mat-hint>
-        </mat-form-field>
-      </div>
-      <div class="fieldImputText">
-        <mat-form-field class="matFormField">
-          <p class="label">Productos resultados de actividades de Desarrollo tecnológico e Innovación</p>
-          <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Productos
-            empresariales, regulaciones,
-            normas, reglamentos o legislaciones, Conceptos técnicos y Registros de Acuerdos de licencia para explotación
-            de obras de investigación + Creación en Artes,
-            Arquitectura y Diseño protegidas por derechos de auto.
-          </p>
-          <textarea #ProductosDesarrollo class="textA" matInput
-            placeholder="Productos resultados de actividades de Desarrollo tecnológico e Innovación"></textarea>
-          <mat-hint align="end" style="text-align: end;">{{ProductosDesarrollo.value.length}} / 250</mat-hint>
-        </mat-form-field>
-      </div>
-      <div class="fieldImputText">
-        <mat-form-field class="matFormField">
-          <p class="label">Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación
-            Publica de la Ciencia</p>
-          <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021:
-            Reconocimiento de Contexto. la Participación;
-            Dialogo de Saberes y conocimientos; Confianza y Reflexión Crítica
-          </p>
-          <textarea #ProductosApropiacion class="textA" matInput
-            placeholder="Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación Publica de la Ciencia"></textarea>
-          <mat-hint align="end" style="text-align: end;">{{ProductosApropiacion.value.length}} / 250</mat-hint>
-        </mat-form-field>
-      </div>
-      <div class="fieldImputText">
-        <mat-form-field class="matFormField">
-          <p class="label">Productos resultados de actividades de Formación del Recurso Humano para la CTeI</p>
-          <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Realización
-            de una tésis o trabajo de grado
-            que otorga el título de doctor(a), magister o profesional (respectivamente); la ejecución de proyectos de
-            ID+I con formación y apoyo a programas
-            de formación; y la gestión de proyectos de investigación que permitan la consecución de los recursos
-            necesarios para el desarrollo de la investigación
-            o la innovación.
-          </p>
-          <textarea #ProductosFRH class="textA" matInput
-            placeholder="Productos resultados de actividades de Formación del Recurso Humano para la CTeI"></textarea>
-          <mat-hint align="end" style="text-align: end;">{{ProductosFRH.value.length}} / 250</mat-hint>
-        </mat-form-field>
-      </div>
-
-    </div>
-
-    <div class="formStyleFields">
-
-      @for (item of camposFieldEditText; track $index) {
-        <app-field-input-edit-text [item]="item"></app-field-input-edit-text>
-      }
-
-    </div>
- -->
-  </div>
-
-<div style="display: flex; flex-direction: column;">
+  <!-- comentarioar todo, solo pruebas -->
+  <!-- <h4>You chose:</h4>
+          {{formulario.value | json}}
+  <div style="display: flex; flex-direction: column;">
   <div style="display: flex; justify-content: center;">
     <span style="width: fit-content; margin-right: 20px; font-weight: bold;">
       formulario.valid:</span>
@@ -267,10 +400,9 @@
     <pre>{{ formulario.controls["Fecha_Idea"].errors | json }}</pre>
     <pre>{{ formulario.controls["Fecha_Idea"].touched | json }}</pre>
     <pre>{{ formulario.controls["Fecha_Idea"].value | json }}</pre>
+
     <pre>{{ formulario.controls["Fecha_Idea"].status | json }}</pre>
   </div>
 
-</div>
-
-  <button type="submit">Guardar</button>
+  </div> -->
 </form>
