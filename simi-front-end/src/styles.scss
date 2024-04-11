@@ -136,3 +136,26 @@ body{
 .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction{
   background-color: aqua !important;
 }
+
+
+/* estilos AngularEditor */
+.angular-editor-toolbar{
+  display: flex;
+  // overflow-x: auto;
+  flex-wrap: wrap;
+  resize: both;
+  overflow: hidden;
+}
+
+.angular-editor-toolbar-set{
+  display: flex !important;
+  width: auto;
+}
+
+.angular-editor-textarea{
+  height: auto !important;
+}
+
+.mat-mdc-checkbox{
+  width: auto;
+}
