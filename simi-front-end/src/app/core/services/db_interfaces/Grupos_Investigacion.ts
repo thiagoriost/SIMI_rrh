@@ -34,6 +34,27 @@ export const MocoResponseGruposInvestigacion = {
           "Fecha_Creacion": "2024-04-04T14:35:01.514Z",
           "Nombre_Grupo": "ESTUDIOS TERRITORIALES",
           "Objetivos_Grupo": "ESTUDIOS TERRITORIALES"
+      },
+      {
+          "Id_Grupo_Investigacion": "fe3284ee-4edd-4adf-aeaa-3498cacb369c",
+          "Usuario_Creador": "d1d9ab4d-c14a-4abc-b849-16e11bf143c1",
+          "Fecha_Creacion": "2024-04-04T14:35:01.514Z",
+          "Nombre_Grupo": "GRUPO PRUEBA",
+          "Objetivos_Grupo": "GRUPO PRUEBA"
+      },
+      {
+          "Id_Grupo_Investigacion": "fe3284ee-4edd-4adf-aeaa-3498cacb369D",
+          "Usuario_Creador": "d1d9ab4d-c14a-4abc-b849-16e11bf143c1",
+          "Fecha_Creacion": "2024-04-04T14:35:01.514Z",
+          "Nombre_Grupo": "GRUPO PRUEBA2",
+          "Objetivos_Grupo": "GRUPO PRUEBA2"
+      },
+      {
+          "Id_Grupo_Investigacion": "fe3284ee-4edd-4adf-aeaa-3498cacb369E",
+          "Usuario_Creador": "d1d9ab4d-c14a-4abc-b849-16e11bf143c1",
+          "Fecha_Creacion": "2024-04-04T14:35:01.514Z",
+          "Nombre_Grupo": "GRUPO PRUEBA3",
+          "Objetivos_Grupo": "GRUPO PRUEBA3"
       }
   ]
 }

@@ -60,54 +60,7 @@
         border-right: 1px solid gray;
       }
     }
-    .grupoLineaIvestigacion{
-      margin-bottom: 20px;
-      overflow-x: auto;
 
-      .titleGrupoInves{
-        background-color: #4199ff;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
-        text-align: center;
-        padding: 12px 5px 1px 5px;
-        .pTitleInves{
-          color: #f9f6f6;
-          font-weight: bold;
-        }
-      }
-      .grupos{
-        display: flex;
-        flex-direction: row;
-        // background-color: aqua;
-        text-align: center;
-        border-bottom: 1px solid gray;
-        height: auto;
-        padding-bottom: 1px;
-        .titleGI{
-          font-weight: bold;
-          margin: 0;
-          padding-top: 7px;
-          overflow-x: auto;
-        }
-      }
-      .lineasInvs{
-        text-align: center;
-        margin: 0;
-        padding: 10px;
-        border-bottom: 1px solid gray;
-      }
-      .father{
-        display: flex;
-        border-bottom: 1px solid gray;
-        overflow-x: auto;
-        .LI{
-          border-right: 1px solid gray;
-          border-left: 1px solid gray;
-          overflow-x: auto;
-        }
-
-      }
-    }
 
     .formStyleFields{
       // background-color: #4199ff;
@@ -115,12 +68,24 @@
 
 
     }
+
+
   }
 
 
 
 
 }
+
+.btnToSave{
+      display: flex;
+      margin-top: 50px;
+      justify-content: end;
+      .btnNewIdea{
+        width: fit-content;
+        margin-left: 10px;
+      }
+    }
 
 #routOutlet > app-new-idea-page > form > div.aspectosTecnicos > div.aspectosTecnicos.full-width > div.formStyleFields > div:nth-child(5) > div > angular-editor > div > div > div > h3:nth-child(11) > img{
   height: 200px;
@@ -168,15 +133,7 @@ h2{
   width: 100%;
 }
 
-@media only screen and (max-width: 600px) {
-  .newIdeaContainer{
-    width: 99vw;
-    .breadCrumb{
-      padding-left: 30px;
-    }
-  }
 
-}
 
 //////////////////////////////
 .generalDelProponente{
@@ -253,6 +210,13 @@ h2{
     // padding: 20px;
     // border-radius: 20px;
     // border: 1px solid blue;
+  }
+
+  .newIdeaContainer{
+    width: 99vw;
+    .breadCrumb{
+      padding-left: 30px;
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-<form [formGroup]="formulario" (ngSubmit)="onSave()" class="newIdeaContainer" autocomplete="off">
+<form [formGroup]="formulario" (ngSubmit)="onSave('submit')" class="newIdeaContainer" autocomplete="off">
 
   <div class="breadCrumb"> <span class="pointer" (click)="goDashBoard()">Ideas</span> · Registrar idea</div>
 
@@ -91,6 +91,7 @@
        <br />
 
        <mat-divider class="divider"></mat-divider>
+
        <div class="tipoProyecto">
 
          <p class="label">Tipo de proyecto</p>
@@ -109,92 +110,11 @@
 
        <mat-divider></mat-divider>
 
-       <div class="grupoLineaIvestigacion">
-         <p class="label mt20">Grupo y línea de investigación a la cual estará adscrito el proyecto de investigación,
-           desarrollo tecnológico o innovación - I+D+i</p>
-         <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
-         <div class="titleGrupoInves">
-           <p class="pTitleInves">GRUPO DE INVESTIGACIÓN</p>
-         </div>
-         <div class="grupos">
-          @for (grupo of gruposInvestigacion; track $index) {
-            <p class="titleGI br1">{{grupo.Nombre_Grupo}}</p>
-          }
-           <!-- <p class="titleGI br1">GEOMATICA</p>
-           <p class="titleGI br1">SUELOS Y ECOLOGÍA</p>
-           <p class="titleGI">ESTUDIOS TERRITORIALES</p> -->
-         </div>
-         <p class="lineasInvs">LÍNEAS DE INVESTIGACIÓN</p>
-         <div class="father">
-          @for (GI of gruposInvestigacion; track $index) {
-            <div class="LI">
-              <section class="Section">
-                @for (LI of GI.lineasInvestigacion; track $index) {
-                  <mat-checkbox (change)="checkedLI(GI, LI)"  chcolor="primary">{{LI.Nombre_Linea_Investigacion}}</mat-checkbox>
-                }
-              </section>
-            </div>
-          }
-          <!-- <div class="left">
-            <section class="Section">
-              <mat-checkbox formControlName="geodesia" color="primary">Geodesia</mat-checkbox>
-             @if (!validacionCampo("geodesia")) { <mat-error>{{getErrorCampo("geodesia")}}</mat-error> }
-              <mat-checkbox formControlName="gestionConocimiento" color="primary">Gestión de conocimiento</mat-checkbox>
-              @if (!validacionCampo("gestionConocimiento")) { <mat-error>{{getErrorCampo("gestionConocimiento")}}</mat-error> }
-              <mat-checkbox formControlName="infraDatoEspaciales" color="primary">Infraestructura de datos espaciales</mat-checkbox>
-              @if (!validacionCampo("infraDatoEspaciales")) { <mat-error>{{getErrorCampo("infraDatoEspaciales")}}</mat-error> }
-              <mat-checkbox formControlName="percepcionRemota" color="primary">Percepción Remota</mat-checkbox>
-              @if (!validacionCampo("percepcionRemota")) { <mat-error>{{getErrorCampo("percepcionRemota")}}</mat-error> }
-              <mat-checkbox formControlName="sig" color="primary">Sistema de información geográfica</mat-checkbox>
-              @if (!validacionCampo("sig")) { <mat-error>{{getErrorCampo("sig")}}</mat-error> }
-              <mat-checkbox formControlName="tic" color="primary">Tecnologías de la información y la comunicación (TIC) para la Gestión del
-               @if (!validacionCampo("tic")) { <mat-error>{{getErrorCampo("tic")}}</mat-error> }
-                Conocimientos en las Organizaciones</mat-checkbox>
-              <mat-checkbox formControlName="catastroMP" color="primary">Catastro Multipropósito</mat-checkbox>
-              @if (!validacionCampo("catastroMP")) { <mat-error>{{getErrorCampo("catastroMP")}}</mat-error> }
-            </section>
-          </div> -->
-           <!-- <div class="left">
-             <section class="Section">
-               <mat-checkbox formControlName="geodesia" color="primary">Geodesia</mat-checkbox>
-              @if (!validacionCampo("geodesia")) { <mat-error>{{getErrorCampo("geodesia")}}</mat-error> }
-               <mat-checkbox formControlName="gestionConocimiento" color="primary">Gestión de conocimiento</mat-checkbox>
-               @if (!validacionCampo("gestionConocimiento")) { <mat-error>{{getErrorCampo("gestionConocimiento")}}</mat-error> }
-               <mat-checkbox formControlName="infraDatoEspaciales" color="primary">Infraestructura de datos espaciales</mat-checkbox>
-               @if (!validacionCampo("infraDatoEspaciales")) { <mat-error>{{getErrorCampo("infraDatoEspaciales")}}</mat-error> }
-               <mat-checkbox formControlName="percepcionRemota" color="primary">Percepción Remota</mat-checkbox>
-               @if (!validacionCampo("percepcionRemota")) { <mat-error>{{getErrorCampo("percepcionRemota")}}</mat-error> }
-               <mat-checkbox formControlName="sig" color="primary">Sistema de información geográfica</mat-checkbox>
-               @if (!validacionCampo("sig")) { <mat-error>{{getErrorCampo("sig")}}</mat-error> }
-               <mat-checkbox formControlName="tic" color="primary">Tecnologías de la información y la comunicación (TIC) para la Gestión del
-                @if (!validacionCampo("tic")) { <mat-error>{{getErrorCampo("tic")}}</mat-error> }
-                 Conocimientos en las Organizaciones</mat-checkbox>
-               <mat-checkbox formControlName="catastroMP" color="primary">Catastro Multipropósito</mat-checkbox>
-               @if (!validacionCampo("catastroMP")) { <mat-error>{{getErrorCampo("catastroMP")}}</mat-error> }
-             </section>
-           </div>
-           <div class="center">
-             <section class="Section">
-               <mat-checkbox formControlName="contaminacionSuelos" color="primary">Contaminicación de Suelos</mat-checkbox>
-               @if (!validacionCampo("contaminacionSuelos")) { <mat-error>{{getErrorCampo("contaminacionSuelos")}}</mat-error> }
-               <mat-checkbox formControlName="geografiaSuelos" color="primary">Geografía de Suelos</mat-checkbox>
-               @if (!validacionCampo("geografiaSuelos")) { <mat-error>{{getErrorCampo("geografiaSuelos")}}</mat-error> }
-               <mat-checkbox formControlName="planificacionUsoTierras" color="primary">Planificación y uso de las tierras</mat-checkbox>
-               @if (!validacionCampo("planificacionUsoTierras")) { <mat-error>{{getErrorCampo("planificacionUsoTierras")}}</mat-error> }
-             </section>
-           </div>
-           <div class="rigth">
-             <section class="Section">
-               <mat-checkbox formControlName="geopoliticaLimites" color="primary">Geopolítica y límites</mat-checkbox>
-               @if (!validacionCampo("geopoliticaLimites")) { <mat-error>{{getErrorCampo("geopoliticaLimites")}}</mat-error> }
-               <mat-checkbox formControlName="planificacionUrbanoRegional" color="primary">Planificación urbano-regional</mat-checkbox>
-               @if (!validacionCampo("planificacionUrbanoRegional")) { <mat-error>{{getErrorCampo("planificacionUrbanoRegional")}}</mat-error> }
-               <mat-checkbox formControlName="sociedadEspacio" color="primary">Sociedad y espacio</mat-checkbox>
-               @if (!validacionCampo("sociedadEspacio")) { <mat-error>{{getErrorCampo("sociedadEspacio")}}</mat-error> }
-             </section>
-           </div> -->
-         </div>
-       </div>
+       <app-grupos-investigacion [validacionCampo]="validacionCampo"
+        [estadoValidacionLineasInvestigacionSeleccionadas]="estadoValidacionLineasInvestigacionSeleccionadas"
+        [formulario]="formulario"
+       ></app-grupos-investigacion>
+
        <mat-divider></mat-divider>
 
        <div class="fieldImputText">
@@ -370,7 +290,30 @@
       </div>
 
      </div>
-     <button type="submit">Guardar</button>
+     <div class="btnToSave">
+       <!-- <button type="submit">Guardar</button> -->
+       <button
+                (click)="onSave('borrador')"
+                mat-raised-button
+                disabledInteractive
+                matTooltip="This is a tooltip!"
+                class="btnNewIdea"
+                color="primary"
+              >
+                GUARDAR BORRADOR
+        </button>
+        <button
+                (click)="onSave('registrar')"
+                mat-raised-button
+                disabledInteractive
+                matTooltip="This is a tooltip!"
+                class="btnNewIdea"
+                color="secundary"
+              >
+                REGISTRAR IDEA
+        </button>
+
+     </div>
   </div>
 
 

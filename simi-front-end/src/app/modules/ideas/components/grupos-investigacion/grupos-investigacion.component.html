@@ -1,0 +1,49 @@
+<div class="grupoLineaIvestigacion">
+  <p class="label mt20">Grupo y línea de investigación a la cual estará adscrito el proyecto de investigación,
+    desarrollo tecnológico o innovación - I+D+i</p>
+  <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
+  <div class="titleGrupoInves">
+    <p class="pTitleInves">GRUPO DE INVESTIGACIÓN</p>
+  </div>
+
+
+  <div class="screenPC">
+    <div class="grupos">
+     @for (GI of gruposInvestigacion; track $index) {
+       <p class="titleGI br1">{{GI.Nombre_Grupo}}</p>
+     }
+    </div>
+    <p class="lineasInvs">LÍNEAS DE INVESTIGACIÓN</p>
+   <div class="father">
+     @for (GI of gruposInvestigacion; track $index) {
+       <div class="LI">
+         <section class="Section">
+           @for (LI of GI.lineasInvestigacion; track $index) {
+             <mat-checkbox id="{{LI.Nombre_Linea_Investigacion}}" (change)="checkedLI(GI, LI, $event.checked)" chcolor="primary">{{LI.Nombre_Linea_Investigacion}}</mat-checkbox>
+           }
+         </section>
+       </div>
+     }
+   </div>
+  </div>
+
+  <div class="screenMobil">
+    @for (GI of gruposInvestigacion; track $index) {
+      <p class="titleGI br1">{{GI.Nombre_Grupo}}</p>
+      <p class="lineasInvs">LÍNEAS DE INVESTIGACIÓN</p>
+      <div class="LI">
+        <section class="Section">
+          @for (LI of GI.lineasInvestigacion; track $index) {
+            <mat-checkbox id="{{LI.Nombre_Linea_Investigacion}}" (change)="checkedLI(GI, LI, $event.checked)" chcolor="primary">{{LI.Nombre_Linea_Investigacion}}</mat-checkbox>
+          }
+        </section>
+      </div>
+    }
+  </div>
+
+  @if (estadoValidacionLineasInvestigacionSeleccionadas) { <mat-error>Se requiere seleccionar al menos una línea de investigación </mat-error> }
+  <!-- @if (!validacionCampo("Innovacion")) { <mat-error>Se requiere seleccionar al menos una línea de investigación </mat-error> } -->
+
+
+
+</div>

@@ -1,0 +1,106 @@
+.grupoLineaIvestigacion{
+  margin-bottom: 20px;
+  overflow-x: auto;
+
+  .titleGrupoInves{
+    background-color: #4199ff;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    text-align: center;
+    padding: 12px 5px 1px 5px;
+    .pTitleInves{
+      color: #f9f6f6;
+      font-weight: bold;
+    }
+  }
+  .screenPC{
+    display: block;
+    .grupos{
+      display: flex;
+      flex-direction: row;
+      // background-color: aqua;
+      text-align: center;
+      border-bottom: 1px solid gray;
+      height: auto;
+      padding-bottom: 1px;
+      .titleGI{
+        font-weight: bold;
+        margin: 0;
+        padding-top: 7px;
+        overflow-x: auto;
+      }
+      .br1{
+        border-right: 1px solid gray;
+      }
+    }
+    .lineasInvs{
+      text-align: center;
+      margin: 0;
+      padding: 10px;
+      border-bottom: 1px solid gray;
+    }
+    .father{
+      display: flex;
+      border-bottom: 1px solid gray;
+      overflow-x: auto;
+      max-height: 250px;
+      .LI{
+        border-right: 1px solid gray;
+        border-left: 1px solid gray;
+        overflow-x: auto;
+      }
+
+    }
+  }
+  .screenMobil{
+    display: none;
+    .titleGI{
+      font-weight: bold;
+      margin: 0;
+      padding-top: 7px;
+      overflow-x: auto;
+    }
+    .br1{
+      border-top: 1px solid gray;
+    }
+    .lineasInvs{
+      color:#4199ff;
+      font-size: small;
+      margin: 10px;
+    }
+  }
+
+  .label{
+    // background-color: blueviolet;
+    font-weight: bold;
+    margin-bottom: 1px;
+    margin-top: 15px;
+    width: 100%;
+
+  }
+  .label2{
+    // background-color: aqua;
+    color: #4199ff;
+    font-size: small;
+    text-align: justify;
+    // width: max-content;
+    width: 100%;
+  }
+
+  .mt20{
+    margin-top: 20px;
+  }
+}
+
+
+@media only screen and (max-width: 700px) {
+  .grupoLineaIvestigacion{
+    .screenPC{
+      display: none;
+    }
+    .screenMobil{
+      display: block;
+    }
+
+  }
+}
