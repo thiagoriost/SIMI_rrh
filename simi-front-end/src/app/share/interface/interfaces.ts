@@ -45,6 +45,7 @@ export interface int_DataLogin {
 export interface intf_camposFieldEditText{
   label: string;
   SubLabel: string;
+  nameField: string
 }
 
 export interface responseConvocatorias {

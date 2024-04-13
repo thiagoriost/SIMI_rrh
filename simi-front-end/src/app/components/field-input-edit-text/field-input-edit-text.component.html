@@ -4,10 +4,16 @@
   <p class="label2">{{item.SubLabel}}</p>
 
 
-  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
-  </ngx-editor-menu>
-  <ngx-editor [editor]="editor">
-  </ngx-editor>
+  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+  <ngx-editor
+    [editor]="editor"
+
+    [ngModel]="html"
+
+    [placeholder]="'Type here...'"
+  ></ngx-editor>
+
+  <button (click)="TestingEditField()" type="button">TESTING - {{item.label}}</button>
 
 
 

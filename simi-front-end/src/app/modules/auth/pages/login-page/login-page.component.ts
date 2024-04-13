@@ -29,9 +29,38 @@ export class LoginPageComponent {
   async goHome() {
 
       console.log("goHome");
+      this.store.changeSpinner(true);
+
+      /* this.store.updateLogin({
+        "data": {
+          "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYxNmRiNTMzLTc2NWItNDAzMC1hNmZkLTA1N2EwNTRkNTM4OCIsInJvbGUiOiJlOTRkNmI5Yy02M2JjLTRkNzEtOTAyYS1kZTU3MjJiNjg3ZmEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTcxMTQ4NjM3OSwiZXhwIjoxNzExNDg3Mjc5LCJpc3MiOiJkaXJlY3R1cyJ9.ZUi1IaFht8JUkMY0YfCb4wd8u7BHLvxnZFon_JvgPFo",
+          "expires": 900000
+        }
+      }) */
+
+      setTimeout(() => {
+        this._snackBar.open(`Welcome ${this.email}`, '', {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 5000,
+          direction:'ltr',
+          data:{
+            message:'hihihih'
+          }
+        });
+        console.log("spinner off");
+        this.store.changeSpinner(false);
+        localStorage.setItem("auth_token", JSON.stringify({
+          "data": {
+            "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYxNmRiNTMzLTc2NWItNDAzMC1hNmZkLTA1N2EwNTRkNTM4OCIsInJvbGUiOiJlOTRkNmI5Yy02M2JjLTRkNzEtOTAyYS1kZTU3MjJiNjg3ZmEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTcxMTQ4NjM3OSwiZXhwIjoxNzExNDg3Mjc5LCJpc3MiOiJkaXJlY3R1cyJ9.ZUi1IaFht8JUkMY0YfCb4wd8u7BHLvxnZFon_JvgPFo",
+            "expires": 900000
+          }
+        }));
+        this.router.navigate(['/home']);
+      }, 3000);
 
 
-    if (this.validarCredenciales()) {
+    if (/* this.validarCredenciales() */false) {
       await directus.auth
         .login({ 'email': this.email, password: this.passw })
         .then((resp) => {
@@ -43,8 +72,16 @@ export class LoginPageComponent {
 
         })
         .catch((e) => {
-          if (e.parent.code == 'ERR_NETWORK') {
-            alert(`Fallo de conexión`)
+          if (e.parent.code == 'ERR_NETWORK' || e.parent.code == "ERR_BAD_RESPONSE") {
+            this._snackBar.open(`Fallo de conexión`, '', {
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              duration: 5000,
+              direction:'ltr',
+              data:{
+                message:'hihihih'
+              }
+            });
           } else {
             alert(`Credenciales invalidas`)
           }
