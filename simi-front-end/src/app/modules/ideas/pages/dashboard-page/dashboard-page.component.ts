@@ -19,6 +19,10 @@ export class DashboardPageComponent implements OnInit{
   constructor(private router: Router){}
 
   ngOnInit(): void {
+    this.validateSesionTime();
+  }
+
+  validateSesionTime(){
     const auth_token = localStorage.getItem("auth_token");
     console.log({auth_token});
     if (!auth_token) {

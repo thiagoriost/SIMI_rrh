@@ -1,0 +1,10 @@
+.tipoProyecto{
+
+  .Section{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border-right: 1px solid gray;
+  }
+}

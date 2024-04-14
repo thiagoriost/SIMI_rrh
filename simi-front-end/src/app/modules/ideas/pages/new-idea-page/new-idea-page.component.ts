@@ -22,6 +22,8 @@ import { DatumLineasInvestigacion, LineasInvestigacion, MocoResponseLineasInvest
 import { DatumGruposInvestigacion, GruposInvestigacion, MocoResponseGruposInvestigacion } from '../../../../core/services/db_interfaces/Grupos_Investigacion';
 import { MatButtonModule } from '@angular/material/button';
 import { GruposInvestigacionComponent } from '../../components/grupos-investigacion/grupos-investigacion.component';
+import { TipoProyectoComponent } from '../../components/tipo-proyecto/tipo-proyecto.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -32,7 +34,8 @@ import { GruposInvestigacionComponent } from '../../components/grupos-investigac
   imports: [CommonModule, MatFormFieldModule, // lo emplea mat-error entre otros
      MatSelectModule, MatInputModule, HttpClientModule,
     FormsModule, ReactiveFormsModule, MatIconModule, MatDividerModule, MatCheckboxModule,
-    GruposInvestigacionComponent, FieldInputEditTextComponent, ToastMsgComponent, AngularEditorModule, MatButtonModule
+    GruposInvestigacionComponent, FieldInputEditTextComponent, ToastMsgComponent, AngularEditorModule, MatButtonModule,
+    TipoProyectoComponent
   ],
   templateUrl: './new-idea-page.component.html',
   styleUrl: './new-idea-page.component.scss',
@@ -73,7 +76,8 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
       nameField: 'Bibliografia_Empleada'
     }
   ]
-  estadoValidacionLineasInvestigacionSeleccionadas = false;
+  banderaValidacionLineasInvestigacionSeleccionadas = false;
+  banderaValidacionTipoProyectoSeleccionando = false;
 
   textToastMensaje: string = `Velit culpa pariatur fugiat magna cupidatat id irure in deserunt laborum. Elit enim ipsum
   aute exercitation. Sit et ex aliquip do ex veniam nisi veniam ullamco aliqua. In minim voluptate pariatur elit non
@@ -734,17 +738,18 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
 
   public formulario: FormGroup = this.formBuilder.group({
     Entidad: ['',[Validators.maxLength(100)],[]],
-    Fecha_Idea: ['11/04/2024',[Validators.required],[]],
-    nombreProponente: ['Rigo Rios',[],[]],
-    email: ['rigoberto.rios@igac.gov.co',[Validators.email],[]],
-    cedula: [123456,[Validators.minLength(6), Validators.maxLength(14)],[]],
-    celular: [ 3106777777,[],[]],
-    Titulo_Idea: ["Exploración Hidrocarburos",[Validators.required, Validators.minLength(3), Validators.maxLength(200)],[]],
+    Fecha_Idea: ['',[Validators.required],[]],
+    nombreProponente: ['',[],[]],
+    email: ['',[Validators.email],[]],
+    cedula: [,[Validators.minLength(6), Validators.maxLength(14)],[]],
+    celular: [ ,[],[]],
+    Titulo_Idea: [,[Validators.required, Validators.minLength(3), Validators.maxLength(200)],[]],
 
     Investigacion_Cientifica: [false,[],[]],
     Desarrollo_Tecnologico: [false,[],[]],
     Innovacion: [false,[],[]],
 
+    tipoProyectoselected: [[],[Validators.required],[]],
     LineaIvestigacionSelected: [[],[Validators.required],[]],
 
     /* geodesia: ['',[],[]],
@@ -769,23 +774,32 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
     Apropiacion_Conocimiento: ['',[Validators.maxLength(200)],[]],
     Formacion_CTEL: ['',[Validators.maxLength(200)],[]],
 
-    Problema_Idea: [`<font face="Arial">Ingresar<font face="Arial">&#160; <b>texto con formato aqui</b></font></font>`,[],[]],
-    Antecedentes: [`<font face="Arial">Ingresar<font face="Arial">&#160; <b>texto con formato aqui</b></font></font>`,[],[]],
+    // Problema_Idea: [`<font face="Arial">Ingresar<font face="Arial">&#160; <b>texto con formato aqui</b></font></font>`,[],[]],
+    Problema_Idea: [``,[],[]],
+    Antecedentes: [``,[],[]],
     Justificacion: ['',[],[]],
     Descripcion_Idea: ['',[],[]],
     Bibliografia_Empleada: [/* { value: this.jsonDoc, disabled: false } */,[],[]],
 
   })
 
-  constructor(private router: Router, private formBuilder: FormBuilder){
+  constructor(private router: Router, private formBuilder: FormBuilder, private _snackBar: MatSnackBar){
   }
 
   ngOnInit(): void {
     // this.editor = new Editor();
     // this.getGruposLineasInvestigacion();
+    this.validateSesionTime();
     this.setDataTestForm();
     // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
     // alert("falta la validacion de los check de los grupos de investigación")
+  }
+  validateSesionTime(){
+    const auth_token = localStorage.getItem("auth_token");
+    console.log({auth_token});
+    if (!auth_token) {
+      this.router.navigate(['/login']);
+    }
   }
   setDataTestForm() {
     this.formulario.setValue
@@ -831,8 +845,8 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
       this.formulario.controls['LineaIvestigacionSelected'].setValue(LineaIvestigacionSelected)
     }
     console.log(this.formulario.value.LineaIvestigacionSelected.length < 1);
-    this.estadoValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1; // quita el msm de requerimiento del campo
-    console.log(this.estadoValidacionLineasInvestigacionSeleccionadas);
+    this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1; // quita el msm de requerimiento del campo
+    console.log(this.banderaValidacionLineasInvestigacionSeleccionadas);
 
   } */
 
@@ -906,30 +920,60 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
     return respuesta
   }
 
-  validacionLineasInvestigacionSeleccionadas(): boolean {
-    this.estadoValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1;
-    return this.estadoValidacionLineasInvestigacionSeleccionadas
+  validacionesCamposRequeridos(): boolean {
+
+    this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1;
+    this.banderaValidacionTipoProyectoSeleccionando = this.formulario.value.tipoProyectoselected.length < 1;
+    return !(this.banderaValidacionLineasInvestigacionSeleccionadas || this.banderaValidacionTipoProyectoSeleccionando)
   }
 
   onSave(accion:string):void{
 
     console.log({accion});
     if (accion != "submit") {
+      console.log(this.formulario.value);
 
-      if (this.validacionLineasInvestigacionSeleccionadas()) {
+      if (this.validacionesCamposRequeridos() && this.formulario.status == "VALID" && this.fnValidacionFecha()) {
 
-        console.log(this.formulario);
+        const { Antecedentes, Apropiacion_Conocimiento, Bibliografia_Empleada, Desarrollo_Tecnologico2, Descripcion_Idea,
+          Entidad, Fecha_Idea, Formacion_CTEL, Justificacion, LineaIvestigacionSelected, Lugar_Ejecucion, Nuevo_Conocimiento,
+          Problema_Idea, Tiempo_Ejecucion_Proyecto, Titulo_Idea, Investigacion_Cientifica, Desarrollo_Tecnologico,
+          Innovacion, cedula, celular, email, nombreProponente, tipoProyectoselected
+        } = this.formulario.value;
 
-        const fnValidacionFecha = this.fnValidacionFecha();
+        let objToSend = {
+          "Codigo_Idea": "00003",
+          Entidad,
+          Fecha_Idea,
+          Titulo_Idea,
+          Investigacion_Cientifica,
+          Desarrollo_Tecnologico,
+          Innovacion,
+          Tiempo_Ejecucion_Proyecto,
+          Lugar_Ejecucion,
+          Nuevo_Conocimiento,
+          Desarrollo_Tecnologico2,
+          Apropiacion_Conocimiento,
+          Formacion_CTEL,
+          Problema_Idea,
+          Antecedentes,
+          Justificacion,
+          Descripcion_Idea,
+          Bibliografia_Empleada,
+          "Ideas_Lineas_Investigacion": {
+              "create": LineaIvestigacionSelected,
+              "update": [],
+              "delete": []
+          }
+       }
 
-        console.log({fnValidacionFecha});
-        /* if (this.formulario.status == "VALID") {
-          alert("ready")
-        } else {
-          alert("with erros")
-        } */
-
-        // this.resetFormulario()
+      }else{
+        this._snackBar.open(`Existen campos pendientes por completar`, '', {
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          duration: 3000,
+          direction:'ltr'
+        });
       }
 
     }

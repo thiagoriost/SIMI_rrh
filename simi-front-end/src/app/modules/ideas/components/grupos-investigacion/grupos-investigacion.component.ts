@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DatumGruposInvestigacion, GruposInvestigacion, MocoResponseGruposInvestigacion } from '../../../../core/services/db_interfaces/Grupos_Investigacion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,18 +12,17 @@ import { DatumLineasInvestigacion, LineasInvestigacion, MocoResponseLineasInvest
   templateUrl: './grupos-investigacion.component.html',
   styleUrl: './grupos-investigacion.component.scss'
 })
-export class GruposInvestigacionComponent {
-  gruposInvestigacion: DatumGruposInvestigacion[] = [];
-  @Input() estadoValidacionLineasInvestigacionSeleccionadas: boolean = false;
-  @Input() validacionCampo: any
+export class GruposInvestigacionComponent implements OnInit{
+  @Input() banderaValidacionLineasInvestigacionSeleccionadas: boolean = false;//controla el mensaje de error, campo requerido
   @Input() formulario: any
+  gruposInvestigacion: DatumGruposInvestigacion[] = [];
 
 
 
   ngOnInit(): void {
     // this.editor = new Editor();
     this.getGruposLineasInvestigacion();
-    this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
+    // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
     // alert("falta la validacion de los check de los grupos de investigación")
   }
 
@@ -69,8 +68,8 @@ export class GruposInvestigacionComponent {
       this.formulario.controls['LineaIvestigacionSelected'].setValue(LineaIvestigacionSelected)
     }
     console.log(this.formulario.value.LineaIvestigacionSelected.length < 1);
-    this.estadoValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1; // quita el msm de requerimiento del campo
-    console.log(this.estadoValidacionLineasInvestigacionSeleccionadas);
+    this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1; // quita el msm de requerimiento del campo
+    console.log(this.banderaValidacionLineasInvestigacionSeleccionadas);
 
   }
 

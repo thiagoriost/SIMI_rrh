@@ -92,27 +92,29 @@
 
        <mat-divider class="divider"></mat-divider>
 
-       <div class="tipoProyecto">
+       <app-tipo-proyecto [formulario]="formulario" [getErrorCampo]="getErrorCampo" [validacionCampo]="validacionCampo"
+        [banderaValidacionTipoProyectoSeleccionando]="banderaValidacionTipoProyectoSeleccionando"
+       ></app-tipo-proyecto>
+       <!-- <div class="tipoProyecto">
 
          <p class="label">Tipo de proyecto</p>
          <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
          <section class="Section">
            <mat-checkbox formControlName="Investigacion_Cientifica" color="primary" [checked]="false">Investigación</mat-checkbox>
-           <!-- @if (!validacionCampo("Investigacion_Cientifica")) { <mat-error>{{getErrorCampo("Investigacion_Cientifica")}}</mat-error> } -->
+           @if (!validacionCampo("Investigacion_Cientifica")) { <mat-error>{{getErrorCampo("Investigacion_Cientifica")}}</mat-error> }
            <mat-checkbox formControlName="Desarrollo_Tecnologico" color="primary" checked="false">Desarrollo tecnológico</mat-checkbox>
-           <!-- @if (!validacionCampo("Desarrollo_Tecnologico")) { <mat-error>{{getErrorCampo("Desarrollo_Tecnologico")}}</mat-error> } -->
+           @if (!validacionCampo("Desarrollo_Tecnologico")) { <mat-error>{{getErrorCampo("Desarrollo_Tecnologico")}}</mat-error> }
            <mat-checkbox formControlName="Innovacion" color="primary" checked="false">Innovación</mat-checkbox>
-           <!-- @if (!validacionCampo("Innovacion")) { <mat-error>{{getErrorCampo("Innovacion")}}</mat-error> } -->
+           @if (!validacionCampo("Innovacion")) { <mat-error>{{getErrorCampo("Innovacion")}}</mat-error> }
          </section>
 
 
-       </div>
+       </div> -->
 
        <mat-divider></mat-divider>
 
-       <app-grupos-investigacion [validacionCampo]="validacionCampo"
-        [estadoValidacionLineasInvestigacionSeleccionadas]="estadoValidacionLineasInvestigacionSeleccionadas"
-        [formulario]="formulario"
+       <app-grupos-investigacion [formulario]="formulario"
+        [banderaValidacionLineasInvestigacionSeleccionadas]="banderaValidacionLineasInvestigacionSeleccionadas"
        ></app-grupos-investigacion>
 
        <mat-divider></mat-divider>
