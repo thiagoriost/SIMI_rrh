@@ -38,7 +38,7 @@ export class LoginPageComponent {
         }
       }) */
 
-      setTimeout(() => {
+      /* setTimeout(() => {
         this._snackBar.open(`Welcome ${this.email}`, '', {
           horizontalPosition: 'center',
           verticalPosition: 'top',
@@ -57,39 +57,53 @@ export class LoginPageComponent {
           }
         }));
         this.router.navigate(['/home']);
-      }, 3000);
+      }, 3000); */
 
 
-    if (/* this.validarCredenciales() */false) {
+    if (this.validarCredenciales()/* false */) {
       await directus.auth
         .login({ 'email': this.email, password: this.passw })
         .then((resp) => {
           console.log({resp});
           this.authenticated = true;
-          alert(`Bienvenid@ ${this.email}`);
+          this.store.changeSpinner(false);
+          this._snackBar.open(`Bienvenido ${this.email}`, '', {
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            duration: 5000,
+            direction:'ltr',
+            data:{
+              message:'hihihih'
+            }
+          });
 
-        this.router.navigate(['/home']);
+          this.router.navigate(['/home']);
 
         })
         .catch((e) => {
-          if (e.parent.code == 'ERR_NETWORK' || e.parent.code == "ERR_BAD_RESPONSE") {
-            this._snackBar.open(`Fallo de conexión`, '', {
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-              duration: 5000,
-              direction:'ltr',
-              data:{
-                message:'hihihih'
-              }
-            });
-          } else {
-            alert(`Credenciales invalidas`)
-          }
+          this._snackBar.open((e.parent.code == 'ERR_NETWORK' || e.parent.code == "ERR_BAD_RESPONSE")?`Fallo de conexión`:`Credenciales invalidas`, '', {
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            duration: 5000,
+            direction:'ltr',
+            data:{ message:'' }
+          });
+
+
         });
+
       if (this.authenticated) {
         this.router.navigate(['/home']);
       } else {
-        alert("Credencailes erroneas");
+        this._snackBar.open(`Credenciales invalidas`, '', {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 5000,
+          direction:'ltr',
+          data:{
+            message:''
+          }
+        });
       }
     };
   }

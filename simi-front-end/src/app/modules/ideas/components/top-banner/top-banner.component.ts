@@ -62,9 +62,9 @@ export class TopBannerComponent implements OnInit{
     console.log({convocatorias});
     // let getConvocatorias =  await directus.items('Convocatorias').readMany(['00002']);
     /** logica para traer poster img */
-    const token: string = localStorage.getItem("auth_token") || "";
-    const respoPoster = await getposter(token)
-    console.log({respoPoster});
+    // const token: string = localStorage.getItem("auth_token") || "";
+    // const respoPoster = await getposter(token)
+    // console.log({respoPoster});
 
     // let getPoster = await directus.files.import();
 
