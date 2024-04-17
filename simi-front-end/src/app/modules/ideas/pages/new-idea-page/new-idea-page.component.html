@@ -17,19 +17,19 @@
         <mat-form-field>
           <p class="tootlip">Entidad o dependencia originadora de la idea</p>
           <mat-label >Entidad o dependencia originadora de la idea</mat-label>
-          <!-- <mat-select disableOptionCentering="true" formControlName="Entidad">
+          <mat-select disableOptionCentering="true" formControlName="Entidad">
             <mat-option>Seleccione...</mat-option>
-            @for (state of states; track state) {
-              <mat-option [value]="state">{{state}}</mat-option>
+            @for (entidad of Entidades; track entidad) {
+              <mat-option [value]="entidad.Descripcion_Valor">{{entidad.Descripcion_Valor}}</mat-option>
             }
-        </mat-select> -->
-          <input formControlName="Entidad" matInput placeholder="Proponente" value="">
-          @if (!validacionCampo("Entidad")) { <mat-error>{{getErrorCampo("Entidad")}}</mat-error> }
+        </mat-select>
+        <!-- <input formControlName="Entidad" matInput placeholder="Proponente" value="">-->
+        @if (!validacionCampo("Entidad")) { <mat-error>{{getErrorCampo("Entidad")}}</mat-error> }
       </mat-form-field>
     </div>
 
     <div class="contenedor date">
-        <p class="dateTitle">Día / Mes Año</p>
+        <p class="dateTitle">Día / Mes / Año</p>
         <div class="dateContainer">
           <input formControlName="Fecha_Idea" matInput placeholder="Fecha" type="date" class="inputDate">
         </div>
@@ -270,23 +270,79 @@
         <!-- } -->
         <!-- ////////// @kolkov/angular-editor ////////////// -->
 
-        @for (item of camposFieldEditText; track $index) {
-
+        <!-- @for (item of camposFieldEditText; track $index) {
           <div class="fieldImputText">
-              <mat-divider class="divider"></mat-divider>
-              <p class="label">{{item.label}}</p>
-              <p class="label2">{{item.SubLabel}}</p>
-              <div class="containerEditor">
-                <angular-editor id="{{item.nameField}}" [placeholder]="'Ingresar texto...'"
-                  formControlName="{{item.nameField}}" [config]="config"></angular-editor>
-              </div>
-
+            <mat-divider class="divider"></mat-divider>
+            <p class="label">{{item.label}}</p>
+            <p class="label2">{{item.SubLabel}}</p>
+            <div class="containerEditor">
+                    <angular-editor id="{{item.nameField}}" [placeholder]="'Ingresar texto...'"
+                      formControlName="{{item.nameField}}" [config]="config"></angular-editor>
+            </div>
+            <p>{{item.nameField}}</p>
+            @if (validacionCampoFieldEditText(item.nameField)) { <mat-error>Este campo es requerido</mat-error> }
+            </div>
+        } -->
+        <div class="fieldImputText">
+          <mat-divider class="divider"></mat-divider>
+          <p class="label">{{camposFieldEditText[0].label}}</p>
+          <p class="label2">{{camposFieldEditText[0].SubLabel}}</p>
+          <div class="containerEditor">
+                  <angular-editor id="{{camposFieldEditText[0].nameField}}" [placeholder]="'Ingresar texto...'"
+                    formControlName="{{camposFieldEditText[0].nameField}}" [config]="config"></angular-editor>
+          </div>
+          @if (camposFieldEditText[0].validacion) { <mat-error>Este campo es requerido</mat-error> }
+              <!-- @if (!validacionCampo("{{item.nameField}}")) { <mat-error>{{getErrorCampo(item.nameField)}}</mat-error> } -->
+              <!-- @if (!validacionCampo("Lugar_Ejecucion")) { <mat-error>{{getErrorCampo("Lugar_Ejecucion")}}</mat-error> } -->
             <!-- <h5 class="html-header">HTML Output</h5>
             <div class="html">
               {{ formulario.controls[item.nameField].value }}
             </div> -->
           </div>
-        }
+          <div class="fieldImputText">
+            <mat-divider class="divider"></mat-divider>
+            <p class="label">{{camposFieldEditText[1].label}}</p>
+            <p class="label2">{{camposFieldEditText[1].SubLabel}}</p>
+            <div class="containerEditor">
+                    <angular-editor id="{{camposFieldEditText[1].nameField}}" [placeholder]="'Ingresar texto...'"
+                      formControlName="{{camposFieldEditText[1].nameField}}" [config]="config"></angular-editor>
+            </div>
+            @if (camposFieldEditText[1].validacion) { <mat-error>Este campo es requerido</mat-error> }
+
+          </div>
+          <div class="fieldImputText">
+            <mat-divider class="divider"></mat-divider>
+            <p class="label">{{camposFieldEditText[2].label}}</p>
+            <p class="label2">{{camposFieldEditText[2].SubLabel}}</p>
+            <div class="containerEditor">
+                    <angular-editor id="{{camposFieldEditText[2].nameField}}" [placeholder]="'Ingresar texto...'"
+                      formControlName="{{camposFieldEditText[2].nameField}}" [config]="config"></angular-editor>
+            </div>
+            @if (camposFieldEditText[2].validacion) { <mat-error>Este campo es requerido</mat-error> }
+
+          </div>
+          <div class="fieldImputText">
+            <mat-divider class="divider"></mat-divider>
+            <p class="label">{{camposFieldEditText[3].label}}</p>
+            <p class="label2">{{camposFieldEditText[3].SubLabel}}</p>
+            <div class="containerEditor">
+                    <angular-editor id="{{camposFieldEditText[3].nameField}}" [placeholder]="'Ingresar texto...'"
+                      formControlName="{{camposFieldEditText[3].nameField}}" [config]="config"></angular-editor>
+            </div>
+            @if (camposFieldEditText[3].validacion) { <mat-error>Este campo es requerido</mat-error> }
+
+          </div>
+          <div class="fieldImputText">
+            <mat-divider class="divider"></mat-divider>
+            <p class="label">{{camposFieldEditText[4].label}}</p>
+            <p class="label2">{{camposFieldEditText[4].SubLabel}}</p>
+            <div class="containerEditor">
+                    <angular-editor id="{{camposFieldEditText[4].nameField}}" [placeholder]="'Ingresar texto...'"
+                      formControlName="{{camposFieldEditText[4].nameField}}" [config]="config"></angular-editor>
+            </div>
+            @if (camposFieldEditText[4].validacion) { <mat-error>Este campo es requerido</mat-error> }
+
+          </div>
 
         <!-- ////////// @kolkov/angular-editor ////////////// -->
       </div>

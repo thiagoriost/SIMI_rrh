@@ -24,6 +24,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { GruposInvestigacionComponent } from '../../components/grupos-investigacion/grupos-investigacion.component';
 import { TipoProyectoComponent } from '../../components/tipo-proyecto/tipo-proyecto.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { constantesApp } from '../../../../share/utils/constas';
+import { DatumValoresDominio, ValoresDominio } from '../../../../core/services/db_interfaces/Valores_Dominio';
 
 
 
@@ -42,19 +44,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class NewIdeaPageComponent implements OnInit, OnDestroy{
 
-
-  validacionFecha = false
+  Entidades: DatumValoresDominio[] = [];
 
   camposFieldEditText: intf_camposFieldEditText[] = [
     {
       label: 'Pregunta o problema que origina la ídea',
       SubLabel:'(250 palabras) Identificar de manera sistemática, organizada y objetiva un problema o necesidad y el contexto de su concurrencia con el proposito de responder a una pregunta que aumente el conocimiento y la información sobre algo desconocido, mejorar algun proceso o construir una herramienta tecnológica. Responde a la pregunta ¿Que se quiere saber sobre el problema a analizar? se debe indagar que esta ocurriendo, realizar un diagnostico de lo que esta pasando; en caso de querer comparar, tambien se debe indagar cómo se presenta el problema en varios contextos. Se deben definir si se desea saber las causas del problema, predecir que sucederá en el futuro, o resolverlo.',
-      nameField: 'Problema_Idea'
+      nameField: 'Problema_Idea',
+      validacion: false
     },
     {
       label: 'Antecedentes',
       SubLabel:'(500 palabras) Estado de arte de la información, resumen de la revisión del conocimiento existente.',
-      nameField: 'Antecedentes'
+      nameField: 'Antecedentes',
+      validacion: false
     },
     {
       label: 'Justificación',
@@ -63,21 +66,26 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
        a) justificación práctica: Cuando su desarrollo ayuda a resolver un problema o por lo menos, propone estrategias que de aplicarlas contribuirían a resolverlo. b) justificación teórica:
        Se desarrolla cuando el propósito de estudio es generar reflexión y debate académico sobre el conocimiento existente, confrontar una teoría, contrastar resultados o hacer epistemología
        del conocimiento. c) justificación metodológica: surge cuando la investigación a desarrollar propone un nuevo método o estrategia para generar conocimiento valido y confiable.`,
-       nameField: 'Justificacion'
+       nameField: 'Justificacion',
+       validacion: false
     },
     {
       label: 'Descripción de la ídea',
       SubLabel:'En este apartado se debe explicar con claridad de que se tratará el proyecto de investigación que se desea hacer. Debe estar redactado en forma clara y coherente para que no haya lugar a dudas',
-      nameField: 'Descripcion_Idea'
+      nameField: 'Descripcion_Idea',
+      validacion: false
     },
     {
       label: 'Bibliografía empleada',
       SubLabel: 'Relacione unicamente la referencia en el texto, ya sea en forma de pie de página o como ítem independiente. Utilice normas APA, referidas a este aspecto.',
-      nameField: 'Bibliografia_Empleada'
+      nameField: 'Bibliografia_Empleada',
+      validacion: false
     }
   ]
   banderaValidacionLineasInvestigacionSeleccionadas = false;
   banderaValidacionTipoProyectoSeleccionando = false;
+  validacionFecha = false
+
 
   textToastMensaje: string = `Velit culpa pariatur fugiat magna cupidatat id irure in deserunt laborum. Elit enim ipsum
   aute exercitation. Sit et ex aliquip do ex veniam nisi veniam ullamco aliqua. In minim voluptate pariatur elit non
@@ -737,7 +745,7 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
   gruposInvestigacion: DatumGruposInvestigacion[] = [];
 
   public formulario: FormGroup = this.formBuilder.group({
-    Entidad: ['',[Validators.maxLength(100)],[]],
+    Entidad: ['',[Validators.required],[]],
     Fecha_Idea: ['',[Validators.required],[]],
     nombreProponente: ['',[],[]],
     email: ['',[Validators.email],[]],
@@ -748,6 +756,8 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
     Investigacion_Cientifica: [false,[],[]],
     Desarrollo_Tecnologico: [false,[],[]],
     Innovacion: [false,[],[]],
+
+    URL_Cronograma: ['url.prueba.com',[Validators.required],[]],
 
     tipoProyectoselected: [[],[Validators.required],[]],
     LineaIvestigacionSelected: [[],[Validators.required],[]],
@@ -775,11 +785,11 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
     Formacion_CTEL: ['',[Validators.maxLength(200)],[]],
 
     // Problema_Idea: [`<font face="Arial">Ingresar<font face="Arial">&#160; <b>texto con formato aqui</b></font></font>`,[],[]],
-    Problema_Idea: [``,[],[]],
-    Antecedentes: [``,[],[]],
-    Justificacion: ['',[],[]],
-    Descripcion_Idea: ['',[],[]],
-    Bibliografia_Empleada: [/* { value: this.jsonDoc, disabled: false } */,[],[]],
+    Problema_Idea: [,[Validators.required],[]],
+    Antecedentes: [,[Validators.required],[]],
+    Justificacion: [,[Validators.required],[]],
+    Descripcion_Idea: [,[Validators.required],[]],
+    Bibliografia_Empleada: [/* { value: this.jsonDoc, disabled: false } */,[Validators.required],[]],
 
   })
 
@@ -790,9 +800,28 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
     // this.editor = new Editor();
     // this.getGruposLineasInvestigacion();
     this.validateSesionTime();
-    this.setDataTestForm();
+    this.getValores_Dominio();
+    // this.setDataTestForm();
     // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
-    // alert("falta la validacion de los check de los grupos de investigación")
+  }
+  async getValores_Dominio() {
+    const Valores_Dominio = directus.items(constantesApp.Valores_Dominio);
+    // const responseTipo_Dominio = await Valores_Dominio.readByQuery({limit: -1,});
+    // console.log(responseTipo_Dominio);
+    // // const aa = await Valores_Dominio.readOne(15); //  You don't have permission to access this.
+    // const aa = await directus.fields.readAll();
+    // console.log(aa);
+// DEPENDIGAC
+    const filterValores_Dominio: ValoresDominio = await Valores_Dominio.readByQuery({
+      filter: {
+        Tipo_Dominio: {
+          _contains: constantesApp.DEPENDIGAC,
+        },
+      },
+    }) as ValoresDominio;
+    console.log(filterValores_Dominio);
+    this.Entidades = filterValores_Dominio.data
+
   }
   validateSesionTime(){
     const auth_token = localStorage.getItem("auth_token");
@@ -801,22 +830,20 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
       this.router.navigate(['/login']);
     }
   }
-  setDataTestForm() {
-    this.formulario.setValue
-  }
+
   /* async getGruposLineasInvestigacion() {
     try {
-      // let responseLineasInvestigacion: LineasInvestigacion = await directus.items('Lineas_Investigacion').readByQuery({ sort: ['Id_Linea_Investigacion'] })  as LineasInvestigacion;
-      let responseLineasInvestigacion: LineasInvestigacion =  MocoResponseLineasInvestigacion;
+      let responseLineasInvestigacion: LineasInvestigacion = await directus.items('Lineas_Investigacion').readByQuery({ sort: ['Id_Linea_Investigacion'] })  as LineasInvestigacion;
+      // let responseLineasInvestigacion: LineasInvestigacion =  MocoResponseLineasInvestigacion;
 
-      // let responseGruposInvestigacion: GruposInvestigacion = await directus.items('Grupos_Investigacion').readByQuery({ sort: ['Id_Grupo_Investigacion'] })  as GruposInvestigacion;
-      let responseGruposInvestigacion: GruposInvestigacion = MocoResponseGruposInvestigacion ;
+      let responseGruposInvestigacion: GruposInvestigacion = await directus.items('Grupos_Investigacion').readByQuery({ sort: ['Id_Grupo_Investigacion'] })  as GruposInvestigacion;
+      // let responseGruposInvestigacion: GruposInvestigacion = MocoResponseGruposInvestigacion ;
       this.ordenarLineasInvestigacionConGrupos(responseLineasInvestigacion.data, responseGruposInvestigacion.data);
     } catch (error) {
       console.log({error});
     }
-  } */
-  /* ordenarLineasInvestigacionConGrupos(LineasInvestigacion: DatumLineasInvestigacion[], GruposInvestigacion: DatumGruposInvestigacion[]) {
+  }
+  ordenarLineasInvestigacionConGrupos(LineasInvestigacion: DatumLineasInvestigacion[], GruposInvestigacion: DatumGruposInvestigacion[]) {
       console.log(LineasInvestigacion);
 
       GruposInvestigacion = GruposInvestigacion.map(e => e = {...e, lineasInvestigacion:[]})
@@ -860,14 +887,6 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
 
   }
 
-
-
-  fnValidacionFecha():boolean{
-    this.validacionFecha = (this.formulario.controls["Fecha_Idea"].errors)?true:false
-    return (this.formulario.controls["Fecha_Idea"].errors)?true:false
-  }
-
-
   resetFormulario():void{
     this.formulario.reset(
       {
@@ -881,11 +900,30 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
     )
   }
 
-  validacionCampo(field: string){
-
-    return this.formulario.controls[field].errors
-      && this.formulario.controls[field].touched;
+  fnValidacionFecha():boolean{
+    this.validacionFecha = (this.formulario.controls["Fecha_Idea"].errors)?true:false
+    return (this.formulario.controls["Fecha_Idea"].errors)?true:false
   }
+
+  validacionCampo(field: string){
+    return this.formulario.controls[field].errors && this.formulario.controls[field].touched;
+  }
+
+  /* validacionCampoFieldEditText() {
+
+    console.log("validacionCampoFieldEditText");
+
+    let hasError = false;
+    this.camposFieldEditText.forEach(e => {
+      if (this.formulario.controls[e.nameField].errors) {
+        hasError = e.validacion = true
+      } else{
+        hasError = e.validacion = false
+      }
+    })
+
+    return hasError
+  } */
 
   getErrorCampo(campo: string): string {
 
@@ -922,23 +960,43 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
 
   validacionesCamposRequeridos(): boolean {
 
+    console.log(this.camposFieldEditText);
     this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1;
+
     this.banderaValidacionTipoProyectoSeleccionando = this.formulario.value.tipoProyectoselected.length < 1;
-    return !(this.banderaValidacionLineasInvestigacionSeleccionadas || this.banderaValidacionTipoProyectoSeleccionando)
+
+    this.validacionFecha = (this.formulario.controls["Fecha_Idea"].errors)?true:false
+
+    let hasError = false;
+    this.camposFieldEditText.forEach(e => {
+      if (this.formulario.controls[e.nameField].errors) {
+        hasError = e.validacion = true
+      } else{
+        hasError = e.validacion = false
+      }
+    })
+
+    console.log(this.camposFieldEditText);
+
+    return !(this.banderaValidacionLineasInvestigacionSeleccionadas || this.banderaValidacionTipoProyectoSeleccionando || this.validacionFecha || hasError)
   }
 
-  onSave(accion:string):void{
+  async onSave(accion:string):Promise<void>{
 
     console.log({accion});
     if (accion != "submit") {
       console.log(this.formulario.value);
+      console.log("validacionesCamposRequeridos => ",this.validacionesCamposRequeridos());
+      console.log("status => ", this.formulario.status);
+      console.log("fnValidacionFecha => ",this.fnValidacionFecha());
 
-      if (this.validacionesCamposRequeridos() && this.formulario.status == "VALID" && this.fnValidacionFecha()) {
+
+      if (this.validacionesCamposRequeridos() && this.formulario.status == "VALID" /* && !this.fnValidacionFecha() && !this.validacionCampoFieldEditText() */){
 
         const { Antecedentes, Apropiacion_Conocimiento, Bibliografia_Empleada, Desarrollo_Tecnologico2, Descripcion_Idea,
           Entidad, Fecha_Idea, Formacion_CTEL, Justificacion, LineaIvestigacionSelected, Lugar_Ejecucion, Nuevo_Conocimiento,
           Problema_Idea, Tiempo_Ejecucion_Proyecto, Titulo_Idea, Investigacion_Cientifica, Desarrollo_Tecnologico,
-          Innovacion, cedula, celular, email, nombreProponente, tipoProyectoselected
+          Innovacion, URL_Cronograma, cedula, celular, email, nombreProponente, tipoProyectoselected
         } = this.formulario.value;
 
         let objToSend = {
@@ -949,6 +1007,7 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
           Investigacion_Cientifica,
           Desarrollo_Tecnologico,
           Innovacion,
+          URL_Cronograma,
           Tiempo_Ejecucion_Proyecto,
           Lugar_Ejecucion,
           Nuevo_Conocimiento,
@@ -964,8 +1023,30 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
               "create": LineaIvestigacionSelected,
               "update": [],
               "delete": []
-          }
-       }
+          },
+          Validada:'false',
+          Fecha_Validacion: new Date(),
+          Fecha_Creacion: new Date(),
+          Usuario_Creador: cedula
+        }
+
+        console.log({objToSend});
+        // const result = await client.request(createItem(collection_name, item_object));
+        const Ideas_Investigacion = directus.items('Ideas_Investigacion');
+        const result = await Ideas_Investigacion.createOne(objToSend);
+        console.log(result);
+        if (result) {
+          this._snackBar.open(`Idea creada de forma satisfactoria`, '', {
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            duration: 3000,
+            direction:'ltr'
+          });
+          this.router.navigate(['/home/dashboard']);
+        }
+
+
+
 
       }else{
         this._snackBar.open(`Existen campos pendientes por completar`, '', {

@@ -48,8 +48,8 @@
         <ng-container matColumnDef="estado">
           <th mat-header-cell *matHeaderCellDef style="width: 10px"> ESTADO </th>
           <td  mat-cell *matCellDef="let element" >
-            <p [ngClass]="{ 'aprobado': element.Validada === 'S', 'enRevision': element.Validada === 'R', 'rechazado': element.Validada === 'N' }">
-              {{element.Validada}}
+            <p [ngClass]="{ 'aprobado': element.Validada === 'true', 'enRevision': element.Validada === 'null', 'rechazado': element.Validada === 'false' }">
+              {{element.Validada || '-'}}
             </p>
           </td>
         </ng-container>

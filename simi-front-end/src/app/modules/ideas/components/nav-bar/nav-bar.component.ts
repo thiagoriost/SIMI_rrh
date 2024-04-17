@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router} from '@angular/router';
+import { directus } from '../../../../core/services/directus';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,7 +14,8 @@ export class NavBarComponent {
 
   constructor(private router: Router) { }
 
-  gologOut() {
+  async gologOut() {
+    localStorage.clear()
     this.router.navigate(['/login']);
   }
   goconfiguraciones() {

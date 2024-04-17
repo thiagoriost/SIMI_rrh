@@ -19,7 +19,7 @@
        <div class="LI">
          <section class="Section">
            @for (LI of GI.lineasInvestigacion; track $index) {
-             <mat-checkbox id="{{LI.Nombre_Linea_Investigacion}}" (change)="checkedLI(GI, LI, $event.checked)" chcolor="primary">{{LI.Nombre_Linea_Investigacion}}</mat-checkbox>
+             <mat-checkbox id="{{LI.Nombre_Linea_investigacion}}" (change)="checkedLI(GI, LI, $event.checked)" color="primary">{{LI.Nombre_Linea_investigacion}}</mat-checkbox>
            }
          </section>
        </div>
@@ -34,7 +34,7 @@
       <div class="LI">
         <section class="Section">
           @for (LI of GI.lineasInvestigacion; track $index) {
-            <mat-checkbox id="{{LI.Nombre_Linea_Investigacion}}" (change)="checkedLI(GI, LI, $event.checked)" chcolor="primary">{{LI.Nombre_Linea_Investigacion}}</mat-checkbox>
+            <mat-checkbox id="{{LI.Nombre_Linea_investigacion}}" (change)="checkedLI(GI, LI, $event.checked)" chcolor="primary">{{LI.Nombre_Linea_investigacion}}</mat-checkbox>
           }
         </section>
       </div>

@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { directus } from '../../../../core/services/directus';
 import { Ideas_Investigacion, Response_Ideas_Investigacion } from '../../../../share/interface/interfaces';
 import { StoreApp } from '../../../../core/store/storeApp';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-ideas',
@@ -28,7 +29,7 @@ export class ListIdeasComponent implements OnInit {
   paginator!: MatPaginator;
   // usuario: any;
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private _snackBar: MatSnackBar){}
 
   ngOnInit(): void {
     console.log("ngOnInit ListIdeasComponent");
@@ -36,7 +37,15 @@ export class ListIdeasComponent implements OnInit {
     if (localStorage.getItem("auth_token")) {
       this.getIdeas_Investigacion()
     } else {
-      alert(`Sesión expirada`)
+      this._snackBar.open(`Sesión expirada`, '', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 5000,
+        direction:'ltr',
+        data:{
+          message:''
+        }
+      });
       this.router.navigate([`/login`]);
 
     }

@@ -9,6 +9,7 @@ import { directus } from '../../../../core/services/directus';
 import { StoreApp } from '../../../../core/store/storeApp';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DataUsuario, Usuario } from '../../../../core/services/db_interfaces/Usuario';
 
 @Component({
   selector: 'app-login-page',
@@ -29,7 +30,6 @@ export class LoginPageComponent {
   async goHome() {
 
       console.log("goHome");
-      this.store.changeSpinner(true);
 
       /* this.store.updateLogin({
         "data": {
@@ -61,49 +61,106 @@ export class LoginPageComponent {
 
 
     if (this.validarCredenciales()/* false */) {
-      await directus.auth
-        .login({ 'email': this.email, password: this.passw })
-        .then((resp) => {
-          console.log({resp});
-          this.authenticated = true;
+      this.store.changeSpinner(true);
+      try {
+
+        const respLogin = await directus.auth.login({ 'email': this.email, password: this.passw });
+
+        if (respLogin.access_token) {
+
+          console.log({respLogin});
+          // this.authenticated = true;
+
+          const user: DataUsuario = await directus.users.me.read() as DataUsuario;
+          console.log({user});
+          this.store.updateLogin(user)
+          this.router.navigate(['/home']);
           this.store.changeSpinner(false);
-          this._snackBar.open(`Bienvenido ${this.email}`, '', {
+        }else{
+          this._snackBar.open(`Credenciales invalidas`, '', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
             duration: 5000,
             direction:'ltr',
             data:{
-              message:'hihihih'
+              message:''
             }
           });
-
-          this.router.navigate(['/home']);
-
-        })
-        .catch((e) => {
-          this._snackBar.open((e.parent.code == 'ERR_NETWORK' || e.parent.code == "ERR_BAD_RESPONSE")?`Fallo de conexión`:`Credenciales invalidas`, '', {
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            duration: 5000,
-            direction:'ltr',
-            data:{ message:'' }
-          });
-
-
+          this.store.changeSpinner(false);
+        }
+      } catch (error:any) {
+        console.log({error});
+        this._snackBar.open((error.parent.code == 'ERR_NETWORK' || error.parent.code == "ERR_BAD_RESPONSE")?`Fallo de conexión`:`Credenciales invalidas`, '', {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 5000,
+          direction:'ltr',
+          data:{ message:'' }
         });
+        this.store.changeSpinner(false);
 
-      if (this.authenticated) {
-        this.router.navigate(['/home']);
-      } else {
-        this._snackBar.open(`Credenciales invalidas`, '', {
+      }
+
+
+
+        /*
+
+        await directus.auth
+      .login({ 'email': this.email, password: this.passw })
+      .then(async (resp) => {
+        console.log({resp});
+        this.authenticated = true;
+        this.store.changeSpinner(false);
+
+        const user: Usuario = await directus.users.me.read() as Usuario;
+        this._snackBar.open(`Bienvenido ${user.data.first_name}`, '', {
           horizontalPosition: 'center',
           verticalPosition: 'top',
           duration: 5000,
           direction:'ltr',
           data:{
-            message:''
+            message:'hihihih'
           }
         });
+        // console.log({user});
+
+        this.router.navigate(['/home']);
+
+      })
+      .catch((e) => {
+        this._snackBar.open((e.parent.code == 'ERR_NETWORK' || e.parent.code == "ERR_BAD_RESPONSE")?`Fallo de conexión`:`Credenciales invalidas`, '', {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 5000,
+          direction:'ltr',
+          data:{ message:'' }
+        });
+
+
+      });
+
+        */
+
+
+
+      if (this.authenticated) {
+
+
+        // setTimeout(() => {
+        //   this._snackBar.open(`Bienvenido ${user.data.first_name}`, '', {
+        //     horizontalPosition: 'center',
+        //     verticalPosition: 'top',
+        //     duration: 5000,
+        //     direction:'ltr',
+        //     data:{
+        //       message:'hihihih'
+        //     }
+        //   });
+
+        // }, 1000);
+
+      } else {
+
       }
     };
   }
@@ -114,14 +171,26 @@ export class LoginPageComponent {
     // console.log({ user: this.email, passw: this.passw });
     // let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     // if (!emailPattern.test(this.email)) {
+    let mensaje = null;
     if (this.email.length < 1) {
       // window.alert('Por favor, introduce un correo electrónico válido.');
-      window.alert('El campo "Usuario" es obligatorio');
-      return false;
+      mensaje = 'El campo "Usuario" es obligatorio';
     }
 
     if (this.passw.length < 1) {
-      window.alert('El campo "Contraseña" es obligatorio');
+      mensaje = 'El campo "Contraseña" es obligatorio';
+    }
+
+    if (mensaje) {
+      this._snackBar.open(mensaje, '', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 5000,
+        direction:'ltr',
+        data:{
+          message:''
+        }
+      });
       return false;
     }
 

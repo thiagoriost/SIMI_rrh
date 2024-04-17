@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { directus } from '../../../../core/services/directus';
 import { Intf_user, Users, intf_convocatoria, responseConvocatorias } from '../../../../share/interface/interfaces';
 import { StoreApp } from '../../../../core/store/storeApp';
-import { getposter } from '../../../../core/api/api';
 import { urlImg } from '../../../../share/utils/constas';
 
 

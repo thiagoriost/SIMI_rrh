@@ -143,3 +143,40 @@ export const getposter = async (token:string) => {
 //   "mode": "cors",
 //   "credentials": "include"
 // });
+
+
+/**
+ * tipo Dominio
+ */
+// fetch("http://172.19.3.143:8055/items/Tipo_Dominio?limit=25&fields[]=Descripcion_Dominio&fields[]=Nombre_Tabla&fields[]=Tipo_Dominio&sort[]=Tipo_Dominio&page=1", {
+//   "headers": {
+//     "accept": "application/json, text/plain, */*",
+//     "accept-language": "es-419,es",
+//     "sec-gpc": "1"
+//   },
+//   "referrer": "http://172.19.3.143:8055/admin/content/Tipo_Dominio",
+//   "referrerPolicy": "strict-origin-when-cross-origin",
+//   "body": null,
+//   "method": "GET",
+//   "mode": "cors",
+//   "credentials": "include"
+// });
+
+/**
+ * Valores Dominio
+ */
+
+// fetch("http://172.19.3.143:8055/items/Valores_Dominio?limit=25&fields[]=Descripcion_Valor&fields[]=Id_Valor_Dom_Padre&fields[]=Tipo_Dominio&fields[]=Valor_Dominio&fields[]=Id_Valores_Dominio&sort[]=Id_Valores_Dominio&page=1", {
+//   "headers": {
+//     "accept": "application/json, text/plain, */*",
+//     "accept-language": "es-419,es",
+//     "sec-gpc": "1"
+//   },
+//   "referrer": "http://172.19.3.143:8055/admin/content/Valores_Dominio",
+//   "referrerPolicy": "strict-origin-when-cross-origin",
+//   "body": null,
+//   "method": "GET",
+//   "mode": "cors",
+//   "credentials": "include"
+// });
+

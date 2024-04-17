@@ -3,6 +3,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DatumGruposInvestigacion, GruposInvestigacion, MocoResponseGruposInvestigacion } from '../../../../core/services/db_interfaces/Grupos_Investigacion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DatumLineasInvestigacion, LineasInvestigacion, MocoResponseLineasInvestigacion } from '../../../../core/services/db_interfaces/Lineas_Investigacion';
+import { directus } from '../../../../core/services/directus';
 
 @Component({
   selector: 'app-grupos-investigacion',
@@ -23,17 +24,16 @@ export class GruposInvestigacionComponent implements OnInit{
     // this.editor = new Editor();
     this.getGruposLineasInvestigacion();
     // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
-    // alert("falta la validacion de los check de los grupos de investigación")
   }
 
 
   async getGruposLineasInvestigacion() {
     try {
-      // let responseLineasInvestigacion: LineasInvestigacion = await directus.items('Lineas_Investigacion').readByQuery({ sort: ['Id_Linea_Investigacion'] })  as LineasInvestigacion;
-      let responseLineasInvestigacion: LineasInvestigacion =  MocoResponseLineasInvestigacion;
+      let responseLineasInvestigacion: LineasInvestigacion = await directus.items('Lineas_Investigacion').readByQuery({ sort: ['Id_Linea_Investigacion'] })  as LineasInvestigacion;
+      // let responseLineasInvestigacion: LineasInvestigacion =  MocoResponseLineasInvestigacion;
 
-      // let responseGruposInvestigacion: GruposInvestigacion = await directus.items('Grupos_Investigacion').readByQuery({ sort: ['Id_Grupo_Investigacion'] })  as GruposInvestigacion;
-      let responseGruposInvestigacion: GruposInvestigacion = MocoResponseGruposInvestigacion ;
+      let responseGruposInvestigacion: GruposInvestigacion = await directus.items('Grupos_Investigacion').readByQuery({ sort: ['Id_Grupo_Investigacion'] })  as GruposInvestigacion;
+      // let responseGruposInvestigacion: GruposInvestigacion = MocoResponseGruposInvestigacion ;
       this.ordenarLineasInvestigacionConGrupos(responseLineasInvestigacion.data, responseGruposInvestigacion.data);
     } catch (error) {
       console.log({error});
@@ -45,7 +45,7 @@ export class GruposInvestigacionComponent implements OnInit{
     GruposInvestigacion = GruposInvestigacion.map(e => e = {...e, lineasInvestigacion:[]})
     GruposInvestigacion.forEach(GI => {
       LineasInvestigacion.forEach(LI => {
-        if (LI.id_grupo_investigacion == GI.Id_Grupo_Investigacion) GI.lineasInvestigacion?.push(LI)
+        if (LI.Id_Grupo_Investigacion == GI.Id_Grupo_Investigacion) GI.lineasInvestigacion?.push(LI)
       });
     });
 
@@ -61,7 +61,7 @@ export class GruposInvestigacionComponent implements OnInit{
     console.log(LI);
     let LineaIvestigacionSelected = this.formulario.value.LineaIvestigacionSelected;
     if (adicionarLineaInv) {
-      this.formulario.controls['LineaIvestigacionSelected'].setValue([...LineaIvestigacionSelected, LI])
+      this.formulario.controls['LineaIvestigacionSelected'].setValue([...LineaIvestigacionSelected, LI.Id_Linea_Investigacion])
 
     } else {
       LineaIvestigacionSelected = LineaIvestigacionSelected.filter((linInv: { Id_Linea_Investigacion: string; }) => linInv.Id_Linea_Investigacion !== LI.Id_Linea_Investigacion)

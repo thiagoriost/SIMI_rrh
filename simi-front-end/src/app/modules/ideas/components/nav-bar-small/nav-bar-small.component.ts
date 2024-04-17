@@ -17,6 +17,7 @@ export class NavBarSmallComponent {
   constructor(private router: Router) { }
 
   gologOut() {
+    localStorage.clear()
     this.router.navigate(['/login']);
   }
   goconfiguraciones() {

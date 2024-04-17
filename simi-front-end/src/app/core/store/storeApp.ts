@@ -1,19 +1,43 @@
 import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
 import { int_Login, intf_convocatoria } from "../../share/interface/interfaces";
+import { DataUsuario, Usuario } from "../services/db_interfaces/Usuario";
 
 export interface int_store{
-  login: int_Login;
+  usuario: DataUsuario;
   spinnerOn: boolean;
   convocatoriaSelected: intf_convocatoria;
 }
 
 
 const initialState: int_store = {
-  login:{
-    data:{
-      access_token:'',
-      expires:0
-    }
+  usuario:{
+    theme_light_overrides:'',
+    theme_dark_overrides:'',
+    id:'',
+    first_name:'',
+    last_name:'',
+    password:'',
+    location:'',
+    title:'',
+    description:'',
+    tags:'',
+    avatar:'',
+    tfa_secret:'',
+    status:'',
+    role:'',
+    token:'',
+    last_access:'',
+    last_page:'',
+    theme_light:'',
+    provider:'',
+    external_identifier:'',
+    email:'',
+    auth_data:'',
+    appearance:'',
+    email_notifications:false,
+    theme_dark:'',
+    language:'',
+
   },
   spinnerOn: false,
   convocatoriaSelected:{
@@ -33,11 +57,11 @@ const initialState: int_store = {
 export const StoreApp = signalStore(
   {providedIn:'root'},
   withState(initialState),
-  withMethods(({login, ...store})=>({
+  withMethods(({usuario, ...store})=>({
 
-    updateLogin(log:int_Login){
-      // const updateLogin = {...login(), log}
-      patchState(store, {login:log})
+    updateLogin(log:DataUsuario){
+      // const updateLogin = {...usuario(), log}
+      patchState(store, {usuario:log})
     },
 
     changeSpinner(change:boolean){
