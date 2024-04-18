@@ -30,6 +30,7 @@
     flex-direction: column;
     min-width: 100%;
     max-width: 100%;
+    margin-top: 4px;
     width: 100%;
     padding: 20px;
     border-radius: 20px;
@@ -139,16 +140,23 @@ h2{
 .generalDelProponente{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: repeat(1, 1fr);
   grid-column-gap: 10px;
   grid-row-gap: 0px;
   padding: 20px;
   border-radius: 20px;
   border: 1px solid blue;
 
+  .CampoEntidad{
+    display: flex;
+    flex-direction: column;
+  }
+
   .date{
     text-align: justify;
     color: gray;
+    // align-content: center;
+    // margin-top: 45px;
 
     .dateTitle{
       margin: 0;
@@ -172,6 +180,9 @@ h2{
     }
   }
 
+  .entidad{
+    display: flex;
+  }
 }
 .tootlip{
   display: none;
@@ -221,3 +232,6 @@ h2{
 
 }
 
+.DF{
+  display: flex;
+}

@@ -4,3 +4,8 @@ export const constantesApp = {
   DEPENDIGAC: 'DEPENDIGAC',
   Valores_Dominio: 'Valores_Dominio'
 }
+
+export const constantesNewIdea = {
+  Interna: 'Interna',
+  Externa: 'Externa'
+}

@@ -12,21 +12,39 @@
     <h2>General Del Proponente</h2>
   </div>
   <div  class="generalDelProponente">
-
-    <div class="contenedor">
+    <div class="CampoEntidad">
+      <p class="">Entidad o dependencia originadora de la idea</p>
+      <mat-radio-group class="DF" aria-label="Select an option" (change)="onCheckboxChangeEntidadInterna($event)">
+        <mat-radio-button  color="primary"  value="{{Interna}}">{{Interna}}</mat-radio-button>
+        <mat-radio-button color="primary" value="{{Externa}}">{{Externa}}</mat-radio-button>
+      </mat-radio-group>
+      <!-- <mat-checkbox color="primary"  (change)="onCheckboxChangeEntidadInterna($event)" [checked]="EntidadInterna">Interna</mat-checkbox>
+      <mat-checkbox color="primary"  (change)="onCheckboxChangeEntidadExterna($event)" [checked]="EntidadExterna">Externa</mat-checkbox> -->
+    </div>
+    <div class="contenedor ">
+      @if(EntidadInterna){
         <mat-form-field>
-          <p class="tootlip">Entidad o dependencia originadora de la idea</p>
           <mat-label >Entidad o dependencia originadora de la idea</mat-label>
-          <mat-select disableOptionCentering="true" formControlName="Entidad">
+          <p class="tootlip">Entidad o dependencia originadora de la idea</p>
+          <mat-select disableOptionCentering="true" formControlName="Entidad" id="EntidadSelect">
             <mat-option>Seleccione...</mat-option>
             @for (entidad of Entidades; track entidad) {
               <mat-option [value]="entidad.Descripcion_Valor">{{entidad.Descripcion_Valor}}</mat-option>
             }
-        </mat-select>
-        <!-- <input formControlName="Entidad" matInput placeholder="Proponente" value="">-->
+          </mat-select>
+        </mat-form-field>
         @if (!validacionCampo("Entidad")) { <mat-error>{{getErrorCampo("Entidad")}}</mat-error> }
-      </mat-form-field>
+      }
+      @if(EntidadExterna){
+        <mat-form-field>
+          <mat-label >Entidad o dependencia originadora de la idea</mat-label>
+          <p class="tootlip">Entidad o dependencia originadora de la idea</p>
+          <input formControlName="Entidad" matInput placeholder="Proponente" value="" id="EntidadInput">
+        </mat-form-field>
+        @if (!validacionCampo("Entidad")) { <mat-error>{{getErrorCampo("Entidad")}}</mat-error> }
+      }
     </div>
+
 
     <div class="contenedor date">
         <p class="dateTitle">Día / Mes / Año</p>
@@ -117,6 +135,17 @@
         [banderaValidacionLineasInvestigacionSeleccionadas]="banderaValidacionLineasInvestigacionSeleccionadas"
        ></app-grupos-investigacion>
 
+       <mat-divider></mat-divider>
+
+       <div class="fieldImputText">
+         <p class="label">URL Cronograma</p>
+         <p class="label2">url del directorio donde se encuentre el documento cronograma preliminar del proyecto, defina responsables y duración de este.</p>
+         <mat-form-field class="matFormField">
+           <textarea formControlName="URL_Cronograma" #tiempo class="textA" matInput placeholder="URL del Cronograma"></textarea>
+           <mat-hint align="end" style="text-align: end;">{{tiempo.value.length}} / 150</mat-hint>
+           @if (!validacionCampo("URL_Cronograma")) { <mat-error>{{getErrorCampo("URL_Cronograma")}}</mat-error> }
+         </mat-form-field>
+       </div>
        <mat-divider></mat-divider>
 
        <div class="fieldImputText">

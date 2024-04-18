@@ -19,6 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ListIdeasComponent implements OnInit {
 
+
   store = inject(StoreApp)
 
   displayedColumns: string[] = ['codigo', 'tituloIdea', 'tipoProyecto', 'anio', 'fechaHoraRegistro', 'estado', 'actions'];
@@ -35,7 +36,8 @@ export class ListIdeasComponent implements OnInit {
     console.log("ngOnInit ListIdeasComponent");
 
     if (localStorage.getItem("auth_token")) {
-      this.getIdeas_Investigacion()
+      this.getIdeas_Investigacion();
+      this.store.setIdeaSeleccionanda(initDataIdeaSeleccionada)
     } else {
       this._snackBar.open(`Sesión expirada`, '', {
         horizontalPosition: 'center',
@@ -69,8 +71,14 @@ export class ListIdeasComponent implements OnInit {
     this.dataSource.paginator = this.paginator; // Asigna el paginador a la fuente de datos
   }
 
-  goRegistrarIdea() {
-    console.log("goRegistrarIdea");
+  goRegistrarIdea(ideaSeleccionanda: Ideas_Investigacion) {
+    console.log(ideaSeleccionanda);
+    // set ideaSeleccionada en el store
+    this.store.setIdeaSeleccionanda(ideaSeleccionanda);
+    this.router.navigate(["/home/idea"])
+  }
+
+  goRegistrarNuevaIdea(){
     this.router.navigate(["/home/idea"])
   }
 
@@ -81,14 +89,14 @@ export class ListIdeasComponent implements OnInit {
 
 }
 
-export interface PeriodicElement {
+/* export interface PeriodicElement {
   tituloIdea: string;
   codigo: number;
   tipoProyecto: number;
   anio: string;
   fechaHoraRegistro: string;
   estado: string;
-}
+} */
 
 /* const ELEMENT_DATA: PeriodicElement[] = [
   {codigo: 1, tituloIdea: 'Hydrogen', tipoProyecto: 1.0079, anio: 'H', fechaHoraRegistro: '465456', estado: 'Aprobado'},
@@ -113,3 +121,35 @@ export interface PeriodicElement {
   {codigo: 20, tituloIdea: 'Calcium', tipoProyecto: 40.078, anio: 'Ca', fechaHoraRegistro: '465456', estado: 'Aprobado'},
 ]; */
 
+
+
+export const initDataIdeaSeleccionada: Ideas_Investigacion = {
+  Id_Idea_Investigacion:'',
+  Usuario_Creador:'',
+  Fecha_Creacion:'',
+  Id_Convocatoria:'',
+  Codigo_Idea:'',
+  Entidad:'',
+  Id_Macroproyecto:'',
+  Id_Dependencia_IGAC:'',
+  URL_Cronograma:'',
+  Fecha_Idea:'',
+  Id_Ponente:'',
+  Titulo_Idea:'',
+  Investigacion_Cientifica:'',
+  Desarrollo_Tecnologico:'',
+  Tiempo_Ejecucion:'',
+  Innovacion:'',
+  Lugar_Ejecucion:'',
+  Nuevo_Conocimiento:'',
+  Tecnologico_Innovacion:'',
+  Apropiacion_Conocimiento:'',
+  Formacion_CTEL:'',
+  Problema_Idea:'',
+  Antecedentes:'',
+  Justificacion:'',
+  Descripcion_Idea:'',
+  Bibliografia_Empleada:'',
+  Validada:'',
+  Fecha_Validacion:'',
+}

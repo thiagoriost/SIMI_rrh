@@ -126,6 +126,7 @@ body{
   transform: translate3d(0, 0, 0);
   z-index: 10;
   background-color: aqua;
+  display: none;
 }
 .swiper-pagination-bullets{
   background-color: aqua !important;
@@ -162,4 +163,8 @@ body{
 
 .mat-mdc-form-field-error{
   font-size: small;
+}
+
+.mat-mdc-form-field-infix {
+  width: 340px;
 }

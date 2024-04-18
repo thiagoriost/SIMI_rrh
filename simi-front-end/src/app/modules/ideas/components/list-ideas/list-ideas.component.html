@@ -6,7 +6,7 @@
     </div>
     <div class="btnRegistrarIdea">
       <button
-              (click)="goRegistrarIdea()"
+              (click)="goRegistrarNuevaIdea()"
               mat-raised-button
               disabledInteractive
               matTooltip="This is a tooltip!"
@@ -58,8 +58,8 @@
           <th mat-header-cell *matHeaderCellDef style="width: 20px;"> ACCIONES</th>
           <td mat-cell *matCellDef="let element">
             <div class="BTNsAcciones">
-              <mat-icon (click)="goRegistrarIdea()" aria-hidden="false" aria-label="Logout icon" fontIcon="visibility" class="pointer"></mat-icon>
-              <mat-icon (click)="goRegistrarIdea()" aria-hidden="false" aria-label="Logout icon" fontIcon="settings_backup_restore" class="pointer"></mat-icon>
+              <mat-icon (click)="goRegistrarIdea(element)" aria-hidden="false" aria-label="Logout icon" fontIcon="visibility" class="pointer"></mat-icon>
+              <mat-icon (click)="goRegistrarIdea(element)" aria-hidden="false" aria-label="Logout icon" fontIcon="settings_backup_restore" class="pointer"></mat-icon>
             </div>
           </td>
         </ng-container>

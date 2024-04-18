@@ -1,11 +1,13 @@
 import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
-import { int_Login, intf_convocatoria } from "../../share/interface/interfaces";
+import { Ideas_Investigacion, int_Login, intf_convocatoria } from "../../share/interface/interfaces";
 import { DataUsuario, Usuario } from "../services/db_interfaces/Usuario";
+import { initDataIdeaSeleccionada } from "../../modules/ideas/components/list-ideas/list-ideas.component";
 
 export interface int_store{
   usuario: DataUsuario;
   spinnerOn: boolean;
   convocatoriaSelected: intf_convocatoria;
+  ideaSeleccionanda: Ideas_Investigacion;
 }
 
 
@@ -51,7 +53,8 @@ const initialState: int_store = {
     Fecha_Limite: new Date,
     Descripcion: "",
     Poster_Convocatoria: ""
-  }
+  },
+  ideaSeleccionanda: initDataIdeaSeleccionada
 }
 
 export const StoreApp = signalStore(
@@ -70,6 +73,10 @@ export const StoreApp = signalStore(
 
     setConvocatoriaSelected(convSel: intf_convocatoria){
       patchState(store, {convocatoriaSelected:convSel})
+    },
+
+    setIdeaSeleccionanda(ideaSeleccionanda: Ideas_Investigacion){
+      patchState(store, {ideaSeleccionanda})
     }
 
 

@@ -1,17 +1,20 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit, inject} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Router } from '@angular/router';
-
+import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
+import { MatButtonModule } from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {MatCheckboxChange, MatCheckboxModule} from '@angular/material/checkbox';
+import { Router } from '@angular/router';
+
 import { Editor, NgxEditorModule, Toolbar, toDoc, toHTML } from 'ngx-editor';
 import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 import { FieldInputEditTextComponent } from '../../../../components/field-input-edit-text/field-input-edit-text.component';
-import { intf_camposFieldEditText } from '../../../../share/interface/interfaces';
+import { Ideas_Investigacion, intf_camposFieldEditText } from '../../../../share/interface/interfaces';
 import { ToastMsgComponent } from '../../../../components/toast-msg/toast-msg.component';
 import { CommonModule } from '@angular/common';
 
@@ -20,30 +23,26 @@ import { style } from '@angular/animations';
 import { directus } from '../../../../core/services/directus';
 import { DatumLineasInvestigacion, LineasInvestigacion, MocoResponseLineasInvestigacion } from '../../../../core/services/db_interfaces/Lineas_Investigacion';
 import { DatumGruposInvestigacion, GruposInvestigacion, MocoResponseGruposInvestigacion } from '../../../../core/services/db_interfaces/Grupos_Investigacion';
-import { MatButtonModule } from '@angular/material/button';
 import { GruposInvestigacionComponent } from '../../components/grupos-investigacion/grupos-investigacion.component';
 import { TipoProyectoComponent } from '../../components/tipo-proyecto/tipo-proyecto.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { constantesApp } from '../../../../share/utils/constas';
+import { constantesApp, constantesNewIdea } from '../../../../share/utils/constas';
 import { DatumValoresDominio, ValoresDominio } from '../../../../core/services/db_interfaces/Valores_Dominio';
-
-
-
+import { StoreApp } from '../../../../core/store/storeApp';
+import { BaseComponent } from '../../../../components/base/base.component';
 
 @Component({
-  selector: 'app-new-idea-page',
-  standalone: true,
-  imports: [CommonModule, MatFormFieldModule, // lo emplea mat-error entre otros
-     MatSelectModule, MatInputModule, HttpClientModule,
-    FormsModule, ReactiveFormsModule, MatIconModule, MatDividerModule, MatCheckboxModule,
-    GruposInvestigacionComponent, FieldInputEditTextComponent, ToastMsgComponent, AngularEditorModule, MatButtonModule,
-    TipoProyectoComponent
+  selector: 'app-new-idea-page', standalone: true,
+  imports: [CommonModule, MatRadioModule, MatFormFieldModule, // lo emplea mat-error entre otros
+     MatSelectModule, MatInputModule, HttpClientModule, FormsModule, ReactiveFormsModule, MatIconModule, MatDividerModule, MatCheckboxModule,
+    GruposInvestigacionComponent, FieldInputEditTextComponent, ToastMsgComponent, AngularEditorModule, MatButtonModule, TipoProyectoComponent
   ],
-  templateUrl: './new-idea-page.component.html',
-  styleUrl: './new-idea-page.component.scss',
+  templateUrl: './new-idea-page.component.html', styleUrl: './new-idea-page.component.scss',
 })
-export class NewIdeaPageComponent implements OnInit, OnDestroy{
+export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDestroy{
 
+
+
+  store = inject(StoreApp)
   Entidades: DatumValoresDominio[] = [];
 
   camposFieldEditText: intf_camposFieldEditText[] = [
@@ -757,7 +756,7 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
     Desarrollo_Tecnologico: [false,[],[]],
     Innovacion: [false,[],[]],
 
-    URL_Cronograma: ['url.prueba.com',[Validators.required],[]],
+    URL_Cronograma: ['',[Validators.required, Validators.maxLength(150)],[]],
 
     tipoProyectoselected: [[],[Validators.required],[]],
     LineaIvestigacionSelected: [[],[Validators.required],[]],
@@ -792,17 +791,49 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
     Bibliografia_Empleada: [/* { value: this.jsonDoc, disabled: false } */,[Validators.required],[]],
 
   })
+  Interna: string = constantesNewIdea.Interna;
+  Externa: string = constantesNewIdea.Externa;
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private _snackBar: MatSnackBar){
+  constructor(router: Router, private formBuilder: FormBuilder, private _snackBar: MatSnackBar){
+    super(router);
   }
 
   ngOnInit(): void {
-    // this.editor = new Editor();
-    // this.getGruposLineasInvestigacion();
     this.validateSesionTime();
     this.getValores_Dominio();
+
+    console.log(" in NewIdeaPageComponent ");
+
+    this.verificaSiseDebeAutoCompletarElFormulario();
+
+
+    // this.editor = new Editor();
+    // this.getGruposLineasInvestigacion();
     // this.setDataTestForm();
     // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
+  }
+  verificaSiseDebeAutoCompletarElFormulario(){
+    const ideaSeleccionanda: Ideas_Investigacion = this.store.ideaSeleccionanda()
+    console.log(ideaSeleccionanda);
+    if (ideaSeleccionanda.Codigo_Idea != '') {
+      // debugger
+      const camposIdeaSeleccionanda = Object.keys(ideaSeleccionanda);
+      camposIdeaSeleccionanda.forEach(campo => {
+        // console.log(`${e} => `, ideaSeleccionanda[e])
+        if (this.formulario.controls[campo]) {
+          this.formulario.controls[campo].setValue(ideaSeleccionanda[campo])
+        }
+    })
+      /* camposIdeaSeleccionanda.forEach(campo => {
+        if (ideaSeleccionanda[campo] != null) {
+
+          console.log(ideaSeleccionanda[campo]);
+        }
+
+        // this.formulario.controls[campo].setValue(ideaSeleccionanda[campo]);
+      }) */
+
+    }
   }
   async getValores_Dominio() {
     const Valores_Dominio = directus.items(constantesApp.Valores_Dominio);
@@ -823,13 +854,7 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
     this.Entidades = filterValores_Dominio.data
 
   }
-  validateSesionTime(){
-    const auth_token = localStorage.getItem("auth_token");
-    console.log({auth_token});
-    if (!auth_token) {
-      this.router.navigate(['/login']);
-    }
-  }
+
 
   /* async getGruposLineasInvestigacion() {
     try {
@@ -877,15 +902,10 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
 
   } */
 
-  ngOnDestroy(): void {
-    // this.editor?.destroy();
+  ngOnDestroy(): void { // this.editor?.destroy();
   }
 
-  goDashBoard() {
-
-    this.router.navigate(['/home/dashboard']);
-
-  }
+  goDashBoard() { /* this.router.navigate(['/home/dashboard']); */ }
 
   resetFormulario():void{
     this.formulario.reset(
@@ -903,6 +923,21 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
   fnValidacionFecha():boolean{
     this.validacionFecha = (this.formulario.controls["Fecha_Idea"].errors)?true:false
     return (this.formulario.controls["Fecha_Idea"].errors)?true:false
+  }
+
+  EntidadInterna: boolean = false;
+  EntidadExterna: boolean = false;
+  onCheckboxChangeEntidadInterna($event: MatRadioChange) {
+    console.log("onCheckboxChangeEntidadInterna",  $event);
+
+    if ($event.value == constantesNewIdea.Interna) {
+      this.EntidadInterna = true
+      this.EntidadExterna = false
+    } else {
+      this.EntidadInterna = false
+      this.EntidadExterna = true
+      this.formulario.controls["Entidad"].setValue('')
+    }
   }
 
   validacionCampo(field: string){
@@ -1042,7 +1077,7 @@ export class NewIdeaPageComponent implements OnInit, OnDestroy{
             duration: 3000,
             direction:'ltr'
           });
-          this.router.navigate(['/home/dashboard']);
+          /* this.router.navigate(['/home/dashboard']); */
         }
 
 

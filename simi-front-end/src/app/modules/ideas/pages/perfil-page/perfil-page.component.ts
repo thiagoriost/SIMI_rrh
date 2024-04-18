@@ -9,4 +9,12 @@ import { Component } from '@angular/core';
 })
 export class PerfilPageComponent {
 
+
+  htmlString: any = `<font face="Arial">
+    <p>
+     Hi <b> Mundo</b>
+    </p>
+    eee
+    </font>`;
+
 }

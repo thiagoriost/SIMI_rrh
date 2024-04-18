@@ -3,13 +3,14 @@ export interface Response_Ideas_Investigacion {
 }
 
 export interface Ideas_Investigacion {
+  [key: string]: any;
   Id_Idea_Investigacion:    string;
   Usuario_Creador:          string;
   Fecha_Creacion:           string;
-  Id_Convocatoria:          null;
+  Id_Convocatoria:          string | null;
   Codigo_Idea:              string;
   Entidad:                  string;
-  Id_Macroproyecto:         null;
+  Id_Macroproyecto:         string | null;
   Id_Dependencia_IGAC:      string;
   URL_Cronograma:           string;
   Fecha_Idea:               string;

@@ -4,6 +4,8 @@ import { DatumGruposInvestigacion, GruposInvestigacion, MocoResponseGruposInvest
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DatumLineasInvestigacion, LineasInvestigacion, MocoResponseLineasInvestigacion } from '../../../../core/services/db_interfaces/Lineas_Investigacion';
 import { directus } from '../../../../core/services/directus';
+import { NewIdeaPageComponent } from '../../pages/new-idea-page/new-idea-page.component';
+import { DashboardPageComponent } from '../../pages/dashboard-page/dashboard-page.component';
 
 @Component({
   selector: 'app-grupos-investigacion',
@@ -13,14 +15,14 @@ import { directus } from '../../../../core/services/directus';
   templateUrl: './grupos-investigacion.component.html',
   styleUrl: './grupos-investigacion.component.scss'
 })
-export class GruposInvestigacionComponent implements OnInit{
+export class GruposInvestigacionComponent extends DashboardPageComponent implements OnInit {
   @Input() banderaValidacionLineasInvestigacionSeleccionadas: boolean = false;//controla el mensaje de error, campo requerido
   @Input() formulario: any
   gruposInvestigacion: DatumGruposInvestigacion[] = [];
 
 
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     // this.editor = new Editor();
     this.getGruposLineasInvestigacion();
     // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
@@ -37,6 +39,7 @@ export class GruposInvestigacionComponent implements OnInit{
       this.ordenarLineasInvestigacionConGrupos(responseLineasInvestigacion.data, responseGruposInvestigacion.data);
     } catch (error) {
       console.log({error});
+      this.validateSesionTime() // de DashboardPageComponent
     }
   }
   ordenarLineasInvestigacionConGrupos(LineasInvestigacion: DatumLineasInvestigacion[], GruposInvestigacion: DatumGruposInvestigacion[]) {
