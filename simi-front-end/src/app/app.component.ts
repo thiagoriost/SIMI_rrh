@@ -13,6 +13,11 @@ import { StoreApp } from './core/store/storeApp';
 })
 export class AppComponent {
 
+  /**
+   * Instanciación del store
+   * para:
+   *  activar el spinner del loading
+   */
   store = inject(StoreApp)
 
 }

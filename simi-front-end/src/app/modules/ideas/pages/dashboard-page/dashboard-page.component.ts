@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TopBannerComponent } from '../../components/top-banner/top-banner.component';
 import { ListIdeasComponent } from '../../components/list-ideas/list-ideas.component';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { StoreApp } from '../../../../core/store/storeApp';
+import { BaseComponent } from '../../../../components/base/base.component';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -12,29 +12,14 @@ import { StoreApp } from '../../../../core/store/storeApp';
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
 })
-export class DashboardPageComponent implements OnInit{
+export class DashboardPageComponent extends BaseComponent implements OnInit{
 
-  store = inject(StoreApp)
-
-  constructor(private router: Router){}
+  constructor(router: Router){
+    super(router);
+  }
 
   ngOnInit(): void {
-    this.validateSesionTime();
-  }
-
-  validateSesionTime(){
-    const auth_token = localStorage.getItem("auth_token");
-    console.log({auth_token});
-    if (!auth_token) {
-      this.router.navigate(['/login']);
-    }
-  }
-
-  goRegistrarIdea() {
-    this.router.navigate(['/home/idea']);
-  }
-  goConvocatoria() {
-    this.router.navigate(['/home/convocatoria']);
+    this.validateSesionTime(); // valida si la sesion esta activa
   }
 
 }

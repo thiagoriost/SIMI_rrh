@@ -28,7 +28,9 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
     // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
   }
 
-
+  /**
+   * Obtiene desde directus las lineas y grupos de investigación para ser renderizadas en el front
+   */
   async getGruposLineasInvestigacion() {
     try {
       let responseLineasInvestigacion: LineasInvestigacion = await directus.items('Lineas_Investigacion').readByQuery({ sort: ['Id_Linea_Investigacion'] })  as LineasInvestigacion;
@@ -42,6 +44,12 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
       this.validateSesionTime() // de DashboardPageComponent
     }
   }
+
+  /**
+   * Ordena las lineas de investigación por grupo de investigación
+   * @param LineasInvestigacion
+   * @param GruposInvestigacion
+   */
   ordenarLineasInvestigacionConGrupos(LineasInvestigacion: DatumLineasInvestigacion[], GruposInvestigacion: DatumGruposInvestigacion[]) {
     console.log(LineasInvestigacion);
 
@@ -58,6 +66,12 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
 
   }
 
+  /**
+   * Metodo para agregar y eliminar linea de investigación seleccionado
+   * @param GI grupo de investigación
+   * @param LI linea de investigación
+   * @param adicionarLineaInv bandera para saber si se debe adicionar o eliminar del array de seleccionados
+   */
   checkedLI(GI: DatumGruposInvestigacion, LI: DatumLineasInvestigacion, adicionarLineaInv: any): void {
     console.log(adicionarLineaInv);
     console.log(GI);
@@ -65,9 +79,8 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
     let LineaIvestigacionSelected = this.formulario.value.LineaIvestigacionSelected;
     if (adicionarLineaInv) {
       this.formulario.controls['LineaIvestigacionSelected'].setValue([...LineaIvestigacionSelected, LI.Id_Linea_Investigacion])
-
     } else {
-      LineaIvestigacionSelected = LineaIvestigacionSelected.filter((linInv: { Id_Linea_Investigacion: string; }) => linInv.Id_Linea_Investigacion !== LI.Id_Linea_Investigacion)
+      LineaIvestigacionSelected = LineaIvestigacionSelected.filter((linInv:  string) => linInv !== LI.Id_Linea_Investigacion)
       this.formulario.controls['LineaIvestigacionSelected'].setValue(LineaIvestigacionSelected)
     }
     console.log(this.formulario.value.LineaIvestigacionSelected.length < 1);

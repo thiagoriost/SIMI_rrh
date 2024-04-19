@@ -41,10 +41,17 @@ import { BaseComponent } from '../../../../components/base/base.component';
 export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDestroy{
 
 
-
+  /**
+   * Instanciación del store
+   * para:
+   *  obtener la idea seleccionada
+  */
   store = inject(StoreApp)
-  Entidades: DatumValoresDominio[] = [];
+  Entidades: DatumValoresDominio[] = []; // almacenas las entidades consultadas desde directus
 
+  /**
+   * objeto ayuda para renderizar los campos de texto enrriquecido
+   */
   camposFieldEditText: intf_camposFieldEditText[] = [
     {
       label: 'Pregunta o problema que origina la ídea',
@@ -84,14 +91,18 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
   banderaValidacionLineasInvestigacionSeleccionadas = false;
   banderaValidacionTipoProyectoSeleccionando = false;
   validacionFecha = false
+  validacionEntidad = false
 
 
+  /**
+   * Texto mensaje de prueba
+   */
   textToastMensaje: string = `Velit culpa pariatur fugiat magna cupidatat id irure in deserunt laborum. Elit enim ipsum
   aute exercitation. Sit et ex aliquip do ex veniam nisi veniam ullamco aliqua. In minim voluptate pariatur elit non
   non consectetur incididunt occaecat voluptate. Non aute nulla cillum est ex ut aliqua occaecat in qui aliquip anim
   minim reprehenderit. Anim adipisicing fugiat nostrud irure labore et reprehenderit ut amet dolore veniam.`;
 
-  jsonDoc = toHTML({
+  /* jsonDoc = toHTML({
     type: "doc",
     content: [
       {
@@ -668,8 +679,11 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
         ]
       }
     ]
-  })
+  }) */
 
+  /**
+   * Objeto para configurar el header de los campos de texto enrriquecido
+   */
   config: AngularEditorConfig = {
     editable: true,
     enableToolbar: true,
@@ -741,8 +755,12 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
   };
 
   // gruposInvestigacion: DatumGruposInvestigacion[] = ["GEOMATICA","SUELOS Y ECOLOGÍA","ESTUDIOS TERRITORIALES"];
-  gruposInvestigacion: DatumGruposInvestigacion[] = [];
+  // gruposInvestigacion: DatumGruposInvestigacion[] = [];
 
+  /**
+   * obj de tipo FormGrup, donde se especifican todos los campos del formulario
+   * y su respectiva configuraión de validadciones
+   */
   public formulario: FormGroup = this.formBuilder.group({
     Entidad: ['',[Validators.required],[]],
     Fecha_Idea: ['',[Validators.required],[]],
@@ -791,8 +809,8 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
     Bibliografia_Empleada: [/* { value: this.jsonDoc, disabled: false } */,[Validators.required],[]],
 
   })
-  Interna: string = constantesNewIdea.Interna;
-  Externa: string = constantesNewIdea.Externa;
+  Interna: string = constantesNewIdea.Interna; // constantes
+  Externa: string = constantesNewIdea.Externa; // constantes
 
   constructor(router: Router, private formBuilder: FormBuilder, private _snackBar: MatSnackBar){
     super(router);
@@ -812,6 +830,11 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
     // this.setDataTestForm();
     // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
   }
+
+  /**
+   * valida si existe una idea seleccionada
+   * si existe mapea el formulario con los datos que llegan
+   */
   verificaSiseDebeAutoCompletarElFormulario(){
     const ideaSeleccionanda: Ideas_Investigacion = this.store.ideaSeleccionanda()
     console.log(ideaSeleccionanda);
@@ -835,6 +858,11 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
 
     }
   }
+
+  /**
+   * Obitene desde directus los valores dominio en este caso
+   * los de tipo dependencia IGAC
+   */
   async getValores_Dominio() {
     const Valores_Dominio = directus.items(constantesApp.Valores_Dominio);
     // const responseTipo_Dominio = await Valores_Dominio.readByQuery({limit: -1,});
@@ -907,6 +935,9 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
 
   goDashBoard() { /* this.router.navigate(['/home/dashboard']); */ }
 
+  /**
+   * Metodo para resetear todos los campos del formulario
+   */
   resetFormulario():void{
     this.formulario.reset(
       {
@@ -920,13 +951,13 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
     )
   }
 
-  fnValidacionFecha():boolean{
-    this.validacionFecha = (this.formulario.controls["Fecha_Idea"].errors)?true:false
-    return (this.formulario.controls["Fecha_Idea"].errors)?true:false
-  }
 
   EntidadInterna: boolean = false;
   EntidadExterna: boolean = false;
+  /**
+   * Metodo para renderizar el tipo de entidad que el usuario desea informar
+   * @param $event camptura el radioButtom seleccinado
+   */
   onCheckboxChangeEntidadInterna($event: MatRadioChange) {
     console.log("onCheckboxChangeEntidadInterna",  $event);
 
@@ -940,6 +971,11 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
     }
   }
 
+  /**
+   * Funcion para validar si los campos incumplen algun requerimiento configirado en el obj formulario
+   * @param field nombre del camppo específico
+   * @returns true si incumple alguna de las validaciones
+   */
   validacionCampo(field: string){
     return this.formulario.controls[field].errors && this.formulario.controls[field].touched;
   }
@@ -960,6 +996,12 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
     return hasError
   } */
 
+  /**
+   * Esta funcion valida si un campo incumple algun requerimiento, si es asi retorna el menaje
+   * que se quiere mostrar al usuario
+   * @param campo campo al que se quiere validar
+   * @returns texto que se quiere renderizar segun requerimiento que incumple
+   */
   getErrorCampo(campo: string): string {
 
     let respuesta = "";
@@ -993,14 +1035,21 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
     return respuesta
   }
 
+  /**
+   * Metodo que agrupa las validaciones de:
+   * fecha, lineas de investigacion, tipo proyecto y
+   * campos de texto enrriquesido
+   * @returns false si no cumple
+   */
   validacionesCamposRequeridos(): boolean {
 
     console.log(this.camposFieldEditText);
-    this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1;
 
+    this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1;
     this.banderaValidacionTipoProyectoSeleccionando = this.formulario.value.tipoProyectoselected.length < 1;
 
     this.validacionFecha = (this.formulario.controls["Fecha_Idea"].errors)?true:false
+    this.validacionEntidad = (this.formulario.controls["Entidad"].errors)?true:false
 
     let hasError = false;
     this.camposFieldEditText.forEach(e => {
@@ -1013,9 +1062,14 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
 
     console.log(this.camposFieldEditText);
 
-    return !(this.banderaValidacionLineasInvestigacionSeleccionadas || this.banderaValidacionTipoProyectoSeleccionando || this.validacionFecha || hasError)
+    return !(this.banderaValidacionLineasInvestigacionSeleccionadas || this.banderaValidacionTipoProyectoSeleccionando || this.validacionFecha || this.validacionEntidad || hasError)
   }
 
+  /**
+   * Metodo final que valida campos requerido y forma json final a persistir desde directus
+   * si existen campos pendientes, renderiza un mensaje informativo
+   * @param accion string
+   */
   async onSave(accion:string):Promise<void>{
 
     console.log({accion});
@@ -1023,7 +1077,7 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
       console.log(this.formulario.value);
       console.log("validacionesCamposRequeridos => ",this.validacionesCamposRequeridos());
       console.log("status => ", this.formulario.status);
-      console.log("fnValidacionFecha => ",this.fnValidacionFecha());
+
 
 
       if (this.validacionesCamposRequeridos() && this.formulario.status == "VALID" /* && !this.fnValidacionFecha() && !this.validacionCampoFieldEditText() */){
@@ -1034,6 +1088,7 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
           Innovacion, URL_Cronograma, cedula, celular, email, nombreProponente, tipoProyectoselected
         } = this.formulario.value;
 
+        // json para enviar
         let objToSend = {
           "Codigo_Idea": "00003",
           Entidad,
@@ -1067,8 +1122,8 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
 
         console.log({objToSend});
         // const result = await client.request(createItem(collection_name, item_object));
-        const Ideas_Investigacion = directus.items('Ideas_Investigacion');
-        const result = await Ideas_Investigacion.createOne(objToSend);
+        const Ideas_Investigacion = directus.items('Ideas_Investigacion'); // instancia la coleccion
+        const result = await Ideas_Investigacion.createOne(objToSend);// crean un item
         console.log(result);
         if (result) {
           this._snackBar.open(`Idea creada de forma satisfactoria`, '', {

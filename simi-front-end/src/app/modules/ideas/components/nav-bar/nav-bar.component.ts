@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router} from '@angular/router';
-import { directus } from '../../../../core/services/directus';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,17 +13,20 @@ export class NavBarComponent {
 
   constructor(private router: Router) { }
 
+  /**
+   * Metodo para desloguearse
+   */
   async gologOut() {
-    localStorage.clear()
-    this.router.navigate(['/login']);
+    localStorage.clear() // limpia localstorage
+    this.router.navigate(['/login']); //redirecciona a pagina login
   }
   goconfiguraciones() {
-    this.router.navigate(['home/config']);
+    this.router.navigate(['home/config']);//redirecciona a pagina config
   }
   goPerfil() {
-    this.router.navigate(['home/perfil']);
+    this.router.navigate(['home/perfil']);//redirecciona a pagina perfil
   }
   goDashBoard() {
-    this.router.navigate(['home/dashboard']);
+    this.router.navigate(['home/dashboard']);//redirecciona a pagina dashboard
   }
 }

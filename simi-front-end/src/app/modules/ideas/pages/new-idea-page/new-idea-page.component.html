@@ -13,12 +13,15 @@
   </div>
   <div  class="generalDelProponente">
     <div class="CampoEntidad">
-      <p class="">Entidad o dependencia originadora de la idea</p>
+      @if (validacionEntidad) { <mat-error>{{getErrorCampo("Entidad")}}</mat-error> }
+      <div style="display: flex;">
+        <p style="margin: 0;">Entidad o dependencia originadora de la idea</p>
+      </div>
       <mat-radio-group class="DF" aria-label="Select an option" (change)="onCheckboxChangeEntidadInterna($event)">
         <mat-radio-button  color="primary"  value="{{Interna}}">{{Interna}}</mat-radio-button>
         <mat-radio-button color="primary" value="{{Externa}}">{{Externa}}</mat-radio-button>
       </mat-radio-group>
-      <!-- <mat-checkbox color="primary"  (change)="onCheckboxChangeEntidadInterna($event)" [checked]="EntidadInterna">Interna</mat-checkbox>
+          <!-- <mat-checkbox color="primary"  (change)="onCheckboxChangeEntidadInterna($event)" [checked]="EntidadInterna">Interna</mat-checkbox>
       <mat-checkbox color="primary"  (change)="onCheckboxChangeEntidadExterna($event)" [checked]="EntidadExterna">Externa</mat-checkbox> -->
     </div>
     <div class="contenedor ">
@@ -33,7 +36,6 @@
             }
           </mat-select>
         </mat-form-field>
-        @if (!validacionCampo("Entidad")) { <mat-error>{{getErrorCampo("Entidad")}}</mat-error> }
       }
       @if(EntidadExterna){
         <mat-form-field>
@@ -41,7 +43,6 @@
           <p class="tootlip">Entidad o dependencia originadora de la idea</p>
           <input formControlName="Entidad" matInput placeholder="Proponente" value="" id="EntidadInput">
         </mat-form-field>
-        @if (!validacionCampo("Entidad")) { <mat-error>{{getErrorCampo("Entidad")}}</mat-error> }
       }
     </div>
 
@@ -110,7 +111,7 @@
 
        <mat-divider class="divider"></mat-divider>
 
-       <app-tipo-proyecto [formulario]="formulario" [getErrorCampo]="getErrorCampo" [validacionCampo]="validacionCampo"
+       <app-tipo-proyecto [formulario]="formulario"
         [banderaValidacionTipoProyectoSeleccionando]="banderaValidacionTipoProyectoSeleccionando"
        ></app-tipo-proyecto>
        <!-- <div class="tipoProyecto">

@@ -18,6 +18,11 @@ import { urlImg } from '../../../../share/utils/constas';
 })
 export class TopBannerComponent implements OnInit{
 
+  /**
+   * Instanciación del store
+   * para:
+   *  guardar conovacatoria seleccionada
+   */
   store = inject(StoreApp)
   convocatorias: intf_convocatoria[] = [];
 
@@ -25,7 +30,7 @@ export class TopBannerComponent implements OnInit{
 
   ngOnInit(): void {
     // this.convocatorias = this.slidess
-    if (localStorage.getItem("auth_token")) {
+    if (localStorage.getItem("auth_token")) {// valida si existe token de sesion
       this.getConvocatorias()
     } else {
       this._snackBar.open(`Sesión expirada`, '', {
@@ -41,6 +46,12 @@ export class TopBannerComponent implements OnInit{
     }
   }
 
+  /**
+   * Optiene las convocatorias desde directus
+   * Optiene los usuarios desde directus
+   * Agrega a cada convocatoria la data del usuario que creo la convocatoria
+   * Agrega a cada convocatoria la img del poster
+   */
   async getConvocatorias() {
     let getConvocatorias: responseConvocatorias = await directus.items('Convocatorias').readByQuery({ sort: ['Id_Convocatoria'] }) as responseConvocatorias;
     let convocatorias:intf_convocatoria[] = getConvocatorias.data;
@@ -71,6 +82,10 @@ export class TopBannerComponent implements OnInit{
 
   }
 
+  /**
+   * Guarda en el store la convocatoria seleccionada
+   * Redirecciona a la pagina convocatira con el codigo convocatoria seleccionada
+   */
   goConvocatoria(convSelected: intf_convocatoria) {
     console.log(convSelected);
     //set convocatoria seleccionada en el store, para ser trabajada en la page newConvocatoria

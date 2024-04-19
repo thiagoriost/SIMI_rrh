@@ -14,6 +14,12 @@ import { StoreApp } from '../../../../core/store/storeApp';
 })
 export default class HomePageComponent implements OnInit{
 
+  /**
+   * Instacianción del store
+   * para:
+   *  activar el snackBar
+   *  Traer data del usuario logueado
+   */
   store = inject(StoreApp)
 
   constructor(private _snackBar: MatSnackBar) { }

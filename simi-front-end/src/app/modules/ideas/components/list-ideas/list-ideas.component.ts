@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, OnInit, signal, inject } from '@angular/core';
+import { Component, ViewChild, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -19,25 +19,37 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ListIdeasComponent implements OnInit {
 
-
+  /**
+   * Instanciación del store
+   * para:
+   *  guardar idea seleccionada o la reinica
+   */
   store = inject(StoreApp)
 
+  /**
+   * Columnas para la tabla de ideas
+   */
   displayedColumns: string[] = ['codigo', 'tituloIdea', 'tipoProyecto', 'anio', 'fechaHoraRegistro', 'estado', 'actions'];
 
+  /**
+   * datasource que suministra info al data table
+   */
   dataSource: MatTableDataSource<Ideas_Investigacion> = new MatTableDataSource<Ideas_Investigacion>();
 
+  /**
+   * controla el paginador de la tabla ideas
+   */
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
-  // usuario: any;
 
   constructor(private router: Router, private _snackBar: MatSnackBar){}
 
   ngOnInit(): void {
     console.log("ngOnInit ListIdeasComponent");
 
-    if (localStorage.getItem("auth_token")) {
+    if (localStorage.getItem("auth_token")) { // valida si existe token de sesion
       this.getIdeas_Investigacion();
-      this.store.setIdeaSeleccionanda(initDataIdeaSeleccionada)
+      this.store.setIdeaSeleccionanda(initDataIdeaSeleccionada) // resetea idea seleccionda
     } else {
       this._snackBar.open(`Sesión expirada`, '', {
         horizontalPosition: 'center',
@@ -53,6 +65,10 @@ export class ListIdeasComponent implements OnInit {
     }
 
   }
+
+  /**
+   * Obtiene la data de ideas de investigación y la setea en el data source
+   */
   async getIdeas_Investigacion() {
     let publicData: Response_Ideas_Investigacion = await directus.items('Ideas_Investigacion').readByQuery({ sort: ['Codigo_Idea'] })  as Response_Ideas_Investigacion;
     console.log(publicData.data);
@@ -62,30 +78,32 @@ export class ListIdeasComponent implements OnInit {
     // this.fixDataToRender(publicData.data)
   }
 
-  fixDataToRender(publicData: Ideas_Investigacion) {
-
-  }
-
-
+  /**
+   * Asigna el paginador a la fuente de datos
+   */
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator; // Asigna el paginador a la fuente de datos
+    this.dataSource.paginator = this.paginator;
   }
 
+  /**
+   *
+   * @param ideaSeleccionanda
+   * Toma la idea seleccionada y la envia al store
+   * redirecciona a la pagina idea
+   */
   goRegistrarIdea(ideaSeleccionanda: Ideas_Investigacion) {
     console.log(ideaSeleccionanda);
-    // set ideaSeleccionada en el store
-    this.store.setIdeaSeleccionanda(ideaSeleccionanda);
+    this.store.setIdeaSeleccionanda(ideaSeleccionanda);// set ideaSeleccionada en el store
     this.router.navigate(["/home/idea"])
   }
 
+  /**
+   * redireccionaa la pagina nueva idea
+   */
   goRegistrarNuevaIdea(){
     this.router.navigate(["/home/idea"])
   }
 
-
-  goIdePage() {
-    this.router.navigate(['/home/idea']);
-  }
 
 }
 
@@ -122,7 +140,9 @@ export class ListIdeasComponent implements OnInit {
 ]; */
 
 
-
+/**
+ * Objeto para resetear el formulario ideas
+ */
 export const initDataIdeaSeleccionada: Ideas_Investigacion = {
   Id_Idea_Investigacion:'',
   Usuario_Creador:'',

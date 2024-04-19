@@ -21,14 +21,14 @@ import { SwiperContainer } from 'swiper/element/bundle';
 })
 export class SwiperComponent implements AfterViewInit {
   @Input() swiperContainerId = '';
-  index = 0;
-  slidePerView = 1;
 
   @ContentChild('swiper') swiperRef!: ElementRef<SwiperContainer>;
-  initialized = false;
 
   constructor() {}
 
+  /**
+   * Metodo para realiar inicializar el swiper
+   */
   ngAfterViewInit(): void {
     setTimeout(() => {
       const shadowRoot = document
@@ -39,6 +39,10 @@ export class SwiperComponent implements AfterViewInit {
     }, 300);
   }
 
+  /**
+   * Metodo que controla el cambio de banner visualizado
+   * @param prevOrNext almacena la vista actual renderizada
+   */
   changeSlide(prevOrNext: number): void {
     console.log(prevOrNext);
 
