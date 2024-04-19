@@ -1125,21 +1125,22 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
         const Ideas_Investigacion = directus.items('Ideas_Investigacion'); // instancia la coleccion
         const result = await Ideas_Investigacion.createOne(objToSend);// crean un item
         console.log(result);
+        let mensaje = ``;
         if (result) {
-          this._snackBar.open(`Idea creada de forma satisfactoria`, '', {
-            horizontalPosition: 'right',
-            verticalPosition: 'top',
-            duration: 3000,
-            direction:'ltr'
-          });
-          /* this.router.navigate(['/home/dashboard']); */
+          mensaje = `Idea creada de forma satisfactoria`;
+          this.router.navigate([`/home/dashboard`]);
+        }else{
+          mensaje = `Se presentaron inconvenientes en la comunicación, intentado mas tarde`;
         }
-
-
-
-
+        this._snackBar.open(mensaje, '', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+          direction:'ltr'
+        });
+        this.store.changeSpinner(false)
       }else{
-        this._snackBar.open(`Existen campos pendientes por completar`, '', {
+        this._snackBar.open(`Existen campos que no cumplen las validaciones`, '', {
           horizontalPosition: 'right',
           verticalPosition: 'bottom',
           duration: 3000,
