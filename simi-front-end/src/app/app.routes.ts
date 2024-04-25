@@ -7,6 +7,10 @@ import { PerfilPageComponent } from './modules/ideas/pages/perfil-page/perfil-pa
 import { NewConvocatoriaPageComponent } from './modules/ideas/pages/new-convocatoria-page/new-convocatoria-page.component';
 import { NotFoundPageComponent } from './core/pages/not-found-page/not-found-page.component';
 
+/**
+ * configuración de ruas a emplear en la aplicación
+ * @author Rigoberto Rios rigoriosh@gmail.com
+ */
 export const routes: Routes = [
 
 

@@ -18,17 +18,28 @@ export class NavBarSmallComponent {
 
   /**
    * Metodo para desloguearse
+   * limpia el local storage y redirecciona a la pagina login
    */
   async gologOut() {
     localStorage.clear() // limpia localstorage
     this.router.navigate(['/login']); //redirecciona a pagina login
   }
+
+  /**
+   * redirecciona a la pagina config-page
+   */
   goconfiguraciones() {
     this.router.navigate(['home/config']);//redirecciona a pagina config
   }
+  /**
+   * redirecciona a la pagina perfil-page
+   */
   goPerfil() {
     this.router.navigate(['home/perfil']);//redirecciona a pagina perfil
   }
+  /**
+   * redirecciona a la pagina dashboard-page
+   */
   goDashBoard() {
     this.router.navigate(['home/dashboard']);//redirecciona a pagina dashboard
   }

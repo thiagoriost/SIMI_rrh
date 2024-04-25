@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Router } from '@angular/router';
@@ -10,47 +10,47 @@ import { StoreApp } from '../../../../core/store/storeApp';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataUsuario, Usuario } from '../../../../core/services/db_interfaces/Usuario';
+import { BaseComponent } from '../../../../share/components/base/base.component';
 
+
+/**
+ * Componente encargado de renderizar la pagina de login y ejecutar
+ * la lógica de validaciones correspondiente
+ * @author Rigoberto Rios rigoriosh@gmail.com
+ */
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss'
 })
-export class LoginPageComponent {
+export class LoginPageComponent extends BaseComponent{
 
   store = inject(StoreApp)
-  email = 'rigoberto.rios@igac.gov.co';
-  passw = '123456';
+
   public formulario: FormGroup = this.formBuilder.group({
-    email:[ 'rigoberto.rios@igac.gov.co', [Validators.required],[]],
+    email:[ 'rigoberto.rios@igac.gov.co', [Validators.required, Validators.email],[]],
     passw:[ '123456', [Validators.required],[]],
   })
 
-  constructor(private router: Router, private _snackBar: MatSnackBar, private formBuilder: FormBuilder) { }
+  constructor(router: Router, _snackBar: MatSnackBar, private formBuilder: FormBuilder) {
+    super(router, _snackBar);
+  }
 
+  /**
+   * Metodo que se encarga de realizar las validaciones del formulario login
+   * y si todo ok, envia credenciales para login, si ok pasa a la ruta /home
+   */
   async goHome() {
 
       console.log("goHome");
 
-      /* this.store.updateLogin({
-        "data": {
-          "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYxNmRiNTMzLTc2NWItNDAzMC1hNmZkLTA1N2EwNTRkNTM4OCIsInJvbGUiOiJlOTRkNmI5Yy02M2JjLTRkNzEtOTAyYS1kZTU3MjJiNjg3ZmEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTcxMTQ4NjM3OSwiZXhwIjoxNzExNDg3Mjc5LCJpc3MiOiJkaXJlY3R1cyJ9.ZUi1IaFht8JUkMY0YfCb4wd8u7BHLvxnZFon_JvgPFo",
-          "expires": 900000
-        }
-      }) */
+/*
+      setTimeout(() => {
 
-      /* setTimeout(() => {
-        this._snackBar.open(`Welcome ${this.email}`, '', {
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          duration: 5000,
-          direction:'ltr',
-          data:{
-            message:'hihihih'
-          }
-        });
         console.log("spinner off");
         this.store.changeSpinner(false);
         localStorage.setItem("auth_token", JSON.stringify({
@@ -60,91 +60,35 @@ export class LoginPageComponent {
           }
         }));
         this.router.navigate(['/home']);
-      }, 3000); */
+      }, 3000);
+ */
 
-
-    if (this.validarCredenciales()/* false */) {
+    if (this.formulario.status == "VALID") {
       this.store.changeSpinner(true);
       try {
-
-        const respLogin = await directus.auth.login({ 'email': this.email, password: this.passw });
+        const {email, passw} = this.formulario.value
+        const respLogin = await directus.auth.login({ 'email': email, password: passw });
 
         if (respLogin.access_token) {
-
           console.log({respLogin});
           // this.authenticated = true;
-
           const user: DataUsuario = await directus.users.me.read() as DataUsuario;
           console.log({user});
           this.store.updateLogin(user)
           this.router.navigate(['/home']);
           this.store.changeSpinner(false);
+          this.rederMensajeToast(`Bienvenido ${user.first_name} ${user.last_name}`);
         }else{
-          this._snackBar.open(`Credenciales invalidas`, '', {
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            duration: 5000,
-            direction:'ltr',
-            data:{
-              message:''
-            }
-          });
+          this.rederMensajeToast(`Credenciales invalidas`);
           this.store.changeSpinner(false);
         }
       } catch (error:any) {
         console.log({error});
-        this._snackBar.open((error.parent.code == 'ERR_NETWORK' || error.parent.code == "ERR_BAD_RESPONSE")?`Fallo de conexión`:`Credenciales invalidas`, '', {
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          duration: 5000,
-          direction:'ltr',
-          data:{ message:'' }
-        });
+        this.rederMensajeToast((error.parent.code == 'ERR_NETWORK' || error.parent.code == "ERR_BAD_RESPONSE")?`Fallo de conexión`:`Credenciales invalidas`);
         this.store.changeSpinner(false);
 
       }
     };
-  }
-
-
-  validarCredenciales() {
-
-    // console.log({ user: this.email, passw: this.passw });
-    // let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!emailPattern.test(this.email)) {
-    /* let mensaje = null;
-    if (this.email.length < 1) {
-      // window.alert('Por favor, introduce un correo electrónico válido.');
-      mensaje = 'El campo "Usuario" es obligatorio';
-    }
-
-    if (this.passw.length < 1) {
-      mensaje = 'El campo "Contraseña" es obligatorio';
-    }
-
-    if (mensaje) {
-      this._snackBar.open(mensaje, '', {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 5000,
-        direction:'ltr',
-        data:{
-          message:''
-        }
-      });
-      return false;
-    } */
-
-    return true;
-  }
-
-  /**
-   * Funcion para validar si los campos incumplen algun requerimiento configirado en el obj formulario
-   * @param field nombre del camppo específico
-   * @returns true si incumple alguna de las validaciones
-   */
-  validacionCampo(field: string){
-    return this.formulario.controls[field].errors && this.formulario.controls[field].touched;
   }
 
 

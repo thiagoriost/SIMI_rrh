@@ -8,7 +8,10 @@ import { StoreApp } from '../../../../core/store/storeApp';
 import { urlImg } from '../../../../share/utils/constas';
 import { BaseComponent } from '../../../../share/components/base/base.component';
 
-
+/**
+ *
+ * @author Rigoberto Rios rigoriosh@gmail.com
+ */
 @Component({
   selector: 'app-top-banner',
   standalone: true,

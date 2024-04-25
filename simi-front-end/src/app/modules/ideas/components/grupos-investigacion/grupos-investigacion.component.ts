@@ -30,11 +30,25 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
     if (!this.modoVer) {
       this.getGruposLineasInvestigacion();
     }else{
-      setTimeout(() => {
+      this.ajustarDataToRenderGruposInvestigacion();
+    }
+  }
 
-        let gruposInvestigacion: any[] = [];
-        this.formulario?.value.lineas_investigacion.forEach((LI: { Id_Linea_Investigacion: { Id_Grupo_Investigacion: any; }; }) => {
-          if (gruposInvestigacion.length < 1) {
+  /**
+   * Tomas la lineas de investigación y las agrupa por grupo de investigacion y por cada grupo adiciona las lineas de Inv que tiene
+   */
+  ajustarDataToRenderGruposInvestigacion() {
+    setTimeout(() => {// este settime es para darle tiempo de que este listo el DOM de html
+      let gruposInvestigacion: any[] = [];
+      console.log(this.formulario?.value.lineas_investigacion);
+      this.formulario?.value.lineas_investigacion.forEach((LI: { Id_Linea_Investigacion: { Id_Grupo_Investigacion: any; }; }) => {
+
+          if (gruposInvestigacion.filter(GI => GI.Id_Grupo_Investigacion == LI.Id_Linea_Investigacion.Id_Grupo_Investigacion.Id_Grupo_Investigacion)[0]) {//valida si ya existe el grupo Inv
+            gruposInvestigacion.map(e => { // recorre los grupos por id de grupo, cuando lo encuentra adiciona la linea
+              if(e.Id_Grupo_Investigacion == LI.Id_Linea_Investigacion.Id_Grupo_Investigacion.Id_Grupo_Investigacion) e.lineasInvestigacion.push(LI.Id_Linea_Investigacion)
+            })
+          } else {
+            // si no existe el grupo dentro del array de grupos Inv, lo adiciona
             gruposInvestigacion.push(
               {
                 ...LI.Id_Linea_Investigacion.Id_Grupo_Investigacion,
@@ -44,33 +58,12 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
                   }
                 ]
               }
-            )
-          } else {
-
-            if (gruposInvestigacion.filter(GI => GI.Id_Grupo_Investigacion == LI.Id_Linea_Investigacion.Id_Grupo_Investigacion.Id_Grupo_Investigacion)[0]) {
-              gruposInvestigacion.push(
-                {
-                  ...LI.Id_Linea_Investigacion.Id_Grupo_Investigacion,
-                  lineasInvestigacion: [
-                    {
-                      ...LI.Id_Linea_Investigacion
-                    }
-                  ]
-                }
-              )
-            } else {
-
-            }
-
+            );
           }
-          let nuevaLI = {...LI.Id_Linea_Investigacion.Id_Grupo_Investigacion, lineasInvestigacion:[LI.Id_Linea_Investigacion]}
-          gruposInvestigacion.push(nuevaLI);
-        })
-        this.gruposInvestigacion = gruposInvestigacion;
+      });
+      this.gruposInvestigacion = gruposInvestigacion;
 
-      }, 4000);
-    }
-    // this.formulario?.controls["Entidad"].setValue("Agustin Codazzi Igac")
+    }, 1000);
   }
 
   /**

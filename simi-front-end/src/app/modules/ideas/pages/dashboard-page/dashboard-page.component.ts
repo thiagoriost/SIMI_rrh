@@ -6,6 +6,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { BaseComponent } from '../../../../share/components/base/base.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+/**
+ * Componente encargado de renderizar los siguientes componetes:
+ * app-top-banner y app-list-ideas
+ * @author Rigoberto Rios rigoriosh@gmail.com
+ */
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
@@ -19,6 +24,9 @@ export class DashboardPageComponent extends BaseComponent implements OnInit{
     super(router, _snackBar);
   }
 
+  /**
+   * cada ves que el usuario ingresa a la pagina dashBoard, valida si la sesion esta activa
+   */
   ngOnInit(): void {
     this.validateSesionTime(); // valida si la sesion esta activa
   }

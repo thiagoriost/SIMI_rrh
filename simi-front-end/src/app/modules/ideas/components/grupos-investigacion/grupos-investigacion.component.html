@@ -1,5 +1,4 @@
-<!-- @if (!modoVer || (modoVer && gruposInvestigacion.length > 0)) { -->
-  @if (true) {
+@if (!modoVer || (modoVer && gruposInvestigacion.length > 0)) {
 
   <div class="grupoLineaIvestigacion">
     <p class="label mt20">Grupo y línea de investigación a la cual estará adscrito el proyecto de investigación,
@@ -24,7 +23,7 @@
          <div class="LI">
            <section class="Section">
              @for (LI of GI.lineasInvestigacion; track $index) {
-               <mat-checkbox id="{{LI.Nombre_Linea_investigacion}}" (change)="checkedLI(GI, LI, $event.checked)" color="primary">{{LI.Nombre_Linea_investigacion}}</mat-checkbox>
+               <mat-checkbox [disabled]="modoVer" id="{{LI.Nombre_Linea_investigacion}}" checked="{{modoVer?true:false}}" (change)="checkedLI(GI, LI, $event.checked)" color="primary">{{LI.Nombre_Linea_investigacion}}</mat-checkbox>
              }
            </section>
          </div>
@@ -39,7 +38,7 @@
         <div class="LI">
           <section class="Section">
             @for (LI of GI.lineasInvestigacion; track $index) {
-              <mat-checkbox id="{{LI.Nombre_Linea_investigacion}}" (change)="checkedLI(GI, LI, $event.checked)" chcolor="primary">{{LI.Nombre_Linea_investigacion}}</mat-checkbox>
+              <mat-checkbox [disabled]="modoVer" id="{{LI.Nombre_Linea_investigacion}}" (change)="checkedLI(GI, LI, $event.checked)" chcolor="primary">{{LI.Nombre_Linea_investigacion}}</mat-checkbox>
             }
           </section>
         </div>
@@ -47,9 +46,6 @@
     </div>
 
     @if (banderaValidacionLineasInvestigacionSeleccionadas) { <mat-error>Se requiere seleccionar al menos una línea de investigación </mat-error> }
-    <!-- @if (!validacionCampo("Innovacion")) { <mat-error>Se requiere seleccionar al menos una línea de investigación </mat-error> } -->
-
-
 
   </div>
 }
