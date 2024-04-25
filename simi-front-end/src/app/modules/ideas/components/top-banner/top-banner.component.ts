@@ -1,11 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit, inject } from '@angular/core';
-import { SwiperComponent } from '../../../../components/swiper/swiper.component';
+import { SwiperComponent } from '../../../../share/components/swiper/swiper.component';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { directus } from '../../../../core/services/directus';
 import { Intf_user, Users, intf_convocatoria, responseConvocatorias } from '../../../../share/interface/interfaces';
 import { StoreApp } from '../../../../core/store/storeApp';
 import { urlImg } from '../../../../share/utils/constas';
+import { BaseComponent } from '../../../../share/components/base/base.component';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { urlImg } from '../../../../share/utils/constas';
   templateUrl: './top-banner.component.html',
   styleUrl: './top-banner.component.scss'
 })
-export class TopBannerComponent implements OnInit{
+export class TopBannerComponent extends BaseComponent implements OnInit{
 
   /**
    * Instanciación del store
@@ -26,22 +27,16 @@ export class TopBannerComponent implements OnInit{
   store = inject(StoreApp)
   convocatorias: intf_convocatoria[] = [];
 
-  constructor(private router: Router, private _snackBar: MatSnackBar){}
+  constructor(router: Router, _snackBar: MatSnackBar){
+    super(router, _snackBar);
+  }
 
   ngOnInit(): void {
     // this.convocatorias = this.slidess
     if (localStorage.getItem("auth_token")) {// valida si existe token de sesion
       this.getConvocatorias()
     } else {
-      this._snackBar.open(`Sesión expirada`, '', {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 5000,
-        direction:'ltr',
-        data:{
-          message:'hihihih'
-        }
-      });
+      this.rederMensajeToast(`Sesión expirada`);
       this.router.navigate([`/login`]);
     }
   }

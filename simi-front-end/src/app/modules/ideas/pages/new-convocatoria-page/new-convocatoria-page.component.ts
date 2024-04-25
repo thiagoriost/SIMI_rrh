@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router} from '@angular/router';
 import { StoreApp } from '../../../../core/store/storeApp';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BaseComponent } from '../../../../share/components/base/base.component';
 // import { usersSIMI } from '../../../../core/api/api';
 
 @Component({
@@ -13,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './new-convocatoria-page.component.html',
   styleUrl: './new-convocatoria-page.component.scss'
 })
-export class NewConvocatoriaPageComponent implements OnInit {
+export class NewConvocatoriaPageComponent extends BaseComponent implements OnInit {
 
   /**
    * Instanciación del store
@@ -31,7 +32,8 @@ export class NewConvocatoriaPageComponent implements OnInit {
   responsable: string;
   imgBackGround: string | undefined;
 
-  constructor(private router: Router, private _snackBar: MatSnackBar) {
+  constructor(router: Router, _snackBar: MatSnackBar) {
+    super(router, _snackBar);
     const convocatoriaSelected = this.store.convocatoriaSelected()
 
     if(!convocatoriaSelected.Codigo_Convocatoria)this.router.navigate([`/home`]);//si la convocatoria no trae un codigo lo redireccina al home
@@ -61,15 +63,7 @@ export class NewConvocatoriaPageComponent implements OnInit {
 
 //
     } else {
-      this._snackBar.open(`Sesión expirada`, '', {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 5000,
-        direction:'ltr',
-        data:{
-          message:'hihihih'
-        }
-      });
+      this.rederMensajeToast(`Sesión expirada`);
       this.router.navigate([`/login`]);
     }
 

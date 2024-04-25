@@ -27,7 +27,7 @@
         font-weight: bold;
         margin: 0;
         padding-top: 7px;
-        overflow-x: auto;
+        // overflow-x: auto;
       }
       .br1{
         border-right: 1px solid gray;
@@ -42,12 +42,12 @@
     .father{
       display: flex;
       border-bottom: 1px solid gray;
-      overflow-x: auto;
+      // overflow-x: auto;
       max-height: 250px;
       .LI{
         border-right: 1px solid gray;
         border-left: 1px solid gray;
-        overflow-x: auto;
+        // overflow-x: auto;
         padding: 5px;
       }
 

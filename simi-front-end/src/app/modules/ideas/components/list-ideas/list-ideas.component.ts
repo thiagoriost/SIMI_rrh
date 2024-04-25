@@ -7,8 +7,10 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { directus } from '../../../../core/services/directus';
 import { Ideas_Investigacion, Response_Ideas_Investigacion } from '../../../../share/interface/interfaces';
-import { StoreApp } from '../../../../core/store/storeApp';
+import { StoreApp, initConvocatoriaSelected, initDataIdeaSeleccionada } from '../../../../core/store/storeApp';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BaseComponent } from '../../../../share/components/base/base.component';
+import { get_Estados_Idea } from '../../../../core/api/api';
 
 @Component({
   selector: 'app-list-ideas',
@@ -17,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './list-ideas.component.html',
   styleUrl: './list-ideas.component.scss'
 })
-export class ListIdeasComponent implements OnInit {
+export class ListIdeasComponent extends BaseComponent implements OnInit {
 
   /**
    * Instanciación del store
@@ -42,7 +44,9 @@ export class ListIdeasComponent implements OnInit {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  constructor(private router: Router, private _snackBar: MatSnackBar){}
+  constructor(router: Router, _snackBar: MatSnackBar){
+    super(router, _snackBar);
+  }
 
   ngOnInit(): void {
     console.log("ngOnInit ListIdeasComponent");
@@ -51,15 +55,7 @@ export class ListIdeasComponent implements OnInit {
       this.getIdeas_Investigacion();
       this.store.setIdeaSeleccionanda(initDataIdeaSeleccionada) // resetea idea seleccionda
     } else {
-      this._snackBar.open(`Sesión expirada`, '', {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        duration: 5000,
-        direction:'ltr',
-        data:{
-          message:''
-        }
-      });
+      this.rederMensajeToast(`Sesión expirada`);
       this.router.navigate([`/login`]);
 
     }
@@ -70,12 +66,54 @@ export class ListIdeasComponent implements OnInit {
    * Obtiene la data de ideas de investigación y la setea en el data source
    */
   async getIdeas_Investigacion() {
-    let publicData: Response_Ideas_Investigacion = await directus.items('Ideas_Investigacion').readByQuery({ sort: ['Codigo_Idea'] })  as Response_Ideas_Investigacion;
+    const queryParams = {
+      sort: ['Codigo_Idea'],
+      fields:['Codigo_Idea', 'Titulo_Idea', 'estados.*', 'estados.Id_Estado.*', 'tipoProyecto', 'Fecha_Creacion', 'Id_Idea_Investigacion', 'Desarrollo_Tecnologico',
+      'Innovacion', 'Investigacion_Cientifica',/*  'Tiempo_Ejecucion_Proyecto',
+        'Entidad', 'Fecha_Idea', 'email', 'URL_Cronograma',  'Usuario_Creador', 'Id_Convocatoria',
+      'Id_Macroproyecto', 'Id_Dependencia_IGAC', 'Id_Ponente', 'Tiempo_Ejecucion', 'Lugar_Ejecucion', 'Nuevo_Conocimiento', 'Tecnologico_Innovacion',
+      'Apropiacion_Conocimiento', 'Formacion_CTEL', 'Problema_Idea', 'Antecedentes', 'Justificacion', 'Descripcion_Idea', 'Bibliografia_Empleada', 'Validada',
+      'Fecha_Validacion', 'lineas_investigacion.Id_Linea_Investigacion.*', 'lineas_investigacion.Id_Linea_Investigacion.Id_Grupo_Investigacion.*' */
+    ]
+    }
+    // let publicData: Response_Ideas_Investigacion = await directus.items('Ideas_Investigacion').readByQuery({ sort: ['Codigo_Idea'] })  as Response_Ideas_Investigacion;
+    let publicData: Response_Ideas_Investigacion = await directus.items('Ideas_Investigacion').readByQuery(queryParams)  as Response_Ideas_Investigacion;
     console.log(publicData.data);
-    /// guardar respuesta en dataStorage
+    this.fixDataToRender(publicData.data)
+  }
 
-    this.dataSource.data = publicData.data
-    // this.fixDataToRender(publicData.data)
+  fixDataToRender(Ideas_Investigacion: Ideas_Investigacion[]) {
+    // ajuste tipo proyecto TIPO DE PROYECTO Tecnologico_Innovacion, Desarrollo_Tecnologico, Innovacion, Investigacion_Cientifica
+    console.log({Ideas_Investigacion});
+
+    Ideas_Investigacion.map(idea => {
+      idea['tipoProyecto'] = ` ${idea.Desarrollo_Tecnologico == '1' ? 'Desarrollo Tecnologico,' :''} ${idea.Innovacion == '1' ? 'Innovacion,' :''} ${idea.Investigacion_Cientifica == '1' ? 'Investigacion Cientifica' :''}`
+    });
+
+    Ideas_Investigacion.forEach(ideaInv => {
+      if (ideaInv["estados"].length < 1) {
+
+      } else if (ideaInv["estados"].length < 2) {
+          ideaInv['Descripcion_Valor_Estado'] = ideaInv["estados"][0].Id_Estado.Descripcion_Valor
+      }else{
+          let fechaEstado = Number(new Date(ideaInv["estados"][0].Fecha_Creacion))
+          let Descripcion_Valor = ideaInv["estados"][0].Id_Estado.Descripcion_Valor
+          ideaInv["estados"].map((estado: typeEstado) => {
+              //console.log(estado.Fecha_Creacion)
+              estado.Fecha_Creacion = new Date(estado.Fecha_Creacion)
+              if (Number(estado.Fecha_Creacion) > fechaEstado) {
+                  fechaEstado = Number(estado.Fecha_Creacion)
+                  Descripcion_Valor = estado.Id_Estado.Descripcion_Valor
+              }else{
+              }
+
+          });
+          ideaInv['Descripcion_Valor_Estado'] = Descripcion_Valor
+      }
+
+  })
+
+    this.dataSource.data = Ideas_Investigacion
   }
 
   /**
@@ -93,14 +131,17 @@ export class ListIdeasComponent implements OnInit {
    */
   goRegistrarIdea(ideaSeleccionanda: Ideas_Investigacion) {
     console.log(ideaSeleccionanda);
+    ideaSeleccionanda["nombreProponente"] = this.store.usuario().first_name + " " + this.store.usuario().last_name;
+    ideaSeleccionanda["email"] = this.store.usuario().email;
     this.store.setIdeaSeleccionanda(ideaSeleccionanda);// set ideaSeleccionada en el store
-    this.router.navigate(["/home/idea"])
+    this.router.navigate([`/home/idea/${ideaSeleccionanda.Id_Idea_Investigacion}`])
   }
 
   /**
    * redireccionaa la pagina nueva idea
    */
   goRegistrarNuevaIdea(){
+    this.store.setConvocatoriaSelected(initConvocatoriaSelected); // reset el obj ConvocatoriaSelected
     this.router.navigate(["/home/idea"])
   }
 
@@ -140,36 +181,12 @@ export class ListIdeasComponent implements OnInit {
 ]; */
 
 
-/**
- * Objeto para resetear el formulario ideas
- */
-export const initDataIdeaSeleccionada: Ideas_Investigacion = {
-  Id_Idea_Investigacion:'',
-  Usuario_Creador:'',
-  Fecha_Creacion:'',
-  Id_Convocatoria:'',
-  Codigo_Idea:'',
-  Entidad:'',
-  Id_Macroproyecto:'',
-  Id_Dependencia_IGAC:'',
-  URL_Cronograma:'',
-  Fecha_Idea:'',
-  Id_Ponente:'',
-  Titulo_Idea:'',
-  Investigacion_Cientifica:'',
-  Desarrollo_Tecnologico:'',
-  Tiempo_Ejecucion:'',
-  Innovacion:'',
-  Lugar_Ejecucion:'',
-  Nuevo_Conocimiento:'',
-  Tecnologico_Innovacion:'',
-  Apropiacion_Conocimiento:'',
-  Formacion_CTEL:'',
-  Problema_Idea:'',
-  Antecedentes:'',
-  Justificacion:'',
-  Descripcion_Idea:'',
-  Bibliografia_Empleada:'',
-  Validada:'',
-  Fecha_Validacion:'',
+
+export type typeEstado = {
+  Fecha_Creacion: string | number | Date;
+  Id_Estado: {
+    Descripcion_Valor: string;
+  };
 }
+
+

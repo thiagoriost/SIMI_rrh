@@ -14,11 +14,14 @@ export class TipoProyectoComponent implements OnInit{
   // @Input() validacionCampo: any
   @Input() banderaValidacionTipoProyectoSeleccionando: boolean = false;
   @Input() formulario: any
+  @Input() modoVer: boolean = false;
   tiposProyecto: intf_dataTiposProyecto[] = [];
 
   ngOnInit(): void {
     // this.editor = new Editor();
     this.getTiposProyecto();
+    console.log(this.formulario.value);
+
   }
 
   /**

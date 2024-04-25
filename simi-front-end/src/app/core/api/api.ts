@@ -65,6 +65,55 @@ export const getposter = async (token:string) => {
 
 }
 
+export const get_Estados_Idea = async (token:string) => {
+console.log({token});
+
+  const controller = new AbortController();
+  const timerId = setTimeout(() => controller.abort(), 5000);
+  const myHeaders = new Headers();
+  myHeaders.append("authorization", `Bearer ${token}`);
+  myHeaders.append("accept", "application/json, text/plain, */*");
+  myHeaders.append("accept-language", "es-419,es");
+  myHeaders.append("if-none-match", "W/\\\"5f5-0lal4BdCHcVhoueKfZt3a3VfwE0\\");
+  myHeaders.append("sec-gpc", "1");
+  myHeaders.append("Cookie", "directus_refresh_token=CsA7UQMu1Db27tsOT8X1lJuX0dFlavktLtXOGVzyFCUjIQvy5XYqqoVAaPMiwTd8");
+
+  const raw = `{
+    "limit": "25",
+    "fields[]": "Id_Estado_Idea",
+    "alias[6cdaef6]": "Id_Estado",
+    "alias[6dd1db8e]": "Id_Estado",
+    "sort[]": "Id_Estado_Idea",
+    "page": "1"
+  }`;
+
+  const respo = await fetch("http://172.19.3.143:8055/items/Estados_Idea?limit=25&fields[]=Fecha_Estado&fields[]=6cdaef6&fields[]=Id_Idea_Investigacion&fields[]=6dd1db8e.Descripcion_Valor&fields[]=Usuario_Creador.id&fields[]=Id_Estado_Idea&alias[6cdaef6]=Id_Estado&alias[6dd1db8e]=Id_Estado&sort[]=Id_Estado_Idea&page=1",
+  {
+    method: "GET",
+    headers: {
+      // 'Content-Type': 'application/json', // ejemplo de encabezado de tipo de contenido
+      'Authorization': `Bearer ${token}`, // ejemplo de encabezado de autorización
+      "accept": "application/json, text/plain, */*",
+      "accept-language": "es-419,es",
+      "if-none-match": "W/\\\"5f5-0lal4BdCHcVhoueKfZt3a3VfwE0\\",
+      "sec-gpc": "1",
+      // "Cookie": "directus_refresh_token=CsA7UQMu1Db27tsOT8X1lJuX0dFlavktLtXOGVzyFCUjIQvy5XYqqoVAaPMiwTd8",
+    },
+    // body: '',
+    signal: controller.signal,
+    redirect: "follow",
+    mode: "no-cors"
+  });
+  /* .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error))
+  .finally(() => clearTimeout(timerId)); */
+
+    console.log({respo});
+
+
+  }
+
 
 
 /**
@@ -180,3 +229,31 @@ export const getposter = async (token:string) => {
 //   "credentials": "include"
 // });
 
+// fetch("http://172.19.3.143:8055/items/Estados_Idea?limit=25&fields[]=Fecha_Estado&fields[]=6cdaef6&fields[]=Id_Idea_Investigacion&fields[]=6dd1db8e.Descripcion_Valor&fields[]=Usuario_Creador.id&fields[]=Id_Estado_Idea&alias[6cdaef6]=Id_Estado&alias[6dd1db8e]=Id_Estado&sort[]=Id_Estado_Idea&page=1", {
+//   "headers": {
+//     "accept": "application/json, text/plain, */*",
+//     "accept-language": "es-419,es",
+//     "if-none-match": "W/\"9e8-t2bM0STgwMmKk3Jp0c1LB9PnPhA\"",
+//     "sec-gpc": "1"
+//   },
+//   "referrer": "http://172.19.3.143:8055/admin/content/Estados_Idea",
+//   "referrerPolicy": "strict-origin-when-cross-origin",
+//   "body": null,
+//   "method": "GET",
+//   "mode": "cors",
+//   "credentials": "include"
+// });
+
+fetch("http://172.19.3.143:8055/items/Estados_Idea?limit=25&fields[]=Fecha_Estado&fields[]=6cdaef6&fields[]=Id_Idea_Investigacion&fields[]=6dd1db8e.Descripcion_Valor&fields[]=Usuario_Creador.id&fields[]=Id_Estado_Idea&alias[6cdaef6]=Id_Estado&alias[6dd1db8e]=Id_Estado&sort[]=Id_Estado_Idea&page=1", {
+  "headers": {
+    "accept": "application/json, text/plain, */*",
+    "accept-language": "es-419,es",
+    "if-none-match": "W/\"9e8-t2bM0STgwMmKk3Jp0c1LB9PnPhA\"",
+    "sec-gpc": "1",
+    "cookie": "directus_session_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNlNjk0NTgyLWM4NmMtNDU2Yy05MTY1LTcyY2ZkOTg2NTc4MiIsInJvbGUiOiI5Y2ExZjc3Ny1iYWU0LTQ4MmItYjM5ZC1jMDgxZTM3MGIwNjMiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsInNlc3Npb24iOiJKTFZPNXo2UDRGQnRJTWU0aFFWYWNDdzRjNUpCd2ZJRTdZdTdxbi0yY3B1cnJrU2M4WWp5VldUY01NUll4RGh5IiwiaWF0IjoxNzEzODg3MDkxLCJleHAiOjE3MTM5NzM0OTEsImlzcyI6ImRpcmVjdHVzIn0.oRxvQlqwDGXibB5mZtnbm14TtijZzrpHtRW3XBt_zu0",
+    "Referer": "http://172.19.3.143:8055/admin/content/Estados_Idea",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+  },
+  "body": null,
+  "method": "GET"
+});

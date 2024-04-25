@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { Editor, NgxEditorModule, Toolbar, toDoc } from 'ngx-editor';
-import { intf_camposFieldEditText } from '../../share/interface/interfaces';
+import { intf_camposFieldEditText } from '../../interface/interfaces';
 import { MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';

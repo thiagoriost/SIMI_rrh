@@ -6,9 +6,9 @@
     <!-- @for (TP of tiposProyecto; track $index) {
       <mat-checkbox color="primary" formControlName={{TP.field}} (change)="checkedTP(TP, $event.checked)">{{TP.tipoProyecto}}</mat-checkbox>
     } -->
-    <mat-checkbox (change)="checkedTP(tiposProyecto[0], $event.checked)" formControlName="Investigacion_Cientifica" color="primary" [checked]="false">Investigación</mat-checkbox>
-    <mat-checkbox (change)="checkedTP(tiposProyecto[1], $event.checked)" formControlName="Desarrollo_Tecnologico" color="primary" checked="false">Desarrollo tecnológico</mat-checkbox>
-    <mat-checkbox (change)="checkedTP(tiposProyecto[2], $event.checked)" formControlName="Innovacion" color="primary" checked="false">Innovación</mat-checkbox>
+    <mat-checkbox (change)="checkedTP(tiposProyecto[0], $event.checked)" formControlName="Investigacion_Cientifica" checked="{{formulario.value.Investigacion_Cientifica}}" color="primary" [disabled]="modoVer">Investigación</mat-checkbox>
+    <mat-checkbox (change)="checkedTP(tiposProyecto[1], $event.checked)" formControlName="Desarrollo_Tecnologico" checked="{{formulario.value.Desarrollo_Tecnologico}}" color="primary" [disabled]="modoVer">Desarrollo tecnológico</mat-checkbox>
+    <mat-checkbox (change)="checkedTP(tiposProyecto[2], $event.checked)" formControlName="Innovacion" color="primary" checked="{{formulario.value.Innovacion}}" [disabled]="modoVer">Innovación</mat-checkbox>
   </section>
   @if (banderaValidacionTipoProyectoSeleccionando) { <mat-error>Se requiere seleccionar al menos un típo de proyecto </mat-error> }
 

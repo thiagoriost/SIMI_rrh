@@ -1,38 +1,40 @@
 import { Component, OnDestroy, OnInit, inject} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
+import { MatRadioChange, MatRadioModule} from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {MatCheckboxChange, MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule} from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 
-import { Editor, NgxEditorModule, Toolbar, toDoc, toHTML } from 'ngx-editor';
 import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
-import { FieldInputEditTextComponent } from '../../../../components/field-input-edit-text/field-input-edit-text.component';
-import { Ideas_Investigacion, intf_camposFieldEditText } from '../../../../share/interface/interfaces';
-import { ToastMsgComponent } from '../../../../components/toast-msg/toast-msg.component';
+import { FieldInputEditTextComponent } from '../../../../share/components/field-input-edit-text/field-input-edit-text.component';
+import { Ideas_Investigacion, Response_Ideas_Investigacion, intf_camposFieldEditText } from '../../../../share/interface/interfaces';
+import { ToastMsgComponent } from '../../../../share/components/toast-msg/toast-msg.component';
 import { CommonModule } from '@angular/common';
 
 import { HttpClientModule } from '@angular/common/http';
-import { style } from '@angular/animations';
 import { directus } from '../../../../core/services/directus';
-import { DatumLineasInvestigacion, LineasInvestigacion, MocoResponseLineasInvestigacion } from '../../../../core/services/db_interfaces/Lineas_Investigacion';
-import { DatumGruposInvestigacion, GruposInvestigacion, MocoResponseGruposInvestigacion } from '../../../../core/services/db_interfaces/Grupos_Investigacion';
 import { GruposInvestigacionComponent } from '../../components/grupos-investigacion/grupos-investigacion.component';
 import { TipoProyectoComponent } from '../../components/tipo-proyecto/tipo-proyecto.component';
 import { constantesApp, constantesNewIdea } from '../../../../share/utils/constas';
 import { DatumValoresDominio, ValoresDominio } from '../../../../core/services/db_interfaces/Valores_Dominio';
 import { StoreApp } from '../../../../core/store/storeApp';
-import { BaseComponent } from '../../../../components/base/base.component';
+import { BaseComponent } from '../../../../share/components/base/base.component';
+import { EditTextRichComponent } from '../../components/edit-text-rich/edit-text-rich.component';
+import { formatoFecha } from '../../../../share/utils/uitl';
 
+/**
+ * dfg
+ * @author rigoriosh@gmail.com
+ */
 @Component({
   selector: 'app-new-idea-page', standalone: true,
-  imports: [CommonModule, MatRadioModule, MatFormFieldModule, // lo emplea mat-error entre otros
+  imports: [CommonModule, MatRadioModule, EditTextRichComponent, MatFormFieldModule, // lo emplea mat-error entre otros
      MatSelectModule, MatInputModule, HttpClientModule, FormsModule, ReactiveFormsModule, MatIconModule, MatDividerModule, MatCheckboxModule,
     GruposInvestigacionComponent, FieldInputEditTextComponent, ToastMsgComponent, AngularEditorModule, MatButtonModule, TipoProyectoComponent
   ],
@@ -777,6 +779,7 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
     URL_Cronograma: ['',[Validators.required, Validators.maxLength(150)],[]],
 
     tipoProyectoselected: [[],[Validators.required],[]],
+    lineas_investigacion: [[],[],[]],
     LineaIvestigacionSelected: [[],[Validators.required],[]],
 
     /* geodesia: ['',[],[]],
@@ -797,7 +800,7 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
     Lugar_Ejecucion: ['',[Validators.required, Validators.maxLength(50)],[]],
 
     Nuevo_Conocimiento: ['',[Validators.maxLength(200)],[]],
-    Desarrollo_Tecnologico2: ['',[Validators.maxLength(200)],[]],
+    Tecnologico_Innovacion: ['',[Validators.maxLength(200)],[]],
     Apropiacion_Conocimiento: ['',[Validators.maxLength(200)],[]],
     Formacion_CTEL: ['',[Validators.maxLength(200)],[]],
 
@@ -811,52 +814,73 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
   })
   Interna: string = constantesNewIdea.Interna; // constantes
   Externa: string = constantesNewIdea.Externa; // constantes
+  modoVer: boolean = false;
 
-  constructor(router: Router, private formBuilder: FormBuilder, private _snackBar: MatSnackBar){
-    super(router);
+  constructor(router: Router, private formBuilder: FormBuilder, _snackBar: MatSnackBar){
+    super(router, _snackBar);
   }
 
   ngOnInit(): void {
-    this.validateSesionTime();
-    this.getValores_Dominio();
-
     console.log(" in NewIdeaPageComponent ");
-
-    this.verificaSiseDebeAutoCompletarElFormulario();
-
-
-    // this.editor = new Editor();
-    // this.getGruposLineasInvestigacion();
-    // this.setDataTestForm();
-    // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
+    console.log(" this.formulario ", this.formulario);
+    let ideaSeleccionanda: Ideas_Investigacion = this.store.ideaSeleccionanda()
+    if (this.validateSesionTime() && ideaSeleccionanda.Codigo_Idea == '') {
+      this.getValores_Dominio();
+      // this.editor = new Editor();
+      // this.getGruposLineasInvestigacion();
+      // this.setDataTestForm();
+      // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
+    }else{
+      this.verificaSiseDebeAutoCompletarElFormulario(ideaSeleccionanda)
+    }
   }
 
   /**
    * valida si existe una idea seleccionada
    * si existe mapea el formulario con los datos que llegan
    */
-  verificaSiseDebeAutoCompletarElFormulario(){
-    const ideaSeleccionanda: Ideas_Investigacion = this.store.ideaSeleccionanda()
+  async verificaSiseDebeAutoCompletarElFormulario(ideaSeleccionanda: Ideas_Investigacion){
+
     console.log(ideaSeleccionanda);
+    this.modoVer = false;
     if (ideaSeleccionanda.Codigo_Idea != '') {
-      // debugger
+      this.modoVer = true
+      const queryParams = {
+        filter: {
+          Id_Idea_Investigacion: {
+            _eq: ideaSeleccionanda.Id_Idea_Investigacion,
+          },
+        },
+        sort: ['Codigo_Idea'],
+        fields:['Codigo_Idea', 'Titulo_Idea', 'estados.*', 'estados.Id_Estado.*', 'tipoProyecto', 'Fecha_Creacion', 'Id_Idea_Investigacion','Desarrollo_Tecnologico', 'Tiempo_Ejecucion_Proyecto',
+        'Innovacion', 'Investigacion_Cientifica', 'Entidad', 'Fecha_Idea', 'email', 'URL_Cronograma',  'Usuario_Creador', 'Id_Convocatoria',
+        'Id_Macroproyecto', 'Id_Dependencia_IGAC', 'Id_Ponente', 'Tiempo_Ejecucion', 'Lugar_Ejecucion', 'Nuevo_Conocimiento', 'Tecnologico_Innovacion',
+        'Apropiacion_Conocimiento', 'Formacion_CTEL', 'Problema_Idea', 'Antecedentes', 'Justificacion', 'Descripcion_Idea', 'Bibliografia_Empleada', 'Validada',
+        'Fecha_Validacion', 'lineas_investigacion.Id_Linea_Investigacion.*', 'lineas_investigacion.Id_Linea_Investigacion.Id_Grupo_Investigacion.*'
+      ]
+      }
+      let Idea_Investigacion: Response_Ideas_Investigacion = await directus.items('Ideas_Investigacion').readByQuery(queryParams)  as Response_Ideas_Investigacion;
+      ideaSeleccionanda = {...ideaSeleccionanda, ...Idea_Investigacion.data[0]}
+      console.log(ideaSeleccionanda);
+
       const camposIdeaSeleccionanda = Object.keys(ideaSeleccionanda);
+      console.log({camposIdeaSeleccionanda});
+
       camposIdeaSeleccionanda.forEach(campo => {
-        // console.log(`${e} => `, ideaSeleccionanda[e])
+        // console.log(`${campo} => `, ideaSeleccionanda[campo])
         if (this.formulario.controls[campo]) {
-          this.formulario.controls[campo].setValue(ideaSeleccionanda[campo])
+          if (campo == "Fecha_Idea") { // para ajustar el formato de la fecha pra que pueda ser leido "yyyy-MM-dd"
+            this.formulario.controls[campo].setValue(ideaSeleccionanda[campo].split('T')[0])
+          } else if(campo == "Investigacion_Cientifica" || campo == "Desarrollo_Tecnologico" || campo == "Innovacion"){
+            this.formulario.controls[campo].setValue((ideaSeleccionanda[campo]=='1')?true:false)
+          } else {
+            this.formulario.controls[campo].setValue(ideaSeleccionanda[campo])
+          }
         }
-    })
-      /* camposIdeaSeleccionanda.forEach(campo => {
-        if (ideaSeleccionanda[campo] != null) {
-
-          console.log(ideaSeleccionanda[campo]);
-        }
-
-        // this.formulario.controls[campo].setValue(ideaSeleccionanda[campo]);
-      }) */
+      });
 
     }
+    return this.modoVer;
   }
 
   /**
@@ -866,11 +890,7 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
   async getValores_Dominio() {
     const Valores_Dominio = directus.items(constantesApp.Valores_Dominio);
     // const responseTipo_Dominio = await Valores_Dominio.readByQuery({limit: -1,});
-    // console.log(responseTipo_Dominio);
-    // // const aa = await Valores_Dominio.readOne(15); //  You don't have permission to access this.
     // const aa = await directus.fields.readAll();
-    // console.log(aa);
-// DEPENDIGAC
     const filterValores_Dominio: ValoresDominio = await Valores_Dominio.readByQuery({
       filter: {
         Tipo_Dominio: {
@@ -884,56 +904,11 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
   }
 
 
-  /* async getGruposLineasInvestigacion() {
-    try {
-      let responseLineasInvestigacion: LineasInvestigacion = await directus.items('Lineas_Investigacion').readByQuery({ sort: ['Id_Linea_Investigacion'] })  as LineasInvestigacion;
-      // let responseLineasInvestigacion: LineasInvestigacion =  MocoResponseLineasInvestigacion;
-
-      let responseGruposInvestigacion: GruposInvestigacion = await directus.items('Grupos_Investigacion').readByQuery({ sort: ['Id_Grupo_Investigacion'] })  as GruposInvestigacion;
-      // let responseGruposInvestigacion: GruposInvestigacion = MocoResponseGruposInvestigacion ;
-      this.ordenarLineasInvestigacionConGrupos(responseLineasInvestigacion.data, responseGruposInvestigacion.data);
-    } catch (error) {
-      console.log({error});
-    }
-  }
-  ordenarLineasInvestigacionConGrupos(LineasInvestigacion: DatumLineasInvestigacion[], GruposInvestigacion: DatumGruposInvestigacion[]) {
-      console.log(LineasInvestigacion);
-
-      GruposInvestigacion = GruposInvestigacion.map(e => e = {...e, lineasInvestigacion:[]})
-      GruposInvestigacion.forEach(GI => {
-        LineasInvestigacion.forEach(LI => {
-          if (LI.id_grupo_investigacion == GI.Id_Grupo_Investigacion) GI.lineasInvestigacion?.push(LI)
-        });
-      });
-
-      console.log(GruposInvestigacion);
-      this.gruposInvestigacion = GruposInvestigacion;
-
-
-  } */
-
-  /* checkedLI(GI: DatumGruposInvestigacion, LI: DatumLineasInvestigacion, adicionarLineaInv: any): void {
-    console.log(adicionarLineaInv);
-    console.log(GI);
-    console.log(LI);
-    let LineaIvestigacionSelected = this.formulario.value.LineaIvestigacionSelected;
-    if (adicionarLineaInv) {
-      this.formulario.controls['LineaIvestigacionSelected'].setValue([...LineaIvestigacionSelected, LI])
-
-    } else {
-      LineaIvestigacionSelected = LineaIvestigacionSelected.filter((linInv: { Id_Linea_Investigacion: string; }) => linInv.Id_Linea_Investigacion !== LI.Id_Linea_Investigacion)
-      this.formulario.controls['LineaIvestigacionSelected'].setValue(LineaIvestigacionSelected)
-    }
-    console.log(this.formulario.value.LineaIvestigacionSelected.length < 1);
-    this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1; // quita el msm de requerimiento del campo
-    console.log(this.banderaValidacionLineasInvestigacionSeleccionadas);
-
-  } */
 
   ngOnDestroy(): void { // this.editor?.destroy();
   }
 
-  goDashBoard() { /* this.router.navigate(['/home/dashboard']); */ }
+  goDashBoard() { this.router.navigate(['/home/dashboard']); }
 
   /**
    * Metodo para resetear todos los campos del formulario
@@ -977,6 +952,7 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
    * @returns true si incumple alguna de las validaciones
    */
   validacionCampo(field: string){
+    this.validateSesionTime()
     return this.formulario.controls[field].errors && this.formulario.controls[field].touched;
   }
 
@@ -1073,16 +1049,16 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
   async onSave(accion:string):Promise<void>{
 
     console.log({accion});
-    if (accion != "submit") {
+    if (accion  == "regresar") {
+      this.router.navigate([`/home/dashboard`]);
+    } else if (accion != "submit") {
       console.log(this.formulario.value);
       console.log("validacionesCamposRequeridos => ",this.validacionesCamposRequeridos());
       console.log("status => ", this.formulario.status);
 
-
-
       if (this.validacionesCamposRequeridos() && this.formulario.status == "VALID" /* && !this.fnValidacionFecha() && !this.validacionCampoFieldEditText() */){
 
-        const { Antecedentes, Apropiacion_Conocimiento, Bibliografia_Empleada, Desarrollo_Tecnologico2, Descripcion_Idea,
+        const { Antecedentes, Apropiacion_Conocimiento, Bibliografia_Empleada, Tecnologico_Innovacion, Descripcion_Idea,
           Entidad, Fecha_Idea, Formacion_CTEL, Justificacion, LineaIvestigacionSelected, Lugar_Ejecucion, Nuevo_Conocimiento,
           Problema_Idea, Tiempo_Ejecucion_Proyecto, Titulo_Idea, Investigacion_Cientifica, Desarrollo_Tecnologico,
           Innovacion, URL_Cronograma, cedula, celular, email, nombreProponente, tipoProyectoselected
@@ -1090,34 +1066,40 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
 
         // json para enviar
         let objToSend = {
-          "Codigo_Idea": "00003",
-          Entidad,
-          Fecha_Idea,
-          Titulo_Idea,
-          Investigacion_Cientifica,
-          Desarrollo_Tecnologico,
-          Innovacion,
-          URL_Cronograma,
-          Tiempo_Ejecucion_Proyecto,
-          Lugar_Ejecucion,
-          Nuevo_Conocimiento,
-          Desarrollo_Tecnologico2,
-          Apropiacion_Conocimiento,
-          Formacion_CTEL,
-          Problema_Idea,
           Antecedentes,
-          Justificacion,
-          Descripcion_Idea,
+          Apropiacion_Conocimiento,
           Bibliografia_Empleada,
-          "Ideas_Lineas_Investigacion": {
+          cedula,
+          celular,
+          Codigo_Idea: Number(new Date()),
+          Desarrollo_Tecnologico,
+          Descripcion_Idea,
+          email,
+          Entidad,
+          Fecha_Creacion: new Date(),
+          Fecha_Idea,
+          Fecha_Validacion: new Date(),
+          Formacion_CTEL,
+          Id_Convocatoria:this.store.convocatoriaSelected().Id_Convocatoria,
+          Id_Ponente: this.store.usuario().id,
+          Innovacion,
+          Investigacion_Cientifica,
+          lineas_investigacion: {
               "create": LineaIvestigacionSelected,
               "update": [],
               "delete": []
           },
+          Justificacion,
+          Lugar_Ejecucion,
+          nombreProponente,
+          Nuevo_Conocimiento,
+          Problema_Idea,
+          Tecnologico_Innovacion,
+          Tiempo_Ejecucion_Proyecto,
+          Titulo_Idea,
+          URL_Cronograma,
+          Usuario_Creador: this.store.usuario().id,
           Validada:'false',
-          Fecha_Validacion: new Date(),
-          Fecha_Creacion: new Date(),
-          Usuario_Creador: cedula
         }
 
         console.log({objToSend});
@@ -1132,20 +1114,10 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
         }else{
           mensaje = `Se presentaron inconvenientes en la comunicación, intentado mas tarde`;
         }
-        this._snackBar.open(mensaje, '', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 3000,
-          direction:'ltr'
-        });
+        this.rederMensajeToast(mensaje);
         this.store.changeSpinner(false)
       }else{
-        this._snackBar.open(`Existen campos que no cumplen las validaciones`, '', {
-          horizontalPosition: 'right',
-          verticalPosition: 'bottom',
-          duration: 3000,
-          direction:'ltr'
-        });
+        this.rederMensajeToast(`Existen campos que no cumplen las validaciones`);
       }
 
     }

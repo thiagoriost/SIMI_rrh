@@ -1,0 +1,12 @@
+@for (item of camposFieldEditText; track $index) {
+  <div class="fieldImputText">
+    <mat-divider class="divider"></mat-divider>
+    <p class="label">{{item.label}}</p>
+    @if (!modoVer){
+      <p class="label2">{{item.SubLabel}}</p>
+    }
+    <div class="contenedor">
+        <div [innerHTML]="formulario.value[item.nameField]"></div>
+    </div>
+    </div>
+}

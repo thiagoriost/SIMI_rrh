@@ -30,8 +30,7 @@
 
         <ng-container matColumnDef="tipoProyecto">
           <th mat-header-cell *matHeaderCellDef style="width: 20px;"> TIPO DE PROYECTO </th>
-          <td mat-cell *matCellDef="let element"> {{element.Tecnologico_Innovacion
-          }} </td>
+          <td mat-cell *matCellDef="let element"> {{element.tipoProyecto}} </td>
         </ng-container>
 
         <ng-container matColumnDef="anio">
@@ -47,8 +46,8 @@
         <ng-container matColumnDef="estado">
           <th mat-header-cell *matHeaderCellDef style="width: 10px"> ESTADO </th>
           <td  mat-cell *matCellDef="let element" >
-            <p [ngClass]="{ 'aprobado': element.Validada === 'true', 'enRevision': element.Validada === 'null', 'rechazado': element.Validada === 'false' }">
-              {{element.Validada || '-'}}
+            <p [ngClass]="{ 'aprobado': element.Descripcion_Valor_Estado === 'Validada', 'enRevision': element.Descripcion_Valor_Estado === 'Inicio', 'rechazado': element.Descripcion_Valor_Estado === 'Rechazada' }">
+              {{element.Descripcion_Valor_Estado || '-'}}
             </p>
           </td>
         </ng-container>

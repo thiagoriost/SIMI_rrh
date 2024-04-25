@@ -6,6 +6,7 @@ import { DatumLineasInvestigacion, LineasInvestigacion, MocoResponseLineasInvest
 import { directus } from '../../../../core/services/directus';
 import { NewIdeaPageComponent } from '../../pages/new-idea-page/new-idea-page.component';
 import { DashboardPageComponent } from '../../pages/dashboard-page/dashboard-page.component';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-grupos-investigacion',
@@ -17,15 +18,59 @@ import { DashboardPageComponent } from '../../pages/dashboard-page/dashboard-pag
 })
 export class GruposInvestigacionComponent extends DashboardPageComponent implements OnInit {
   @Input() banderaValidacionLineasInvestigacionSeleccionadas: boolean = false;//controla el mensaje de error, campo requerido
-  @Input() formulario: any
+  @Input({required:true}) formulario: FormGroup | undefined
+  @Input() modoVer: boolean = false;
   gruposInvestigacion: DatumGruposInvestigacion[] = [];
-
 
 
   override ngOnInit(): void {
     // this.editor = new Editor();
-    this.getGruposLineasInvestigacion();
-    // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
+    console.log("GruposInvestigacion");
+
+    if (!this.modoVer) {
+      this.getGruposLineasInvestigacion();
+    }else{
+      setTimeout(() => {
+
+        let gruposInvestigacion: any[] = [];
+        this.formulario?.value.lineas_investigacion.forEach((LI: { Id_Linea_Investigacion: { Id_Grupo_Investigacion: any; }; }) => {
+          if (gruposInvestigacion.length < 1) {
+            gruposInvestigacion.push(
+              {
+                ...LI.Id_Linea_Investigacion.Id_Grupo_Investigacion,
+                lineasInvestigacion: [
+                  {
+                    ...LI.Id_Linea_Investigacion
+                  }
+                ]
+              }
+            )
+          } else {
+
+            if (gruposInvestigacion.filter(GI => GI.Id_Grupo_Investigacion == LI.Id_Linea_Investigacion.Id_Grupo_Investigacion.Id_Grupo_Investigacion)[0]) {
+              gruposInvestigacion.push(
+                {
+                  ...LI.Id_Linea_Investigacion.Id_Grupo_Investigacion,
+                  lineasInvestigacion: [
+                    {
+                      ...LI.Id_Linea_Investigacion
+                    }
+                  ]
+                }
+              )
+            } else {
+
+            }
+
+          }
+          let nuevaLI = {...LI.Id_Linea_Investigacion.Id_Grupo_Investigacion, lineasInvestigacion:[LI.Id_Linea_Investigacion]}
+          gruposInvestigacion.push(nuevaLI);
+        })
+        this.gruposInvestigacion = gruposInvestigacion;
+
+      }, 4000);
+    }
+    // this.formulario?.controls["Entidad"].setValue("Agustin Codazzi Igac")
   }
 
   /**
@@ -76,16 +121,18 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
     console.log(adicionarLineaInv);
     console.log(GI);
     console.log(LI);
-    let LineaIvestigacionSelected = this.formulario.value.LineaIvestigacionSelected;
-    if (adicionarLineaInv) {
-      this.formulario.controls['LineaIvestigacionSelected'].setValue([...LineaIvestigacionSelected, LI.Id_Linea_Investigacion])
-    } else {
-      LineaIvestigacionSelected = LineaIvestigacionSelected.filter((linInv:  string) => linInv !== LI.Id_Linea_Investigacion)
-      this.formulario.controls['LineaIvestigacionSelected'].setValue(LineaIvestigacionSelected)
+    if (this.formulario) {
+      let LineaIvestigacionSelected = this.formulario.value.LineaIvestigacionSelected;
+      if (adicionarLineaInv) {
+        this.formulario.controls['LineaIvestigacionSelected'].setValue([...LineaIvestigacionSelected, {Id_Linea_Investigacion:LI.Id_Linea_Investigacion}]);// agrega linea de investigación selecionada
+      } else {
+        LineaIvestigacionSelected = LineaIvestigacionSelected.filter((linInv: { Id_Linea_Investigacion: string; }) => linInv.Id_Linea_Investigacion !== LI.Id_Linea_Investigacion); // elimina linea de investigación des-selecionada
+        this.formulario.controls['LineaIvestigacionSelected'].setValue(LineaIvestigacionSelected)
+      }
+      console.log(this.formulario.value.LineaIvestigacionSelected.length < 1);
+      this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1; // quita el msm de requerimiento del campo
+      console.log(this.banderaValidacionLineasInvestigacionSeleccionadas);
     }
-    console.log(this.formulario.value.LineaIvestigacionSelected.length < 1);
-    this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1; // quita el msm de requerimiento del campo
-    console.log(this.banderaValidacionLineasInvestigacionSeleccionadas);
 
   }
 

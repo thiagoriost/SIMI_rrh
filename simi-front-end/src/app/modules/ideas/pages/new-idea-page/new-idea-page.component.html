@@ -14,13 +14,15 @@
   <div  class="generalDelProponente">
     <div class="CampoEntidad">
       @if (validacionEntidad) { <mat-error>{{getErrorCampo("Entidad")}}</mat-error> }
-      <div style="display: flex;">
-        <p style="margin: 0;">Entidad o dependencia originadora de la idea</p>
-      </div>
-      <mat-radio-group class="DF" aria-label="Select an option" (change)="onCheckboxChangeEntidadInterna($event)">
-        <mat-radio-button  color="primary"  value="{{Interna}}">{{Interna}}</mat-radio-button>
-        <mat-radio-button color="primary" value="{{Externa}}">{{Externa}}</mat-radio-button>
-      </mat-radio-group>
+      @if (!modoVer) {
+        <div style="display: flex;">
+          <p style="margin: 0;">Entidad o dependencia originadora de la idea</p>
+        </div>
+        <mat-radio-group class="DF" aria-label="Select an option" (change)="onCheckboxChangeEntidadInterna($event)">
+          <mat-radio-button  color="primary"  value="{{Interna}}">{{Interna}}</mat-radio-button>
+          <mat-radio-button color="primary" value="{{Externa}}">{{Externa}}</mat-radio-button>
+        </mat-radio-group>
+      }
           <!-- <mat-checkbox color="primary"  (change)="onCheckboxChangeEntidadInterna($event)" [checked]="EntidadInterna">Interna</mat-checkbox>
       <mat-checkbox color="primary"  (change)="onCheckboxChangeEntidadExterna($event)" [checked]="EntidadExterna">Externa</mat-checkbox> -->
     </div>
@@ -37,20 +39,20 @@
           </mat-select>
         </mat-form-field>
       }
-      @if(EntidadExterna){
+      @if(EntidadExterna || modoVer){
         <mat-form-field>
           <mat-label >Entidad o dependencia originadora de la idea</mat-label>
           <p class="tootlip">Entidad o dependencia originadora de la idea</p>
-          <input formControlName="Entidad" matInput placeholder="Proponente" value="" id="EntidadInput">
+          <input formControlName="Entidad" matInput placeholder="Proponente" value="" id="EntidadInput" readonly="{{modoVer}}">
         </mat-form-field>
       }
     </div>
 
 
     <div class="contenedor date">
-        <p class="dateTitle">Día / Mes / Año</p>
+        <p class="dateTitle"> Mes / Día / Año</p>
         <div class="dateContainer">
-          <input formControlName="Fecha_Idea" matInput placeholder="Fecha" type="date" class="inputDate">
+          <input id="Fecha_Idea" formControlName="Fecha_Idea" matInput placeholder="Fecha" type="date" class="inputDate">
         </div>
         @if (validacionFecha) { <mat-error>{{getErrorCampo("Fecha_Idea")}}</mat-error> }
 
@@ -74,17 +76,21 @@
       </mat-form-field>
     </div>
 
-    <mat-form-field>
-      <mat-label>Cédula</mat-label>
-      <input matInput type="number" formControlName="cedula" placeholder="Cédula" value="">
-      @if (!validacionCampo("cedula")) { <mat-error>{{getErrorCampo("cedula")}}</mat-error> }
-    </mat-form-field>
+    @if (!modoVer || (modoVer && formulario.value["cedula"])) {
+      <mat-form-field>
+        <mat-label>Cédula</mat-label>
+        <input matInput type="number" formControlName="cedula" placeholder="Cédula" value="">
+        @if (!validacionCampo("cedula")) { <mat-error>{{getErrorCampo("cedula")}}</mat-error> }
+      </mat-form-field>
+    }
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Célular de contacto</mat-label>
-      <input type="number" formControlName="celular"  matInput placeholder="3219876543">
-      @if (!validacionCampo("celular")) { <mat-error>{{getErrorCampo("celular")}}</mat-error> }
-    </mat-form-field>
+    @if (!modoVer || (modoVer && formulario.value["celular"])) {
+      <mat-form-field>
+        <mat-label>Célular de contacto</mat-label>
+        <input type="number" formControlName="celular"  matInput placeholder="3219876543">
+        @if (!validacionCampo("celular")) { <mat-error>{{getErrorCampo("celular")}}</mat-error> }
+      </mat-form-field>
+    }
 
   </div>
 
@@ -98,11 +104,13 @@
 
        <div class="fieldImputText">
          <p class="label">Título de la ídea</p>
-         <p class="label2">Un buen título, además de la exactitud y la confiabilidad, debe ser claro, conciso, específico
-           y, si es posible, llamativo de forma tal que capture la atención del lector y enmarque la ídea principal.</p>
+         @if (!modoVer){
+           <p class="label2">Un buen título, además de la exactitud y la confiabilidad, debe ser claro, conciso, específico
+             y, si es posible, llamativo de forma tal que capture la atención del lector y enmarque la ídea principal.</p>
+         }
          <mat-form-field class="matFormField">
-           <textarea formControlName="Titulo_Idea" #idea class="textA" matInput placeholder="Título de la ídea" value=""></textarea>
-           <mat-hint align="end" style="text-align: end;">{{idea.value.length}} / 200</mat-hint>
+           <textarea formControlName="Titulo_Idea" readonly="{{modoVer}}" #idea class="textA" matInput placeholder="Título de la ídea" value=""></textarea>
+           @if (!modoVer){<mat-hint align="end" style="text-align: end;">{{idea.value.length}} / 200</mat-hint>}
            @if (!validacionCampo("Titulo_Idea")) { <mat-error>{{getErrorCampo("Titulo_Idea")}}</mat-error> }
          </mat-form-field>
        </div>
@@ -111,7 +119,7 @@
 
        <mat-divider class="divider"></mat-divider>
 
-       <app-tipo-proyecto [formulario]="formulario"
+       <app-tipo-proyecto [formulario]="formulario" [modoVer]="modoVer"
         [banderaValidacionTipoProyectoSeleccionando]="banderaValidacionTipoProyectoSeleccionando"
        ></app-tipo-proyecto>
        <!-- <div class="tipoProyecto">
@@ -132,7 +140,7 @@
 
        <mat-divider></mat-divider>
 
-       <app-grupos-investigacion [formulario]="formulario"
+       <app-grupos-investigacion [formulario]="formulario" [modoVer]="modoVer"
         [banderaValidacionLineasInvestigacionSeleccionadas]="banderaValidacionLineasInvestigacionSeleccionadas"
        ></app-grupos-investigacion>
 
@@ -140,10 +148,12 @@
 
        <div class="fieldImputText">
          <p class="label">URL Cronograma</p>
-         <p class="label2">url del directorio donde se encuentre el documento cronograma preliminar del proyecto, defina responsables y duración de este.</p>
+         @if (!modoVer){
+           <p class="label2">url del directorio donde se encuentre el documento cronograma preliminar del proyecto, defina responsables y duración de este.</p>
+         }
          <mat-form-field class="matFormField">
-           <textarea formControlName="URL_Cronograma" #tiempo class="textA" matInput placeholder="URL del Cronograma"></textarea>
-           <mat-hint align="end" style="text-align: end;">{{tiempo.value.length}} / 150</mat-hint>
+           <textarea formControlName="URL_Cronograma" #tiempo class="textA" readonly="{{modoVer}}" matInput placeholder="URL del Cronograma"></textarea>
+           @if (!modoVer){<mat-hint align="end" style="text-align: end;">{{tiempo.value.length}} / 150</mat-hint>}
            @if (!validacionCampo("URL_Cronograma")) { <mat-error>{{getErrorCampo("URL_Cronograma")}}</mat-error> }
          </mat-form-field>
        </div>
@@ -151,10 +161,12 @@
 
        <div class="fieldImputText">
          <p class="label">Tiempo de ejecución del proyecto I+D+i</p>
-         <p class="label2">Establezca un cronograma preliminar del proyecto y duración del mismo en meses.</p>
+         @if (!modoVer){
+           <p class="label2">Establezca un cronograma preliminar del proyecto y duración del mismo en meses.</p>
+         }
          <mat-form-field class="matFormField">
-           <textarea formControlName="Tiempo_Ejecucion_Proyecto" #tiempo class="textA" matInput placeholder="Tiempo de ejecución del proyecto I+D+i"></textarea>
-           <mat-hint align="end" style="text-align: end;">{{tiempo.value.length}} / 50</mat-hint>
+           <textarea formControlName="Tiempo_Ejecucion_Proyecto" #tiempo class="textA" readonly="{{modoVer}}" matInput placeholder="Tiempo de ejecución del proyecto I+D+i"></textarea>
+           @if (!modoVer){<mat-hint align="end" style="text-align: end;">{{tiempo.value.length}} / 50</mat-hint>}
            @if (!validacionCampo("Tiempo_Ejecucion_Proyecto")) { <mat-error>{{getErrorCampo("Tiempo_Ejecucion_Proyecto")}}</mat-error> }
          </mat-form-field>
        </div>
@@ -162,86 +174,107 @@
        <div class="fieldImputText">
          <mat-form-field class="matFormField">
            <p class="label">Lugar de ejecución</p>
-           <p class="label2">Defina el lugar donde se ejecutará el proyecto I+D+i.</p>
-           <textarea formControlName="Lugar_Ejecucion" #lugar class="textA" matInput
+           @if (!modoVer){
+             <p class="label2">Defina el lugar donde se ejecutará el proyecto I+D+i.</p>
+           }
+           <textarea formControlName="Lugar_Ejecucion" #lugar class="textA" matInput readonly="{{modoVer}}"
              placeholder="Defina el lugar donde se ejecutará el proyecto I+D+i"></textarea>
-           <mat-hint align="end" style="text-align: end;">{{lugar.value.length}} / 50</mat-hint>
+           @if (!modoVer){<mat-hint align="end" style="text-align: end;">{{lugar.value.length}} / 50</mat-hint>}
            @if (!validacionCampo("Lugar_Ejecucion")) { <mat-error>{{getErrorCampo("Lugar_Ejecucion")}}</mat-error> }
          </mat-form-field>
        </div>
 
        <p class="label">Productos resultados de la investigación</p>
-       <p class="label2">Identificaser, seleccionar y relacionar los productos resultado de la investigación que se
-         obtienen, segun las tipologías de
-         Minciencias corresponden a: Generación de nuevo conocimiento, desarrollo tecnológico e innovación; Apropiación
-         social del conocimiento y divulgación
-         pública de la ciencia y la Formación de recurso humano en ciencia Tecnología e Innovación - CTeI.</p>
+       @if (!modoVer){
+         <p class="label2">Identificaser, seleccionar y relacionar los productos resultado de la investigación que se
+           obtienen, segun las tipologías de
+           Minciencias corresponden a: Generación de nuevo conocimiento, desarrollo tecnológico e innovación; Apropiación
+           social del conocimiento y divulgación
+           pública de la ciencia y la Formación de recurso humano en ciencia Tecnología e Innovación - CTeI.</p>
+       }
        <div class="fieldImputText ml_15">
-         <div class="fieldImputText">
-           <p class="label">Productos resultados de actividades de Generación de Nuevo Conocimiento</p>
-           <p class="label2">Identificar y establecer los productos esperados en el proyecto. Minciencias 2021: Articulos
-             de investigación,
-             tipo A1, A2, B, C y D; Notas cientificas, tipo A1, A2, B, C y D; Libros resultados de investigación; Libros
-             de formación en cuartil Q1;
-             Capitulos en libro resultadosd e investigación; Productos tecnológicos patentados o en proceso de concesión
-             de la patente; Variedades
-             vegetales, variedades animales y poblaciones mejoradas de razas pecuarias y obras o productos resultados de
-             creación e
-             investigación-creación, Arquitectura y Diseño
-           </p>
-           <mat-form-field class="matFormField">
-             <textarea matInput formControlName="Nuevo_Conocimiento" #Productos class="textA" matInput
-               placeholder="Productos resultados de actividades de Generación de Nuevo Conocimiento"></textarea>
-             <mat-hint align="end" style="text-align: end;">{{Productos.value.length}} / 200</mat-hint>
-             @if (!validacionCampo("Nuevo_Conocimiento")) { <mat-error>{{getErrorCampo("Nuevo_Conocimiento")}}</mat-error> }
-           </mat-form-field>
-         </div>
-         <div class="fieldImputText">
-           <p class="label">Productos resultados de actividades de Desarrollo tecnológico e Innovación</p>
-           <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Productos
-             empresariales, regulaciones,
-             normas, reglamentos o legislaciones, Conceptos técnicos y Registros de Acuerdos de licencia para explotación
-             de obras de investigación + Creación en Artes,
-             Arquitectura y Diseño protegidas por derechos de auto.
-           </p>
-           <mat-form-field class="matFormField">
-             <textarea matInput formControlName="Desarrollo_Tecnologico2" #ProductosDesarrollo class="textA" matInput
-               placeholder="Productos resultados de actividades de Desarrollo tecnológico e Innovación"></textarea>
-             <mat-hint align="end" style="text-align: end;">{{ProductosDesarrollo.value.length}} / 200</mat-hint>
-             @if (!validacionCampo("Desarrollo_Tecnologico2")) { <mat-error>{{getErrorCampo("Desarrollo_Tecnologico2")}}</mat-error> }
-           </mat-form-field>
-         </div>
-         <div class="fieldImputText">
-           <p class="label">Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación
-             Publica de la Ciencia</p>
-           <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021:
-             Reconocimiento de Contexto. la Participación;
-             Dialogo de Saberes y conocimientos; Confianza y Reflexión Crítica
-           </p>
-           <mat-form-field class="matFormField">
-             <textarea matInput formControlName="Apropiacion_Conocimiento" #ProductosApropiacion class="textA" matInput
-               placeholder="Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación Publica de la Ciencia"></textarea>
-             <mat-hint align="end" style="text-align: end;">{{ProductosApropiacion.value.length}} / 200</mat-hint>
-             @if (!validacionCampo("Apropiacion_Conocimiento")) { <mat-error>{{getErrorCampo("Apropiacion_Conocimiento")}}</mat-error> }
-           </mat-form-field>
-         </div>
-         <div class="fieldImputText">
-           <p class="label">Productos resultados de actividades de Formación del Recurso Humano para la CTeI</p>
-           <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Realización
-             de una tésis o trabajo de grado
-             que otorga el título de doctor(a), magister o profesional (respectivamente); la ejecución de proyectos de
-             ID+I con formación y apoyo a programas
-             de formación; y la gestión de proyectos de investigación que permitan la consecución de los recursos
-             necesarios para el desarrollo de la investigación
-             o la innovación.
-           </p>
-           <mat-form-field class="matFormField">
-             <textarea matInput formControlName="Formacion_CTEL" #ProductosFRH class="textA" matInput
-               placeholder="Productos resultados de actividades de Formación del Recurso Humano para la CTeI"></textarea>
-             <mat-hint align="end" style="text-align: end;">{{ProductosFRH.value.length}} / 200</mat-hint>
-             @if (!validacionCampo("Formacion_CTEL")) { <mat-error>{{getErrorCampo("Formacion_CTEL")}}</mat-error> }
-           </mat-form-field>
-         </div>
+        @if (!modoVer || (modoVer && formulario.value["Nuevo_Conocimiento"])) {
+          <div class="fieldImputText">
+            <p class="label">Productos resultados de actividades de Generación de Nuevo Conocimiento</p>
+            @if (!modoVer){
+              <p class="label2">Identificar y establecer los productos esperados en el proyecto. Minciencias 2021: Articulos
+                de investigación,
+                tipo A1, A2, B, C y D; Notas cientificas, tipo A1, A2, B, C y D; Libros resultados de investigación; Libros
+                de formación en cuartil Q1;
+                Capitulos en libro resultadosd e investigación; Productos tecnológicos patentados o en proceso de concesión
+                de la patente; Variedades
+                vegetales, variedades animales y poblaciones mejoradas de razas pecuarias y obras o productos resultados de
+                creación e
+                investigación-creación, Arquitectura y Diseño
+              </p>
+            }
+            <mat-form-field class="matFormField">
+              <textarea matInput formControlName="Nuevo_Conocimiento" #Productos class="textA" matInput readonly="{{modoVer}}"
+                placeholder="Productos resultados de actividades de Generación de Nuevo Conocimiento"></textarea>
+              @if (!modoVer){<mat-hint align="end" style="text-align: end;">{{Productos.value.length}} / 200</mat-hint>}
+              @if (!validacionCampo("Nuevo_Conocimiento")) { <mat-error>{{getErrorCampo("Nuevo_Conocimiento")}}</mat-error> }
+            </mat-form-field>
+          </div>
+        }
+         @if (!modoVer || (modoVer && formulario.value["Tecnologico_Innovacion"])) {
+           <div class="fieldImputText">
+             <p class="label">Productos resultados de actividades de Desarrollo tecnológico e Innovación</p>
+             @if (!modoVer){
+               <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Productos
+                 empresariales, regulaciones,
+                 normas, reglamentos o legislaciones, Conceptos técnicos y Registros de Acuerdos de licencia para explotación
+                 de obras de investigación + Creación en Artes,
+                 Arquitectura y Diseño protegidas por derechos de auto.
+               </p>
+             }
+             <mat-form-field class="matFormField">
+               <textarea matInput formControlName="Tecnologico_Innovacion" #ProductosDesarrollo class="textA" matInput readonly="{{modoVer}}"
+                 placeholder="Productos resultados de actividades de Desarrollo tecnológico e Innovación"></textarea>
+               @if (!modoVer){<mat-hint align="end" style="text-align: end;">{{ProductosDesarrollo.value.length}} / 200</mat-hint>}
+               @if (!validacionCampo("Tecnologico_Innovacion")) { <mat-error>{{getErrorCampo("Tecnologico_Innovacion")}}</mat-error> }
+             </mat-form-field>
+           </div>
+         }
+         @if (!modoVer || (modoVer && formulario.value["Apropiacion_Conocimiento"])) {
+           <div class="fieldImputText">
+             <p class="label">Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación
+               Publica de la Ciencia</p>
+               @if (!modoVer){
+                 <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021:
+                   Reconocimiento de Contexto. la Participación;
+                   Dialogo de Saberes y conocimientos; Confianza y Reflexión Crítica
+                 </p>
+               }
+             <mat-form-field class="matFormField">
+               <textarea matInput formControlName="Apropiacion_Conocimiento" #ProductosApropiacion class="textA" matInput readonly="{{modoVer}}"
+                 placeholder="Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación Publica de la Ciencia"></textarea>
+               @if (!modoVer){<mat-hint align="end" style="text-align: end;">{{ProductosApropiacion.value.length}} / 200</mat-hint>}
+               @if (!validacionCampo("Apropiacion_Conocimiento")) { <mat-error>{{getErrorCampo("Apropiacion_Conocimiento")}}</mat-error> }
+             </mat-form-field>
+           </div>
+         }
+         @if (!modoVer || (modoVer && formulario.value["Formacion_CTEL"])) {
+           <div class="fieldImputText">
+             <p class="label">Productos resultados de actividades de Formación del Recurso Humano para la CTeI</p>
+             @if (!modoVer){
+               <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Realización
+                 de una tésis o trabajo de grado
+                 que otorga el título de doctor(a), magister o profesional (respectivamente); la ejecución de proyectos de
+                 ID+I con formación y apoyo a programas
+                 de formación; y la gestión de proyectos de investigación que permitan la consecución de los recursos
+                 necesarios para el desarrollo de la investigación
+                 o la innovación.
+               </p>
+             }
+             <mat-form-field class="matFormField">
+               <textarea matInput formControlName="Formacion_CTEL" #ProductosFRH class="textA" matInput readonly="{{modoVer}}"
+                 placeholder="Productos resultados de actividades de Formación del Recurso Humano para la CTeI"></textarea>
+               @if (!modoVer){<mat-hint align="end" style="text-align: end;">{{ProductosFRH.value.length}} / 200</mat-hint>}
+               @if (!validacionCampo("Formacion_CTEL")) { <mat-error>{{getErrorCampo("Formacion_CTEL")}}</mat-error> }
+             </mat-form-field>
+           </div>
+
+         }
 
        </div>
 
@@ -312,10 +345,14 @@
             @if (validacionCampoFieldEditText(item.nameField)) { <mat-error>Este campo es requerido</mat-error> }
             </div>
         } -->
-        <div class="fieldImputText">
+
+        @if (!modoVer) {
+          <div class="fieldImputText">
           <mat-divider class="divider"></mat-divider>
           <p class="label">{{camposFieldEditText[0].label}}</p>
-          <p class="label2">{{camposFieldEditText[0].SubLabel}}</p>
+          @if (!modoVer){
+            <p class="label2">{{camposFieldEditText[0].SubLabel}}</p>
+          }
           <div class="containerEditor">
                   <angular-editor id="{{camposFieldEditText[0].nameField}}" [placeholder]="'Ingresar texto...'"
                     formControlName="{{camposFieldEditText[0].nameField}}" [config]="config"></angular-editor>
@@ -331,7 +368,9 @@
           <div class="fieldImputText">
             <mat-divider class="divider"></mat-divider>
             <p class="label">{{camposFieldEditText[1].label}}</p>
-            <p class="label2">{{camposFieldEditText[1].SubLabel}}</p>
+            @if (!modoVer){
+              <p class="label2">{{camposFieldEditText[1].SubLabel}}</p>
+            }
             <div class="containerEditor">
                     <angular-editor id="{{camposFieldEditText[1].nameField}}" [placeholder]="'Ingresar texto...'"
                       formControlName="{{camposFieldEditText[1].nameField}}" [config]="config"></angular-editor>
@@ -342,7 +381,9 @@
           <div class="fieldImputText">
             <mat-divider class="divider"></mat-divider>
             <p class="label">{{camposFieldEditText[2].label}}</p>
-            <p class="label2">{{camposFieldEditText[2].SubLabel}}</p>
+            @if (!modoVer){
+              <p class="label2">{{camposFieldEditText[2].SubLabel}}</p>
+            }
             <div class="containerEditor">
                     <angular-editor id="{{camposFieldEditText[2].nameField}}" [placeholder]="'Ingresar texto...'"
                       formControlName="{{camposFieldEditText[2].nameField}}" [config]="config"></angular-editor>
@@ -353,7 +394,9 @@
           <div class="fieldImputText">
             <mat-divider class="divider"></mat-divider>
             <p class="label">{{camposFieldEditText[3].label}}</p>
-            <p class="label2">{{camposFieldEditText[3].SubLabel}}</p>
+            @if (!modoVer){
+              <p class="label2">{{camposFieldEditText[3].SubLabel}}</p>
+            }
             <div class="containerEditor">
                     <angular-editor id="{{camposFieldEditText[3].nameField}}" [placeholder]="'Ingresar texto...'"
                       formControlName="{{camposFieldEditText[3].nameField}}" [config]="config"></angular-editor>
@@ -372,33 +415,53 @@
             @if (camposFieldEditText[4].validacion) { <mat-error>Este campo es requerido</mat-error> }
 
           </div>
+        }
+        @if(modoVer) {
+          <app-edit-text-rich
+            [formulario]="formulario" [modoVer]="modoVer"
+            [camposFieldEditText]="camposFieldEditText"></app-edit-text-rich>
+        }
 
-        <!-- ////////// @kolkov/angular-editor ////////////// -->
+
       </div>
 
      </div>
      <div class="btnToSave">
        <!-- <button type="submit">Guardar</button> -->
-       <button
-                (click)="onSave('borrador')"
-                mat-raised-button
-                disabledInteractive
-                matTooltip="This is a tooltip!"
-                class="btnNewIdea"
-                color="primary"
-              >
-                GUARDAR BORRADOR
-        </button>
+       @if (!modoVer) {
+         <button
+                  (click)="onSave('borrador')"
+                  mat-raised-button
+                  disabledInteractive
+                  matTooltip="This is a tooltip!"
+                  class="btnNewIdea"
+                  color="primary"
+                >
+                  GUARDAR BORRADOR
+          </button>
+          <button
+                  (click)="onSave('registrar')"
+                  mat-raised-button
+                  disabledInteractive
+                  matTooltip="This is a tooltip!"
+                  class="btnNewIdea"
+                  color="secundary"
+                >
+                  REGISTRAR IDEA
+          </button>
+       }
+       @if (modoVer) {
         <button
-                (click)="onSave('registrar')"
-                mat-raised-button
-                disabledInteractive
-                matTooltip="This is a tooltip!"
-                class="btnNewIdea"
-                color="secundary"
-              >
-                REGISTRAR IDEA
-        </button>
+                  (click)="onSave('regresar')"
+                  mat-raised-button
+                  disabledInteractive
+                  matTooltip="This is a tooltip!"
+                  class="btnNewIdea"
+                  color="primary"
+                >
+                  REGRESAR
+          </button>
+       }
 
      </div>
   </div>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IconSIMIComponent } from './icon-simi.component';
+import { EditTextRichComponent } from './edit-text-rich.component';
 
-describe('IconSIMIComponent', () => {
-  let component: IconSIMIComponent;
-  let fixture: ComponentFixture<IconSIMIComponent>;
+describe('EditTextRichComponent', () => {
+  let component: EditTextRichComponent;
+  let fixture: ComponentFixture<EditTextRichComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IconSIMIComponent]
+      imports: [EditTextRichComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(IconSIMIComponent);
+    fixture = TestBed.createComponent(EditTextRichComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
