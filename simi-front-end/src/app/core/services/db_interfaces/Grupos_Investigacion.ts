@@ -1,4 +1,4 @@
-import { DatumLineasInvestigacion } from "./Lineas_Investigacion";
+import { LineasInvestigacionModoVer } from "../../../share/interface/GruposLineasInvestigacion";
 
 export interface GruposInvestigacion {
   data: DatumGruposInvestigacion[];
@@ -7,8 +7,34 @@ export interface GruposInvestigacion {
 export interface DatumGruposInvestigacion {
   Nombre_Grupo:           string;
   Objetivos_Grupo:        string;
+  Id_Grupo_Investigacion?: string;
+  // lineasInvestigacion?: DatumLineasInvestigacion[]
+  lineasInvestigacion?:   LineasInvestigacionModoVer[];
+}
+
+export interface Grupoinvestigacion {
+  Id_Linea_Investigacion: IDLineaInvestigacion;
+}
+
+export interface IDLineaInvestigacion {
+  Id_Linea_Investigacion:       string;
+  Usuario_Creador:              string;
+  Fecha_Creacion:               string;
+  Nombre_Linea_investigacion:   string;
+  Objetivo_Linea_Investigacion: string;
+  Pertenencia_Linea:            string;
+  Logros_Linea:                 string;
+  Efecto_Linea:                 string;
+  Id_Grupo_Investigacion:       IDGrupoInvestigacion;
+}
+
+export interface IDGrupoInvestigacion {
   Id_Grupo_Investigacion: string;
-  lineasInvestigacion?: DatumLineasInvestigacion[]
+  Usuario_Creador:        string;
+  Fecha_Creacion:         string;
+  Nombre_Grupo:           string;
+  Objetivos_Grupo:        string;
+  lineas_investigacion:   string[];
 }
 
 

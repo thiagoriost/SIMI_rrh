@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject} from '@angular/core';
+import { Component, OnInit, inject} from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -29,8 +29,9 @@ import { EditTextRichComponent } from '../../components/edit-text-rich/edit-text
 import { formatoFecha } from '../../../../share/utils/uitl';
 
 /**
- * dfg
- * @author rigoriosh@gmail.com
+ * Componente que se encarga de renderizar el formulario para crear una idea nueva
+ * o ver la información de una idea seleccionada desde la tabla de ideas del componene list-ideas
+ * @author Rigoberto Rios rigoriosh@gmail.com
  */
 @Component({
   selector: 'app-new-idea-page', standalone: true,
@@ -40,7 +41,7 @@ import { formatoFecha } from '../../../../share/utils/uitl';
   ],
   templateUrl: './new-idea-page.component.html', styleUrl: './new-idea-page.component.scss',
 })
-export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDestroy{
+export class NewIdeaPageComponent extends BaseComponent implements OnInit{
 
 
   /**
@@ -90,10 +91,19 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
       validacion: false
     }
   ]
+
+  /**
+   * propiedades tipo bandera
+   */
   banderaValidacionLineasInvestigacionSeleccionadas = false;
   banderaValidacionTipoProyectoSeleccionando = false;
   validacionFecha = false
   validacionEntidad = false
+  Interna: string = constantesNewIdea.Interna; // constantes
+  Externa: string = constantesNewIdea.Externa; // constantes
+  modoVer: boolean = false; // bandera para saber si estamos en modo ver o crear nueva idea
+  EntidadInterna: boolean = false; // bandera del check donde el usuario selecciona el tipo de entidad a registrar
+  EntidadExterna: boolean = false; // selecciona entidad externa
 
 
   /**
@@ -812,74 +822,76 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
     Bibliografia_Empleada: [/* { value: this.jsonDoc, disabled: false } */,[Validators.required],[]],
 
   })
-  Interna: string = constantesNewIdea.Interna; // constantes
-  Externa: string = constantesNewIdea.Externa; // constantes
-  modoVer: boolean = false;
+
 
   constructor(router: Router, private formBuilder: FormBuilder, _snackBar: MatSnackBar){
     super(router, _snackBar);
   }
 
+  /**
+   * En este metodo se valida si existe sesion activa
+   * valida si una idea fue seleccionada desde la tabla de ideas
+   * si se va a registrar una idea realizar la consulta de Valores_Dominio_dependencia
+   */
   ngOnInit(): void {
     console.log(" in NewIdeaPageComponent ");
     console.log(" this.formulario ", this.formulario);
     let ideaSeleccionanda: Ideas_Investigacion = this.store.ideaSeleccionanda()
+    this.modoVer = false;
     if (this.validateSesionTime() && ideaSeleccionanda.Codigo_Idea == '') {
-      this.getValores_Dominio();
+      this.getValores_Dominio_dependencia();
       // this.editor = new Editor();
       // this.getGruposLineasInvestigacion();
       // this.setDataTestForm();
       // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
     }else{
+      this.modoVer = true
       this.verificaSiseDebeAutoCompletarElFormulario(ideaSeleccionanda)
     }
   }
 
   /**
-   * valida si existe una idea seleccionada
-   * si existe mapea el formulario con los datos que llegan
+   * Realiza la consulta de una idea segun el Id_Idea_Investigacion seleccionada
+   * trayendo todos los campos para renderizar en el formulario en modo ver
    */
   async verificaSiseDebeAutoCompletarElFormulario(ideaSeleccionanda: Ideas_Investigacion){
 
     console.log(ideaSeleccionanda);
-    this.modoVer = false;
-    if (ideaSeleccionanda.Codigo_Idea != '') {
-      this.modoVer = true
-      const queryParams = {
-        filter: {
-          Id_Idea_Investigacion: {
-            _eq: ideaSeleccionanda.Id_Idea_Investigacion,
-          },
+
+    const queryParams = {
+      filter: {
+        Id_Idea_Investigacion: {
+          _eq: ideaSeleccionanda.Id_Idea_Investigacion,
         },
-        sort: ['Codigo_Idea'],
-        fields:['Codigo_Idea', 'Titulo_Idea', 'estados.*', 'estados.Id_Estado.*', 'tipoProyecto', 'Fecha_Creacion', 'Id_Idea_Investigacion','Desarrollo_Tecnologico', 'Tiempo_Ejecucion_Proyecto',
-        'Innovacion', 'Investigacion_Cientifica', 'Entidad', 'Fecha_Idea', 'email', 'URL_Cronograma',  'Usuario_Creador', 'Id_Convocatoria',
-        'Id_Macroproyecto', 'Id_Dependencia_IGAC', 'Id_Ponente', 'Tiempo_Ejecucion', 'Lugar_Ejecucion', 'Nuevo_Conocimiento', 'Tecnologico_Innovacion',
-        'Apropiacion_Conocimiento', 'Formacion_CTEL', 'Problema_Idea', 'Antecedentes', 'Justificacion', 'Descripcion_Idea', 'Bibliografia_Empleada', 'Validada',
-        'Fecha_Validacion', 'lineas_investigacion.Id_Linea_Investigacion.*', 'lineas_investigacion.Id_Linea_Investigacion.Id_Grupo_Investigacion.*'
-      ]
-      }
-      let Idea_Investigacion: Response_Ideas_Investigacion = await directus.items('Ideas_Investigacion').readByQuery(queryParams)  as Response_Ideas_Investigacion;
-      ideaSeleccionanda = {...ideaSeleccionanda, ...Idea_Investigacion.data[0]}
-      console.log(ideaSeleccionanda);
-
-      const camposIdeaSeleccionanda = Object.keys(ideaSeleccionanda);
-      console.log({camposIdeaSeleccionanda});
-
-      camposIdeaSeleccionanda.forEach(campo => {
-        // console.log(`${campo} => `, ideaSeleccionanda[campo])
-        if (this.formulario.controls[campo]) {
-          if (campo == "Fecha_Idea") { // para ajustar el formato de la fecha pra que pueda ser leido "yyyy-MM-dd"
-            this.formulario.controls[campo].setValue(ideaSeleccionanda[campo].split('T')[0])
-          } else if(campo == "Investigacion_Cientifica" || campo == "Desarrollo_Tecnologico" || campo == "Innovacion"){
-            this.formulario.controls[campo].setValue((ideaSeleccionanda[campo]=='1')?true:false)
-          } else {
-            this.formulario.controls[campo].setValue(ideaSeleccionanda[campo])
-          }
-        }
-      });
-
+      },
+      sort: ['Codigo_Idea'],
+      fields:['Codigo_Idea', 'Titulo_Idea', 'estados.*', 'estados.Id_Estado.*', 'tipoProyecto', 'Fecha_Creacion', 'Id_Idea_Investigacion','Desarrollo_Tecnologico', 'Tiempo_Ejecucion_Proyecto',
+      'Innovacion', 'Investigacion_Cientifica', 'Entidad', 'Fecha_Idea', 'email', 'URL_Cronograma',  'Usuario_Creador', 'Id_Convocatoria',
+      'Id_Macroproyecto', 'Id_Dependencia_IGAC', 'Id_Ponente', 'Tiempo_Ejecucion', 'Lugar_Ejecucion', 'Nuevo_Conocimiento', 'Tecnologico_Innovacion',
+      'Apropiacion_Conocimiento', 'Formacion_CTEL', 'Problema_Idea', 'Antecedentes', 'Justificacion', 'Descripcion_Idea', 'Bibliografia_Empleada', 'Validada',
+      'Fecha_Validacion', 'lineas_investigacion.Id_Linea_Investigacion.*', 'lineas_investigacion.Id_Linea_Investigacion.Id_Grupo_Investigacion.*'
+    ]
     }
+    let Idea_Investigacion: Response_Ideas_Investigacion = await directus.items('Ideas_Investigacion').readByQuery(queryParams)  as Response_Ideas_Investigacion;
+    ideaSeleccionanda = {...ideaSeleccionanda, ...Idea_Investigacion.data[0]}
+    console.log(ideaSeleccionanda);
+
+    const camposIdeaSeleccionanda = Object.keys(ideaSeleccionanda);
+    console.log({camposIdeaSeleccionanda});
+
+    camposIdeaSeleccionanda.forEach(campo => {
+      // console.log(`${campo} => `, ideaSeleccionanda[campo])
+      if (this.formulario.controls[campo]) {
+        if (campo == "Fecha_Idea") { // para ajustar el formato de la fecha pra que pueda ser leido "yyyy-MM-dd"
+          this.formulario.controls[campo].setValue(ideaSeleccionanda[campo].split('T')[0])
+        } else if(campo == "Investigacion_Cientifica" || campo == "Desarrollo_Tecnologico" || campo == "Innovacion"){
+          this.formulario.controls[campo].setValue((ideaSeleccionanda[campo]=='1')?true:false)
+        } else {
+          this.formulario.controls[campo].setValue(ideaSeleccionanda[campo])
+        }
+      }
+    });
+
     return this.modoVer;
   }
 
@@ -887,7 +899,7 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
    * Obitene desde directus los valores dominio en este caso
    * los de tipo dependencia IGAC
    */
-  async getValores_Dominio() {
+  async getValores_Dominio_dependencia() {
     const Valores_Dominio = directus.items(constantesApp.Valores_Dominio);
     // const responseTipo_Dominio = await Valores_Dominio.readByQuery({limit: -1,});
     // const aa = await directus.fields.readAll();
@@ -903,11 +915,10 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
 
   }
 
-
-
-  ngOnDestroy(): void { // this.editor?.destroy();
-  }
-
+  /**
+   * redirecciona a la pagina principal donde esta el banner de convocatoriasy la
+   * tabla con  las lista de ideas
+   */
   goDashBoard() { this.router.navigate(['/home/dashboard']); }
 
   /**
@@ -927,8 +938,6 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit, OnDes
   }
 
 
-  EntidadInterna: boolean = false;
-  EntidadExterna: boolean = false;
   /**
    * Metodo para renderizar el tipo de entidad que el usuario desea informar
    * @param $event camptura el radioButtom seleccinado

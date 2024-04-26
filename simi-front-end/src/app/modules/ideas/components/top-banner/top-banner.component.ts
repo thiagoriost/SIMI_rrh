@@ -9,7 +9,7 @@ import { urlImg } from '../../../../share/utils/constas';
 import { BaseComponent } from '../../../../share/components/base/base.component';
 
 /**
- *
+ * Componente encargado de renderizar el swipper con las convocatorias existentes
  * @author Rigoberto Rios rigoriosh@gmail.com
  */
 @Component({
@@ -34,6 +34,11 @@ export class TopBannerComponent extends BaseComponent implements OnInit{
     super(router, _snackBar);
   }
 
+  /**
+   * Verifica si existe token, de lo contrario redirige a la pagina login
+   * si existe token ejecuta logica para traer el listado de convocatorias
+   * para ser renderizadas en el swipper
+   */
   ngOnInit(): void {
     // this.convocatorias = this.slidess
     if (localStorage.getItem("auth_token")) {// valida si existe token de sesion

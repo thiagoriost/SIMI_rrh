@@ -1,13 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { DatumGruposInvestigacion, GruposInvestigacion, MocoResponseGruposInvestigacion } from '../../../../core/services/db_interfaces/Grupos_Investigacion';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { DatumLineasInvestigacion, LineasInvestigacion, MocoResponseLineasInvestigacion } from '../../../../core/services/db_interfaces/Lineas_Investigacion';
 import { directus } from '../../../../core/services/directus';
-import { NewIdeaPageComponent } from '../../pages/new-idea-page/new-idea-page.component';
-import { DashboardPageComponent } from '../../pages/dashboard-page/dashboard-page.component';
 import { FormGroup } from '@angular/forms';
 
+import { DashboardPageComponent } from '../../pages/dashboard-page/dashboard-page.component';
+import { DatumGruposInvestigacion, Grupoinvestigacion, GruposInvestigacion } from '../../../../core/services/db_interfaces/Grupos_Investigacion';
+import { GruposinvestigacionModoVer, LineasInvestigacionModoVer } from '../../../../share/interface/GruposLineasInvestigacion';
+import { DatumLineasInvestigacion, LineasInvestigacion } from '../../../../core/services/db_interfaces/Lineas_Investigacion';
+
+/**
+ * Componente encargado de renderizar los grupos de investigación
+ * y las líneas de investigación
+ * @author Rigoberto Rios rigoriosh@gmail.com
+ */
 @Component({
   selector: 'app-grupos-investigacion',
   standalone: true,
@@ -17,12 +23,18 @@ import { FormGroup } from '@angular/forms';
   styleUrl: './grupos-investigacion.component.scss'
 })
 export class GruposInvestigacionComponent extends DashboardPageComponent implements OnInit {
+
   @Input() banderaValidacionLineasInvestigacionSeleccionadas: boolean = false;//controla el mensaje de error, campo requerido
-  @Input({required:true}) formulario: FormGroup | undefined
-  @Input() modoVer: boolean = false;
-  gruposInvestigacion: DatumGruposInvestigacion[] = [];
+  @Input({required:true}) formulario: FormGroup | undefined // datos del formulario que viene desde el componente padre
+  @Input() modoVer: boolean = false; // bandera para saber si estamos en modo ver o nueva idea
+  gruposInvestigacion: DatumGruposInvestigacion[] = []; // arreglo para almacenarlos grupos de investigación ordenados para ser renderizados
 
 
+  /**
+   * En este metodo validamos si estamos en modo ver
+   * si es true ajustamos la data que nos llega desde el componente padre
+   *  de lo contrario traemos la data desde backend
+   */
   override ngOnInit(): void {
     // this.editor = new Editor();
     console.log("GruposInvestigacion");
@@ -35,17 +47,17 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
   }
 
   /**
-   * Tomas la lineas de investigación y las agrupa por grupo de investigacion y por cada grupo adiciona las lineas de Inv que tiene
+   * Cuando esta en modo ver toma la lineas de investigación y las agrupa por grupo de investigacion y por cada grupo adiciona las lineas de Inv que tiene
    */
   ajustarDataToRenderGruposInvestigacion() {
     setTimeout(() => {// este settime es para darle tiempo de que este listo el DOM de html
-      let gruposInvestigacion: any[] = [];
+      let gruposInvestigacion:GruposinvestigacionModoVer[] = [];
       console.log(this.formulario?.value.lineas_investigacion);
-      this.formulario?.value.lineas_investigacion.forEach((LI: { Id_Linea_Investigacion: { Id_Grupo_Investigacion: any; }; }) => {
+      this.formulario?.value.lineas_investigacion.forEach((LI: Grupoinvestigacion) => {
 
           if (gruposInvestigacion.filter(GI => GI.Id_Grupo_Investigacion == LI.Id_Linea_Investigacion.Id_Grupo_Investigacion.Id_Grupo_Investigacion)[0]) {//valida si ya existe el grupo Inv
             gruposInvestigacion.map(e => { // recorre los grupos por id de grupo, cuando lo encuentra adiciona la linea
-              if(e.Id_Grupo_Investigacion == LI.Id_Linea_Investigacion.Id_Grupo_Investigacion.Id_Grupo_Investigacion) e.lineasInvestigacion.push(LI.Id_Linea_Investigacion)
+              if(e.Id_Grupo_Investigacion == LI.Id_Linea_Investigacion.Id_Grupo_Investigacion.Id_Grupo_Investigacion) e.lineasInvestigacion?.push(LI.Id_Linea_Investigacion)
             })
           } else {
             // si no existe el grupo dentro del array de grupos Inv, lo adiciona
@@ -94,7 +106,7 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
     GruposInvestigacion = GruposInvestigacion.map(e => e = {...e, lineasInvestigacion:[]})
     GruposInvestigacion.forEach(GI => {
       LineasInvestigacion.forEach(LI => {
-        if (LI.Id_Grupo_Investigacion == GI.Id_Grupo_Investigacion) GI.lineasInvestigacion?.push(LI)
+        if (LI['Id_Grupo_Investigacion'] == GI.Id_Grupo_Investigacion) GI.lineasInvestigacion?.push(LI)
       });
     });
 
@@ -110,7 +122,7 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
    * @param LI linea de investigación
    * @param adicionarLineaInv bandera para saber si se debe adicionar o eliminar del array de seleccionados
    */
-  checkedLI(GI: DatumGruposInvestigacion, LI: DatumLineasInvestigacion, adicionarLineaInv: any): void {
+  checkedLI(GI: DatumGruposInvestigacion, LI: LineasInvestigacionModoVer, adicionarLineaInv: boolean): void {
     console.log(adicionarLineaInv);
     console.log(GI);
     console.log(LI);

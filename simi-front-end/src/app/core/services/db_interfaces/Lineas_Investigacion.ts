@@ -1,17 +1,20 @@
+
 export interface LineasInvestigacion {
   data: DatumLineasInvestigacion[];
 }
 
 export interface DatumLineasInvestigacion {
+  [x: string]: string;
   Id_Linea_Investigacion:       string;
   Usuario_Creador:              string;
-  Fecha_Creacion:               Date;
-  Id_Grupo_Investigacion:       string;
+  Fecha_Creacion:               string;
+  Id_Grupo_Investigacion:       any;
   Nombre_Linea_investigacion:   string;
   Objetivo_Linea_Investigacion: string;
   Pertenencia_Linea:            string;
   Logros_Linea:                 string;
   Efecto_Linea:                 string;
+
 }
 
 

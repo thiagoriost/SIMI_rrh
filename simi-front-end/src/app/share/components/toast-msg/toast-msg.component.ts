@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
+/**
+ * Componente que renderiza el mensaje en la parte superior del formulario idea investigación
+ * @author Rigoberto Rios rigoriosh@gmail.com
+ */
 @Component({
   selector: 'app-toast-msg',
   standalone: true,
@@ -10,6 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ToastMsgComponent {
 
-  @Input() mensaje: string = '';
+  @Input() mensaje: string = ''; // mensaje de a renderizar
 
 }

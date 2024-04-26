@@ -10,8 +10,11 @@ import { Ideas_Investigacion, Response_Ideas_Investigacion } from '../../../../s
 import { StoreApp, initConvocatoriaSelected, initDataIdeaSeleccionada } from '../../../../core/store/storeApp';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from '../../../../share/components/base/base.component';
-import { get_Estados_Idea } from '../../../../core/api/api';
 
+/**
+ * Componente encargado de renderiza el listado de ideas existentes
+ * @author Rigoberto Rios rigoriosh@gmail.com
+ */
 @Component({
   selector: 'app-list-ideas',
   standalone: true,
@@ -48,6 +51,11 @@ export class ListIdeasComponent extends BaseComponent implements OnInit {
     super(router, _snackBar);
   }
 
+  /**
+   * Verifica si existe token, de lo contrario redirige a la pagina login
+   * si existe token ejecuta logica para traer el listado de ideas
+   * para ser renderizadas en el table
+   */
   ngOnInit(): void {
     console.log("ngOnInit ListIdeasComponent");
 
@@ -82,10 +90,17 @@ export class ListIdeasComponent extends BaseComponent implements OnInit {
     this.fixDataToRender(publicData.data)
   }
 
+  /**
+   * Metodo para ajustar la data de Ideas_Investigacion, se ajusta
+   * tipoProyecto
+   * Descripcion_Valor_Estado del estado
+   * @param Ideas_Investigacion
+   */
   fixDataToRender(Ideas_Investigacion: Ideas_Investigacion[]) {
     // ajuste tipo proyecto TIPO DE PROYECTO Tecnologico_Innovacion, Desarrollo_Tecnologico, Innovacion, Investigacion_Cientifica
     console.log({Ideas_Investigacion});
 
+    // con este map se crea un string con el tipo o tipos de proyecto para la idea
     Ideas_Investigacion.map(idea => {
       idea['tipoProyecto'] = ` ${idea.Desarrollo_Tecnologico == '1' ? 'Desarrollo Tecnologico,' :''} ${idea.Innovacion == '1' ? 'Innovacion,' :''} ${idea.Investigacion_Cientifica == '1' ? 'Investigacion Cientifica' :''}`
     });
