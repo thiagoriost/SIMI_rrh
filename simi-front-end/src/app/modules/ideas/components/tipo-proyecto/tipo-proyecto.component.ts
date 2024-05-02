@@ -18,7 +18,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrl: './tipo-proyecto.component.scss'
 })
 export class TipoProyectoComponent implements OnInit{
-  // @Input() getErrorCampo: (parametro: string) => string = (para)=>{return ''};
   @Input() banderaValidacionTipoProyectoSeleccionando: boolean = false; // valida si se selecciono la menos un tipo de proyecto
   @Input({required:true}) formulario: FormGroup | undefined // formulario desde el padre
   @Input() modoVer: boolean = false; // bandera para saber si estamos en modo ver o nueva idea
@@ -29,10 +28,7 @@ export class TipoProyectoComponent implements OnInit{
    * ejecuta lógica para traer y renderizar tipos de proyecto
    */
   ngOnInit(): void {
-    // this.editor = new Editor();
     this.getTiposProyecto();
-    console.log(this.formulario?.value);
-
   }
 
   /**
@@ -40,7 +36,7 @@ export class TipoProyectoComponent implements OnInit{
    */
   getTiposProyecto(){
     // espacio para consultar data desde DB
-    let dataTestRequest: intf_dataTiposProyecto[] = [ // data de prueba
+    const dataTestRequest: intf_dataTiposProyecto[] = [ // data de prueba
       {
         id_tipoProyecto:'11111',
         tipoProyecto:'Investigación',
@@ -77,9 +73,7 @@ export class TipoProyectoComponent implements OnInit{
         tipoProyectoselected = tipoProyectoselected.filter((tipoPro: { id_tipoProyecto: string; }) => tipoPro.id_tipoProyecto !== TP.id_tipoProyecto)
         this.formulario.controls['tipoProyectoselected'].setValue(tipoProyectoselected)
       }
-      console.log(this.formulario.value.tipoProyectoselected.length < 1);
       this.banderaValidacionTipoProyectoSeleccionando = this.formulario.value.tipoProyectoselected.length < 1; // quita el msm de requerimiento del campo
-      console.log(this.banderaValidacionTipoProyectoSeleccionando);
     }
   }
 }

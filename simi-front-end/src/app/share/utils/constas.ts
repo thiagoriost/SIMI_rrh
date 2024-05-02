@@ -7,5 +7,16 @@ export const constantesApp = {
 
 export const constantesNewIdea = {
   Interna: 'Interna',
-  Externa: 'Externa'
+  Externa: 'Externa',
+  Estados:{
+    campo:"Descripcion_Valor_Estado",
+    Estados:{
+      Devuelta:'Devuelta'
+    }
+  },
+  DB:{
+    Ideas_Investigacion:'Ideas_Investigacion',
+    Motivos_Devolucion:'Motivos_Devolucion'
+  }
+
 }

@@ -11,32 +11,18 @@
   grid-row-gap: 0px;
   align-items: center;
   justify-items: center;
+  #logo{
+    img{
+      width: 100%;
+    }
+  }
 }
-
-#logo{
-  background-image: url(.././../../../core/assets/Identificador_SIMi_vertical_principal.svg);
-    background-repeat: no-repeat;
-    /* background-color: aliceblue; */
-    background-position: center;
-    width: inherit;
-    height: 70%;
-    margin-bottom: 30px;
-    display: flex;
-    flex-direction: row;
-    /* align-items: center; */
-    /* justify-content: center; */
-    /* padding-left: 5px;*/
-}
-
-
 
 @media only screen and (max-width: 600px) {
 
   #navBar{
     display: none;
   }
-
-
 
 }
 

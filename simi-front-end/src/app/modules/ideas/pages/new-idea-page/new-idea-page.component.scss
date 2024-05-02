@@ -1,11 +1,8 @@
 .newIdeaContainer{
-  // background-color: light-dark(lime, green);
   display: flex;
   flex-direction: column;
   height: 100vh;
   padding-top: 34px;
-  /* justify-content: center; */
-  /* text-align: center; */
   padding: 30px 10px 5px 10px;
   overflow: auto;
   width: 94vw;
@@ -17,13 +14,9 @@
     }
   }
 
-
-
   .gdp{
     text-align: justify;
-    // margin-top: 10px;
   }
-
 
   .aspectosTecnicos{
     display: flex;
@@ -35,18 +28,12 @@
     padding: 20px;
     border-radius: 20px;
     border: 1px solid blue;
-    // background-color: aqua;
 
     .fieldImputText{
-      // background-color: #4199ff;
-      // width: 100%;
 
       .matFormField{
-        // background-color: springgreen;
-
 
         .textA{
-          // background-color: blue;
           width: 85vw;
         }
       }
@@ -64,17 +51,10 @@
 
 
     .formStyleFields{
-      // background-color: #4199ff;
       margin-left: -10px;
-
-
     }
 
-
   }
-
-
-
 
 }
 
@@ -118,25 +98,19 @@ h2{
 }
 
 .label{
-  // background-color: blueviolet;
   font-weight: bold;
-  // margin-bottom: 1px;
+  margin-bottom: 1px;
   margin-top: 15px;
   width: 100%;
 
 }
 .label2{
-  // background-color: aqua;
   color: #4199ff;
   font-size: small;
   text-align: justify;
-  // width: max-content;
   width: 100%;
 }
 
-
-
-//////////////////////////////
 .generalDelProponente{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -155,8 +129,6 @@ h2{
   .date{
     text-align: justify;
     color: gray;
-    // align-content: center;
-    // margin-top: 45px;
 
     .dateTitle{
       margin: 0;
@@ -198,12 +170,6 @@ h2{
 /* Estilo del tootlip cuando se muestra */
 .contenedor:hover .tootlip {
   display: block; /* Mostrar el tootlip cuando se pasa el cursor sobre el contenedor */
-  // top: 100%; /* Colocar el tootlip debajo del contenedor */
-  // left: 0; /* Alinear el tootlip a la izquierda del contenedor */
-  // background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
-  // color: white; /* Color del texto */
-  /* Bordes redondeados */
-  // width: 200px; /* Ancho del tootlip */
   transition: opacity 0.6s ease; /* Transición suave */
   opacity: 0; /* Inicialmente invisible */
 }
@@ -218,9 +184,6 @@ h2{
     grid-template-rows: repeat(6, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
-    // padding: 20px;
-    // border-radius: 20px;
-    // border: 1px solid blue;
   }
 
   .newIdeaContainer{
@@ -234,4 +197,8 @@ h2{
 
 .DF{
   display: flex;
+}
+
+h2{
+  font-weight: bold;
 }

@@ -4,18 +4,12 @@
 #homePage{
   display: flex;
   flex-direction: row;
-  // background-color: blue;
   height: 100vh;
 }
 
 #app-nav-bar{
-  // background-color: aqua;
   width: 70px;
   display: grid;
-/* grid-template-columns: 1fr;
-grid-template-rows: 1fr;
-grid-column-gap: 0px;
-grid-row-gap: 0px; */
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -28,8 +22,6 @@ grid-row-gap: 0px; */
   width: 0px;
   bottom: 0;
 }
-
-
 
 @media only screen and (max-width: 600px) {
 

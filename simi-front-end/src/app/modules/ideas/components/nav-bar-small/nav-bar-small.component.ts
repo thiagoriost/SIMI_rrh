@@ -5,6 +5,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
+// SERVICES
+import { directus } from '@app/core/services/directus';
+
 @Component({
   selector: 'app-nav-bar-small',
   standalone: true,
@@ -21,7 +24,7 @@ export class NavBarSmallComponent {
    * limpia el local storage y redirecciona a la pagina login
    */
   async gologOut() {
-    localStorage.clear() // limpia localstorage
+    await directus.auth.logout();
     this.router.navigate(['/login']); //redirecciona a pagina login
   }
 

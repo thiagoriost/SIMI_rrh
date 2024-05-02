@@ -1,0 +1,49 @@
+.tittle{
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+.revisiones{
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid #1D64A7;
+
+  .mat_expansion_panel{
+    margin-top: 2px;
+
+
+    .diasSubsanar{
+      background-color: #1D64A7;
+      padding: 4px;
+      color: white;
+      border-radius: 5px;
+      font-size: small;
+
+    }
+    .metadata{
+      .nombreFecha{
+        display: flex;
+
+        .icon-dato{
+          align-items: center;
+          display: flex;
+
+          .icon{
+            margin-right: 20px;
+          }
+        }
+      }
+      .btnAtender{
+        text-align: end;
+      }
+    }
+  }
+
+}
+
+h2{
+  font-weight: bold;
+}
+
+p{
+  margin: 0px;
+}

@@ -3,11 +3,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { directus } from '../../../../core/services/directus';
 import { FormGroup } from '@angular/forms';
-
 import { DashboardPageComponent } from '../../pages/dashboard-page/dashboard-page.component';
-import { DatumGruposInvestigacion, Grupoinvestigacion, GruposInvestigacion } from '../../../../core/services/db_interfaces/Grupos_Investigacion';
-import { GruposinvestigacionModoVer, LineasInvestigacionModoVer } from '../../../../share/interface/GruposLineasInvestigacion';
-import { DatumLineasInvestigacion, LineasInvestigacion } from '../../../../core/services/db_interfaces/Lineas_Investigacion';
+import { DatumGruposInvestigacion, Grupoinvestigacion, GruposInvestigacion, IDGrupoInvestigacion } from '../../../../core/services/db_interfaces/Grupos_Investigacion';
+import {  DatumLineasInvestigacion, LineasInvestigacion } from '../../../../core/services/db_interfaces/Lineas_Investigacion';
 
 /**
  * Componente encargado de renderizar los grupos de investigación
@@ -36,8 +34,6 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
    *  de lo contrario traemos la data desde backend
    */
   override ngOnInit(): void {
-    // this.editor = new Editor();
-    console.log("GruposInvestigacion");
 
     if (!this.modoVer) {
       this.getGruposLineasInvestigacion();
@@ -51,8 +47,7 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
    */
   ajustarDataToRenderGruposInvestigacion() {
     setTimeout(() => {// este settime es para darle tiempo de que este listo el DOM de html
-      let gruposInvestigacion:GruposinvestigacionModoVer[] = [];
-      console.log(this.formulario?.value.lineas_investigacion);
+      const gruposInvestigacion:IDGrupoInvestigacion[] = [];
       this.formulario?.value.lineas_investigacion.forEach((LI: Grupoinvestigacion) => {
 
           if (gruposInvestigacion.filter(GI => GI.Id_Grupo_Investigacion == LI.Id_Linea_Investigacion.Id_Grupo_Investigacion.Id_Grupo_Investigacion)[0]) {//valida si ya existe el grupo Inv
@@ -83,14 +78,11 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
    */
   async getGruposLineasInvestigacion() {
     try {
-      let responseLineasInvestigacion: LineasInvestigacion = await directus.items('Lineas_Investigacion').readByQuery({ sort: ['Id_Linea_Investigacion'] })  as LineasInvestigacion;
-      // let responseLineasInvestigacion: LineasInvestigacion =  MocoResponseLineasInvestigacion;
+      const responseLineasInvestigacion: LineasInvestigacion = await directus.items('Lineas_Investigacion').readByQuery({ sort: ['Id_Linea_Investigacion'] })  as LineasInvestigacion;
 
-      let responseGruposInvestigacion: GruposInvestigacion = await directus.items('Grupos_Investigacion').readByQuery({ sort: ['Id_Grupo_Investigacion'] })  as GruposInvestigacion;
-      // let responseGruposInvestigacion: GruposInvestigacion = MocoResponseGruposInvestigacion ;
+      const responseGruposInvestigacion: GruposInvestigacion = await directus.items('Grupos_Investigacion').readByQuery({ sort: ['Id_Grupo_Investigacion'] })  as GruposInvestigacion;
       this.ordenarLineasInvestigacionConGrupos(responseLineasInvestigacion.data, responseGruposInvestigacion.data);
     } catch (error) {
-      console.log({error});
       this.validateSesionTime() // de DashboardPageComponent
     }
   }
@@ -100,20 +92,14 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
    * @param LineasInvestigacion
    * @param GruposInvestigacion
    */
-  ordenarLineasInvestigacionConGrupos(LineasInvestigacion: DatumLineasInvestigacion[], GruposInvestigacion: DatumGruposInvestigacion[]) {
-    console.log(LineasInvestigacion);
-
+  ordenarLineasInvestigacionConGrupos(LineasInvestigacion: DatumLineasInvestigacion[], GruposInvestigacion: IDGrupoInvestigacion[]) {
     GruposInvestigacion = GruposInvestigacion.map(e => e = {...e, lineasInvestigacion:[]})
     GruposInvestigacion.forEach(GI => {
       LineasInvestigacion.forEach(LI => {
         if (LI['Id_Grupo_Investigacion'] == GI.Id_Grupo_Investigacion) GI.lineasInvestigacion?.push(LI)
       });
     });
-
-    console.log(GruposInvestigacion);
     this.gruposInvestigacion = GruposInvestigacion;
-
-
   }
 
   /**
@@ -122,10 +108,7 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
    * @param LI linea de investigación
    * @param adicionarLineaInv bandera para saber si se debe adicionar o eliminar del array de seleccionados
    */
-  checkedLI(GI: DatumGruposInvestigacion, LI: LineasInvestigacionModoVer, adicionarLineaInv: boolean): void {
-    console.log(adicionarLineaInv);
-    console.log(GI);
-    console.log(LI);
+  checkedLI(GI: DatumGruposInvestigacion, LI: DatumLineasInvestigacion, adicionarLineaInv: boolean): void {
     if (this.formulario) {
       let LineaIvestigacionSelected = this.formulario.value.LineaIvestigacionSelected;
       if (adicionarLineaInv) {
@@ -134,12 +117,7 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
         LineaIvestigacionSelected = LineaIvestigacionSelected.filter((linInv: { Id_Linea_Investigacion: string; }) => linInv.Id_Linea_Investigacion !== LI.Id_Linea_Investigacion); // elimina linea de investigación des-selecionada
         this.formulario.controls['LineaIvestigacionSelected'].setValue(LineaIvestigacionSelected)
       }
-      console.log(this.formulario.value.LineaIvestigacionSelected.length < 1);
       this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1; // quita el msm de requerimiento del campo
-      console.log(this.banderaValidacionLineasInvestigacionSeleccionadas);
     }
-
   }
-
-
 }

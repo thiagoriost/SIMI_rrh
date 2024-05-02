@@ -1,5 +1,4 @@
 #dashBoardPageContainer{
-  // background-color: blueviolet;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -8,13 +7,11 @@
 
   .top-banner{
     align-content: center;
-    // background-color: antiquewhite;
     height: 24%;
   }
 
   .listIdeas{
     align-content: center;
-    // background-color: aquamarine;
     height: 70%;
   }
 }
@@ -24,7 +21,6 @@
   #dashBoardPageContainer{
 
     .listIdeas{
-      // margin-top: -108px;
       height: 100%;
     }
   }

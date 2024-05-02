@@ -40,10 +40,12 @@ $sistema-de-investigacion-misional-simi-theme: mat.define-light-theme((
 @include mat.typography-hierarchy(config.$simi-typography);
 /* You can add global styles to this file, and also import other style files */
 
+$assets-path: '~assets/';
+
+
 html, body { height: 100%; }
 body {
   margin: 0;
-  // font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 
@@ -57,8 +59,6 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  // font-family: 'Montserrat', sans-serif;
-  width: 100%;
 }
 
 body{
@@ -92,7 +92,6 @@ body{
 
 
 .scrollBarApp{
-  // scrollbar-color: yellow #800080;
   scrollbar-width: thin;
 }
 
@@ -145,7 +144,6 @@ body{
 /* estilos AngularEditor */
 .angular-editor-toolbar{
   display: flex;
-  // overflow-x: auto;
   flex-wrap: wrap;
   resize: both;
   overflow: hidden;
@@ -176,6 +174,22 @@ body{
   margin-left: 15px;
 }
 
-.mb_20{
-  margin-bottom: 20px;
+.mr_30{
+  margin-right: 30px;
+}
+
+.mt_15{
+  margin-top: 15px;
+}
+.mb_15{
+  margin-bottom: 15px;
+}
+
+.mat-mdc-form-field{
+  width: 100%;
+}
+
+.mat-expansion-panel-header-description{
+  display: flex;
+  justify-content: end;
 }

@@ -1,0 +1,90 @@
+{
+  "data": [
+    {
+      "Id_Proyecto_Investigacion": null,
+      "Id_Motivo": "0904ebb7-e078-488c-8a95-7df1509608d0",
+      "Motivo_Devolucion": "prueba 2",
+      "Tiempo_subsanacion": 4,
+      "Id_Idea_Investigacion": {
+        "Id_Idea_Investigacion": "17018ad6-fdab-4f73-ad0e-74091887a65b",
+        "Usuario_Creador": "ce694582-c86c-456c-9165-72cfd9865782",
+        "Fecha_Creacion": "2024-04-26T19:25:33.249Z",
+        "Id_Convocatoria": "933ec832-798f-4393-b08b-fdc6b8a53630",
+        "Codigo_Idea": "1714159532158",
+        "Id_Macroproyecto": null,
+        "Id_Dependencia_IGAC": null,
+        "Entidad": "Direcciones Territoriales",
+        "Fecha_Idea": "2024-04-26T00:00:00",
+        "Id_Ponente": "ce694582-c86c-456c-9165-72cfd9865782",
+        "Titulo_Idea": "PRUEBA ABRIL 26",
+        "Investigacion_Cientifica": "0",
+        "Desarrollo_Tecnologico": "0",
+        "Innovacion": "1",
+        "URL_Cronograma": "http://localhost:4200/home/idea/002",
+        "Tiempo_Ejecucion_Proyecto": "456",
+        "Lugar_Ejecucion": "SOGAMOZO",
+        "Nuevo_Conocimiento": "Productos resultados de actividades de Generación de Nuevo Conocimiento ......",
+        "Tecnologico_Innovacion": "Productos resultados de actividades de Desarrollo tecnológico e Innovación ......",
+        "Apropiacion_Conocimiento": "Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación Publica de la Ciencia ......",
+        "Formacion_CTEL": "Productos resultados de actividades de Formación del Recurso Humano para la CTeI .....",
+        "Problema_Idea": "<span>Pregunta o problema que origina la &#237;dea<font face=\\'Arial\\'>&#160;.....</font></span>",
+        "Antecedentes": "<span><i>Antecedentes<font face=\\'Arial\\'>&#160;.....</font></i></span>",
+        "Justificacion": "<span><u>Justificaci&#243;n ......</u></span>",
+        "Descripcion_Idea": "<span><strike>Descripci&#243;n de la &#237;dea ....</strike></span>",
+        "Bibliografia_Empleada": "<span><sub>Bibliograf&#237;a empleada<font face=\\'Arial\\'>&#160;....</font></sub></span>",
+        "Validada": "N",
+        "Fecha_Validacion": "2024-04-26T14:25:32",
+        "lineas_investigacion": [
+          "758df89a-7a81-465b-9aed-beb61263af11",
+          "da119d06-423d-45d8-9a83-5fffed8924b3"
+        ],
+        "estados": [
+          "f287f183-4e67-4bf8-bb5a-e7a66d006826"
+        ]
+      }
+    },
+    {
+      "Id_Proyecto_Investigacion": null,
+      "Id_Motivo": "54d3222b-1f9f-466a-adea-e24dbbeb3957",
+      "Motivo_Devolucion": "pruebas",
+      "Tiempo_subsanacion": 4,
+      "Id_Idea_Investigacion": {
+        "Id_Idea_Investigacion": "17018ad6-fdab-4f73-ad0e-74091887a65b",
+        "Usuario_Creador": "ce694582-c86c-456c-9165-72cfd9865782",
+        "Fecha_Creacion": "2024-04-26T19:25:33.249Z",
+        "Id_Convocatoria": "933ec832-798f-4393-b08b-fdc6b8a53630",
+        "Codigo_Idea": "1714159532158",
+        "Id_Macroproyecto": null,
+        "Id_Dependencia_IGAC": null,
+        "Entidad": "Direcciones Territoriales",
+        "Fecha_Idea": "2024-04-26T00:00:00",
+        "Id_Ponente": "ce694582-c86c-456c-9165-72cfd9865782",
+        "Titulo_Idea": "PRUEBA ABRIL 26",
+        "Investigacion_Cientifica": "0",
+        "Desarrollo_Tecnologico": "0",
+        "Innovacion": "1",
+        "URL_Cronograma": "http://localhost:4200/home/idea/002",
+        "Tiempo_Ejecucion_Proyecto": "456",
+        "Lugar_Ejecucion": "SOGAMOZO",
+        "Nuevo_Conocimiento": "Productos resultados de actividades de Generación de Nuevo Conocimiento ......",
+        "Tecnologico_Innovacion": "Productos resultados de actividades de Desarrollo tecnológico e Innovación ......",
+        "Apropiacion_Conocimiento": "Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación Publica de la Ciencia ......",
+        "Formacion_CTEL": "Productos resultados de actividades de Formación del Recurso Humano para la CTeI .....",
+        "Problema_Idea": "<span>Pregunta o problema que origina la &#237;dea<font face=\\'Arial\\'>&#160;.....</font></span>",
+        "Antecedentes": "<span><i>Antecedentes<font face=\\'Arial\\'>&#160;.....</font></i></span>",
+        "Justificacion": "<span><u>Justificaci&#243;n ......</u></span>",
+        "Descripcion_Idea": "<span><strike>Descripci&#243;n de la &#237;dea ....</strike></span>",
+        "Bibliografia_Empleada": "<span><sub>Bibliograf&#237;a empleada<font face=\\'Arial\\'>&#160;....</font></sub></span>",
+        "Validada": "N",
+        "Fecha_Validacion": "2024-04-26T14:25:32",
+        "lineas_investigacion": [
+          "758df89a-7a81-465b-9aed-beb61263af11",
+          "da119d06-423d-45d8-9a83-5fffed8924b3"
+        ],
+        "estados": [
+          "f287f183-4e67-4bf8-bb5a-e7a66d006826"
+        ]
+      }
+    }
+  ]
+}

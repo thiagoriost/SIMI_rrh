@@ -1,12 +1,16 @@
 <form [formGroup]="formulario" (ngSubmit)="onSave('submit')" class="newIdeaContainer" autocomplete="off">
 
-  <div class="breadCrumb"> <span class="pointer" (click)="goDashBoard()">Ideas</span> · Registrar idea</div>
+  <div class="breadCrumb" > <span class="pointer" (click)="goDashBoard()" tabindex="0" (keydown)="goDashBoard()">Ideas</span> · Registrar idea</div>
 
   <div class="title1Div">
-    <h1 class="tittle1">Registrar Idea</h1>
+    <h1 class="tittle1">{{(formulario.value[Descripcion_Valor_Estado] == Devuelta) ? 'Subsanar Idea' : 'Registrar Idea'}}</h1>
   </div>
 
   <app-toast-msg mensaje="{{textToastMensaje}}"></app-toast-msg>
+
+  @if(formulario.value[Descripcion_Valor_Estado] == Devuelta){
+    <app-revisiones [Id_Idea_Investigacion_Seleccionada]="Id_Idea_Investigacion_Seleccionada"></app-revisiones>
+  }
 
   <div class="gdp">
     <h2>General Del Proponente</h2>
@@ -23,8 +27,6 @@
           <mat-radio-button color="primary" value="{{Externa}}">{{Externa}}</mat-radio-button>
         </mat-radio-group>
       }
-          <!-- <mat-checkbox color="primary"  (change)="onCheckboxChangeEntidadInterna($event)" [checked]="EntidadInterna">Interna</mat-checkbox>
-      <mat-checkbox color="primary"  (change)="onCheckboxChangeEntidadExterna($event)" [checked]="EntidadExterna">Externa</mat-checkbox> -->
     </div>
     <div class="contenedor ">
       @if(EntidadInterna){
@@ -94,6 +96,8 @@
 
   </div>
 
+
+
   <!-- Aspectos técnicos de la ídea de Investigación, Desarrollo tecnológico o Innovación -->
   <div class="aspectosTecnicos">
     <div class="mt20 gdp">
@@ -122,21 +126,6 @@
        <app-tipo-proyecto [formulario]="formulario" [modoVer]="modoVer"
         [banderaValidacionTipoProyectoSeleccionando]="banderaValidacionTipoProyectoSeleccionando"
        ></app-tipo-proyecto>
-       <!-- <div class="tipoProyecto">
-
-         <p class="label">Tipo de proyecto</p>
-         <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
-         <section class="Section">
-           <mat-checkbox formControlName="Investigacion_Cientifica" color="primary" [checked]="false">Investigación</mat-checkbox>
-           @if (!validacionCampo("Investigacion_Cientifica")) { <mat-error>{{getErrorCampo("Investigacion_Cientifica")}}</mat-error> }
-           <mat-checkbox formControlName="Desarrollo_Tecnologico" color="primary" checked="false">Desarrollo tecnológico</mat-checkbox>
-           @if (!validacionCampo("Desarrollo_Tecnologico")) { <mat-error>{{getErrorCampo("Desarrollo_Tecnologico")}}</mat-error> }
-           <mat-checkbox formControlName="Innovacion" color="primary" checked="false">Innovación</mat-checkbox>
-           @if (!validacionCampo("Innovacion")) { <mat-error>{{getErrorCampo("Innovacion")}}</mat-error> }
-         </section>
-
-
-       </div> -->
 
        <mat-divider></mat-divider>
 
@@ -280,72 +269,6 @@
 
        <div class="formStyleFields">
 
-         <!-- @for (item of camposFieldEditText; track $index) {
-           <app-field-input-edit-text [formulario]="formulario"  [item]="item"></app-field-input-edit-text>
-         } -->
-        <!-- @for (item of camposFieldEditText; track $index) { -->
-
-          <!-- <div class="fieldImputText">
-            <mat-divider class="divider"></mat-divider>
-            <p class="label">{{camposFieldEditText[0].label}}</p>
-            <p class="label2">{{camposFieldEditText[0].SubLabel}}</p>
-
-
-            <ngx-editor-menu id="5555" [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
-            <ngx-editor
-              id="5555"
-              [id]="5555"
-              [editor]="editor"
-
-              formControlName="{{camposFieldEditText[0].nameField}}"
-
-              [placeholder]="'Type here...'"
-            ></ngx-editor>
-
-            <button (click)="TestingEditField(camposFieldEditText[0].nameField)" type="button">TESTING - {{camposFieldEditText[0].label}}</button>
-
-
-
-          </div>
-          <div class="fieldImputText">
-            <mat-divider class="divider"></mat-divider>
-            <p class="label">{{camposFieldEditText[1].label}}</p>
-            <p class="label2">{{camposFieldEditText[1].SubLabel}}</p>
-
-
-            <ngx-editor-menu id="1111" [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
-            <ngx-editor
-              [id]="1111"
-              id="1111"
-              [editor]="editor"
-
-              formControlName="{{camposFieldEditText[1].nameField}}"
-
-              [placeholder]="'Type here...'"
-            ></ngx-editor>
-
-            <button (click)="TestingEditField(camposFieldEditText[1].nameField)" type="button">TESTING - {{camposFieldEditText[1].label}}</button>
-
-
-
-          </div> -->
-        <!-- } -->
-        <!-- ////////// @kolkov/angular-editor ////////////// -->
-
-        <!-- @for (item of camposFieldEditText; track $index) {
-          <div class="fieldImputText">
-            <mat-divider class="divider"></mat-divider>
-            <p class="label">{{item.label}}</p>
-            <p class="label2">{{item.SubLabel}}</p>
-            <div class="containerEditor">
-                    <angular-editor id="{{item.nameField}}" [placeholder]="'Ingresar texto...'"
-                      formControlName="{{item.nameField}}" [config]="config"></angular-editor>
-            </div>
-            <p>{{item.nameField}}</p>
-            @if (validacionCampoFieldEditText(item.nameField)) { <mat-error>Este campo es requerido</mat-error> }
-            </div>
-        } -->
-
         @if (!modoVer) {
           <div class="fieldImputText">
           <mat-divider class="divider"></mat-divider>
@@ -358,12 +281,7 @@
                     formControlName="{{camposFieldEditText[0].nameField}}" [config]="config"></angular-editor>
           </div>
           @if (camposFieldEditText[0].validacion) { <mat-error>Este campo es requerido</mat-error> }
-              <!-- @if (!validacionCampo("{{item.nameField}}")) { <mat-error>{{getErrorCampo(item.nameField)}}</mat-error> } -->
-              <!-- @if (!validacionCampo("Lugar_Ejecucion")) { <mat-error>{{getErrorCampo("Lugar_Ejecucion")}}</mat-error> } -->
-            <!-- <h5 class="html-header">HTML Output</h5>
-            <div class="html">
-              {{ formulario.controls[item.nameField].value }}
-            </div> -->
+
           </div>
           <div class="fieldImputText">
             <mat-divider class="divider"></mat-divider>
@@ -427,18 +345,7 @@
 
      </div>
      <div class="btnToSave">
-       <!-- <button type="submit">Guardar</button> -->
        @if (!modoVer) {
-         <!-- <button
-                  (click)="onSave('borrador')"
-                  mat-raised-button
-                  disabledInteractive
-                  matTooltip="This is a tooltip!"
-                  class="btnNewIdea"
-                  color="primary"
-                >
-                  GUARDAR BORRADOR
-          </button> -->
           <button
                   (click)="onSave('registrar')"
                   mat-raised-button
@@ -467,35 +374,4 @@
   </div>
 
 
-
-  <!-- comentarioar todo, solo pruebas -->
-  <!-- <h4>You chose:</h4>
-          {{formulario.value | json}}
-  <div style="display: flex; flex-direction: column;">
-  <div style="display: flex; justify-content: center;">
-    <span style="width: fit-content; margin-right: 20px; font-weight: bold;">
-      formulario.valid:</span>
-    <pre>{{ formulario.valid | json }}</pre>
-  </div>
-  <div style="display: flex; justify-content: center;">
-    <span style="width: fit-content; margin-right: 20px; font-weight: bold;">
-      formulario.pristine:</span>
-    <pre>{{ formulario.pristine | json }}</pre>
-  </div>
-  <div style="display: flex; justify-content: center;">
-    <span style="width: fit-content; margin-right: 20px; font-weight: bold;">
-      formulario.touched:</span>
-    <pre>{{ formulario.touched | json }}</pre>
-  </div>
-  <div style="display: flex; justify-content: center;">
-    <span style="width: fit-content; margin-right: 20px; font-weight: bold;">
-      Fecha_Idea:</span>
-    <pre>{{ formulario.controls["Fecha_Idea"].errors | json }}</pre>
-    <pre>{{ formulario.controls["Fecha_Idea"].touched | json }}</pre>
-    <pre>{{ formulario.controls["Fecha_Idea"].value | json }}</pre>
-
-    <pre>{{ formulario.controls["Fecha_Idea"].status | json }}</pre>
-  </div>
-
-  </div> -->
 </form>

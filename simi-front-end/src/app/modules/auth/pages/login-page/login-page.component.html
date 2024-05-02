@@ -1,44 +1,38 @@
-<form [formGroup]="formulario" (ngSubmit)="goHome()">
 <div id="loginPageContainer">
-  <div id="form">
+  <form [formGroup]="formulario" (ngSubmit)="goHome()">
+    <div id="form">
 
-    <div id="divMain">
+      <div id="divMain">
 
-      <div id="logo"></div>
+        <div id="logo"></div>
+
+          <mat-form-field class="mb_20">
+            <mat-label>Usuario</mat-label>
+            <!-- <input matInput type="text" [(ngModel)]="email"> -->
+            <input matInput type="text" formControlName="email">
+          <mat-error>{{getErrorCampo("email")}}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="mb_20">
+            <mat-label>Contraseña</mat-label>
+            <!-- <input matInput type="password" [(ngModel)]="passw"> -->
+            <input matInput type="password" formControlName="passw">
+            <mat-error>{{getErrorCampo("passw")}}</mat-error>
+          </mat-form-field>
+
+        <button
+            mat-raised-button
+            disabledInteractive
+            matTooltip="This is a tooltip!"
+            color="primary"
+            type="submit"
+        >
+          ENTRAR
+        </button>
+      </div>
 
 
-        <mat-form-field class="mb_20">
-          <mat-label>Usuario</mat-label>
-          <!-- <input matInput type="text" [(ngModel)]="email"> -->
-          <input matInput type="text" formControlName="email">
-         <mat-error>{{getErrorCampo("email")}}</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="mb_20">
-          <mat-label>Contraseña</mat-label>
-          <!-- <input matInput type="password" [(ngModel)]="passw"> -->
-          <input matInput type="password" formControlName="passw">
-          <mat-error>{{getErrorCampo("passw")}}</mat-error>
-        </mat-form-field>
-
-      <button
-          mat-raised-button
-          disabledInteractive
-          matTooltip="This is a tooltip!"
-          color="primary"
-          type="submit"
-
-      >
-        ENTRAR
-      </button>
     </div>
 
-
-  </div>
-
+  </form>
 </div>
-<!-- <div class="spinner">
-  <mat-spinner></mat-spinner>
-</div> -->
-
-</form>

@@ -7,8 +7,7 @@
   padding: 5px 20px 5px 20px;
 
   p{
-    // background-color: aqua;
-    width: fit-content;
+    // width: fit-content;
   }
 
   .idConvocatoria{
@@ -28,19 +27,15 @@
   }
 
   .cardsConvocatoria{
-    // background-color: aqua;
     display: flex;
 
     .cardLeft{
-      // background-color: rgb(255, 240, 243);
       padding: 5px;
-      // overflow: hidden;
       height: 400px;
-      width: 140%;
+      width: 70%;
 
       .cardHeader{
         align-content: center;
-        // background-color: rgb(3 8 69);
         border-radius: 20px;
         padding: 10px 10px 10px 30px;
         text-align: justify;
@@ -70,7 +65,7 @@
         border-radius: 20px;
         position: relative;
         top: -51px;
-        max-width: 94%;
+        // max-width: 94%;
         margin-left: 17px;
         overflow: overlay;
         border: 1px solid #ccc;
@@ -82,8 +77,9 @@
 
 
         .detailConvocatoria{
-          overflow: auto; /* Permite que el contenido desbordado sea desplazable */
-          max-height: 300px;
+          // overflow: auto; /* Permite que el contenido desbordado sea desplazable */
+          // max-height: 300px;
+          align-content: space-around;
 
           }
       }
@@ -96,12 +92,12 @@
       margin-top: 5px;
       margin-right: 6px;
       border-radius: 20px;
-      max-width: 425px;
+      // max-width: 425px;
       margin-left: 10px;
+      width: 30%;
 
       .row{
         align-items: center;
-        // background-color: aqua;
         display: flex;
         margin-bottom: 5px;
 
@@ -130,8 +126,8 @@
 
     .shadow{
       -webkit-box-shadow: 2px 2px 14px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 2px 2px 14px 0px rgba(0,0,0,0.75);
-box-shadow: 2px 2px 14px 0px rgba(0,0,0,0.75);
+      -moz-box-shadow: 2px 2px 14px 0px rgba(0,0,0,0.75);
+      box-shadow: 2px 2px 14px 0px rgba(0,0,0,0.75);
     }
 
   }
@@ -144,7 +140,6 @@ box-shadow: 2px 2px 14px 0px rgba(0,0,0,0.75);
     flex-direction: column;
     padding: 30px 10px 5px 5px;
     overflow: overlay;
-    // background-color: aqua;
 
     .idConvocatoria{
       width: auto;
@@ -152,7 +147,6 @@ box-shadow: 2px 2px 14px 0px rgba(0,0,0,0.75);
     }
     .tittleConvocatoria{
       text-align: center;
-      // margin-top: 30px;
     }
     .cardsConvocatoria{
       flex-direction: column;
@@ -167,7 +161,6 @@ box-shadow: 2px 2px 14px 0px rgba(0,0,0,0.75);
         }
         .cardDetailConvocatoria{
           margin-left: 0px;
-          // border: 1px solid #000;
           top: -30px;
           max-width: fit-content;
           padding: 110px 20px 20px 10px;

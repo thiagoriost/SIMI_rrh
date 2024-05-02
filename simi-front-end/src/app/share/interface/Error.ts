@@ -1,58 +1,52 @@
 export interface ErrorType {
-  parent: Parent;
+  parent:   Parent;
+  response: Response;
+  errors:   string[];
 }
 
 export interface Parent {
-  message:  string;
-  name:     string;
-  config:   Config;
-  response: Response;
-  errors:   any[];
+  message: string;
+  name:    string;
+  config:  Config;
+  code:    string;
+  status:  null;
 }
 
 export interface Config {
   transitional:      Transitional;
-  transformRequest:  string;
-  transformResponse: string;
-  timeout:           string;
+  transformRequest:  null[];
+  transformResponse: null[];
+  timeout:           number;
   xsrfCookieName:    string;
   xsrfHeaderName:    string;
-  maxContentLength:  string;
-  maxBodyLength:     string;
+  maxContentLength:  number;
+  maxBodyLength:     number;
   env:               Env;
   headers:           Headers;
   baseURL:           string;
-  withCredentials:   string;
+  withCredentials:   boolean;
   method:            string;
   url:               string;
-  data:              Data;
-  code:              string;
-  status:            string;
-}
-
-export interface Data {
-  mode:     string;
-  email:    string;
-  password: string;
+  data:              string;
 }
 
 export interface Env {
-  FormData: string;
+  FormData: null;
 }
 
 export interface Headers {
   Accept:         string;
   "Content-Type": string;
-  Authorization:  string;
+  Authorization:  null;
 }
 
 export interface Transitional {
-  silentJSONParsing:   string;
-  forcedJSONParsing:   string;
-  clarifyTimeoutError: string;
+  silentJSONParsing:   boolean;
+  forcedJSONParsing:   boolean;
+  clarifyTimeoutError: boolean;
 }
 
 export interface Response {
-  status:     string;
+  status:     number;
   statusText: string;
 }

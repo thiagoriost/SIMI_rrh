@@ -1,15 +1,15 @@
 #loginPageContainer{
   background-color: aquamarine;
   height: 100vh;
-  // background-image: url("https://2456764.fs1.hubspotusercontent-eu1.net/hubfs/2456764/YoungPeopleBusinessMeeting_1200x627.jpg");
-  background-image: url(../../../../core/assets/background-image-login-page.jpeg);
+  background-image: url(assets/images/background-image-login-page.jpeg);
   background-repeat: no-repeat;
   background-size: cover;
+  width: 100vw;
+
 }
 
-
 #logo{
-  background-image: url(../../../../core/assets/Identificador_SIMi_alta_resolucion.svg);
+  background-image: url(assets/images/Identificador_SIMi_alta_resolucion.svg);
     background-repeat: no-repeat;
     /* background-color: aliceblue; */
     background-position: center;
@@ -17,9 +17,6 @@
     height: 26%;
     display: flex;
     flex-direction: row;
-    /* align-items: center; */
-    /* justify-content: center; */
-    /* padding-left: 5px;*/
 }
 
 #form{
@@ -37,7 +34,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  // justify-content: center;
   padding-top: 10%;
   width: 50%;
   height: 100vh;

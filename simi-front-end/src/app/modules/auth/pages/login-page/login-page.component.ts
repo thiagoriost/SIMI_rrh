@@ -9,9 +9,8 @@ import { directus } from '../../../../core/services/directus';
 import { StoreApp } from '../../../../core/store/storeApp';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DataUsuario, Usuario } from '../../../../core/services/db_interfaces/Usuario';
+import { DataUsuario } from '../../../../core/services/db_interfaces/Usuario';
 import { BaseComponent } from '../../../../share/components/base/base.component';
-
 
 /**
  * Componente encargado de renderizar la pagina de login y ejecutar
@@ -45,35 +44,14 @@ export class LoginPageComponent extends BaseComponent{
    * y si todo ok, envia credenciales para login, si ok pasa a la ruta /home
    */
   async goHome() {
-
-      console.log("goHome");
-
-/*
-      setTimeout(() => {
-
-        console.log("spinner off");
-        this.store.changeSpinner(false);
-        localStorage.setItem("auth_token", JSON.stringify({
-          "data": {
-            "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYxNmRiNTMzLTc2NWItNDAzMC1hNmZkLTA1N2EwNTRkNTM4OCIsInJvbGUiOiJlOTRkNmI5Yy02M2JjLTRkNzEtOTAyYS1kZTU3MjJiNjg3ZmEiLCJhcHBfYWNjZXNzIjoxLCJhZG1pbl9hY2Nlc3MiOjAsImlhdCI6MTcxMTQ4NjM3OSwiZXhwIjoxNzExNDg3Mjc5LCJpc3MiOiJkaXJlY3R1cyJ9.ZUi1IaFht8JUkMY0YfCb4wd8u7BHLvxnZFon_JvgPFo",
-            "expires": 900000
-          }
-        }));
-        this.router.navigate(['/home']);
-      }, 3000);
- */
-
     if (this.formulario.status == "VALID") {
       this.store.changeSpinner(true);
       try {
         const {email, passw} = this.formulario.value
         const respLogin = await directus.auth.login({ 'email': email, password: passw });
-
         if (respLogin.access_token) {
-          console.log({respLogin});
-          // this.authenticated = true;
+
           const user: DataUsuario = await directus.users.me.read() as DataUsuario;
-          console.log({user});
           this.store.updateLogin(user)
           this.router.navigate(['/home']);
           this.store.changeSpinner(false);
@@ -83,12 +61,12 @@ export class LoginPageComponent extends BaseComponent{
           this.store.changeSpinner(false);
         }
       } catch (error:any) {
-        console.log({error});
         this.rederMensajeToast((error.parent.code == 'ERR_NETWORK' || error.parent.code == "ERR_BAD_RESPONSE")?`Fallo de conexión`:`Credenciales invalidas`);
         this.store.changeSpinner(false);
 
       }
-    };
+
+    }
   }
 
 
@@ -103,8 +81,6 @@ export class LoginPageComponent extends BaseComponent{
     let respuesta = "";
     const errores = this.formulario.controls[campo].errors || {}
     for (const key of Object.keys(errores)) {
-      // console.log(key);
-
       switch (key) {
         case 'required':
           respuesta = 'Este campo es requerido'
@@ -121,9 +97,6 @@ export class LoginPageComponent extends BaseComponent{
         case 'email':
           respuesta = `Ingrese un correo electrónico valido.`
         break;
-
-
-
         default:
           break;
       }

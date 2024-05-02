@@ -12,21 +12,21 @@ import { MatCheckboxModule} from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 
 import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
-import { FieldInputEditTextComponent } from '../../../../share/components/field-input-edit-text/field-input-edit-text.component';
-import { Ideas_Investigacion, Response_Ideas_Investigacion, intf_camposFieldEditText } from '../../../../share/interface/interfaces';
-import { ToastMsgComponent } from '../../../../share/components/toast-msg/toast-msg.component';
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
-import { HttpClientModule } from '@angular/common/http';
-import { directus } from '../../../../core/services/directus';
-import { GruposInvestigacionComponent } from '../../components/grupos-investigacion/grupos-investigacion.component';
-import { TipoProyectoComponent } from '../../components/tipo-proyecto/tipo-proyecto.component';
-import { constantesApp, constantesNewIdea } from '../../../../share/utils/constas';
-import { DatumValoresDominio, ValoresDominio } from '../../../../core/services/db_interfaces/Valores_Dominio';
-import { StoreApp } from '../../../../core/store/storeApp';
-import { BaseComponent } from '../../../../share/components/base/base.component';
-import { EditTextRichComponent } from '../../components/edit-text-rich/edit-text-rich.component';
-import { formatoFecha } from '../../../../share/utils/uitl';
+import { RespNewIdeaIdeasInvestigacion, dataIdeaSeleccionada } from '@app/core/services/db_interfaces/Ideas_Investigacion';
+import { GruposInvestigacionComponent } from '@app/modules/ideas/components/grupos-investigacion/grupos-investigacion.component';
+import { DatumValoresDominio, ValoresDominio } from '@app/core/services/db_interfaces/Valores_Dominio';
+import { EditTextRichComponent } from '@app/modules/ideas/components/edit-text-rich/edit-text-rich.component';
+import { ToastMsgComponent } from '@app/share/components/toast-msg/toast-msg.component';
+import { TipoProyectoComponent } from '@app/modules/ideas/components/tipo-proyecto/tipo-proyecto.component';
+import { RevisionesComponent } from '@app/modules/ideas/components/revisiones/revisiones.component';
+import { constantesApp, constantesNewIdea } from '@app/share/utils/constas';
+import { intf_camposFieldEditText } from '@app/share/interface/interfaces';
+import { BaseComponent } from '@app/share/components/base/base.component';
+import { directus } from '@app/core/services/directus';
+import { StoreApp } from '@app/core/store/storeApp';
 
 /**
  * Componente que se encarga de renderizar el formulario para crear una idea nueva
@@ -37,7 +37,7 @@ import { formatoFecha } from '../../../../share/utils/uitl';
   selector: 'app-new-idea-page', standalone: true,
   imports: [CommonModule, MatRadioModule, EditTextRichComponent, MatFormFieldModule, // lo emplea mat-error entre otros
      MatSelectModule, MatInputModule, HttpClientModule, FormsModule, ReactiveFormsModule, MatIconModule, MatDividerModule, MatCheckboxModule,
-    GruposInvestigacionComponent, FieldInputEditTextComponent, ToastMsgComponent, AngularEditorModule, MatButtonModule, TipoProyectoComponent
+    GruposInvestigacionComponent, ToastMsgComponent, AngularEditorModule, MatButtonModule, TipoProyectoComponent, RevisionesComponent
   ],
   templateUrl: './new-idea-page.component.html', styleUrl: './new-idea-page.component.scss',
 })
@@ -95,15 +95,18 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
   /**
    * propiedades tipo bandera
    */
-  banderaValidacionLineasInvestigacionSeleccionadas = false;
-  banderaValidacionTipoProyectoSeleccionando = false;
-  validacionFecha = false
-  validacionEntidad = false
+  banderaValidacionLineasInvestigacionSeleccionadas:boolean = false;
+  banderaValidacionTipoProyectoSeleccionando:boolean = false;
+  validacionFecha:boolean = false
+  validacionEntidad:boolean = false
   Interna: string = constantesNewIdea.Interna; // constantes
   Externa: string = constantesNewIdea.Externa; // constantes
   modoVer: boolean = false; // bandera para saber si estamos en modo ver o crear nueva idea
   EntidadInterna: boolean = false; // bandera del check donde el usuario selecciona el tipo de entidad a registrar
   EntidadExterna: boolean = false; // selecciona entidad externa
+  Devuelta: string = constantesNewIdea.Estados.Estados.Devuelta;
+  Descripcion_Valor_Estado = constantesNewIdea.Estados.campo;
+  Id_Idea_Investigacion_Seleccionada: string = '';
 
 
   /**
@@ -113,585 +116,6 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
   aute exercitation. Sit et ex aliquip do ex veniam nisi veniam ullamco aliqua. In minim voluptate pariatur elit non
   non consectetur incididunt occaecat voluptate. Non aute nulla cillum est ex ut aliqua occaecat in qui aliquip anim
   minim reprehenderit. Anim adipisicing fugiat nostrud irure labore et reprehenderit ut amet dolore veniam.`;
-
-  /* jsonDoc = toHTML({
-    type: "doc",
-    content: [
-      {
-        type: "heading",
-        attrs: {
-          level: 1,
-          align: null
-        },
-        content: [
-          {
-            type: "text",
-            text: "Hello Juan"
-          }
-        ]
-      },
-      {
-        type: "paragraph",
-        attrs: {
-          align: null
-        },
-        content: [
-          {
-            type: "text",
-            text: "This is editable text. "
-          },
-          {
-            type: "text",
-            marks: [
-              {
-                type: "text_color",
-                attrs: {
-                  color: "#d93f0b"
-                }
-              }
-            ],
-            text: "You can focus it and start typing"
-          },
-          {
-            type: "text",
-            text: "."
-          }
-        ]
-      },
-      {
-        type: "paragraph",
-        attrs: {
-          align: null
-        },
-        content: [
-          {
-            type: "text",
-            marks: [
-              {
-                type: "code"
-              }
-            ],
-            text: "code block"
-          }
-        ]
-      },
-      {
-        type: "blockquote",
-        content: [
-          {
-            type: "paragraph",
-            attrs: {
-              align: null
-            },
-            content: [
-              {
-                type: "text",
-                marks: [
-                  {
-                    type: "strong"
-                  }
-                ],
-                text: "Lorem Ipsum"
-              },
-              {
-                type: "text",
-                text: " is "
-              },
-              {
-                type: "text",
-                marks: [
-                  {
-                    type: "text_background_color",
-                    attrs: {
-                      backgroundColor: "#fbca04"
-                    }
-                  }
-                ],
-                text: "simply dummy"
-              },
-              {
-                type: "text",
-                text: " text of the printing and typesetting industry. "
-              },
-              {
-                type: "text",
-                marks: [
-                  {
-                    type: "em"
-                  }
-                ],
-                text:
-                  "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
-              },
-              {
-                type: "text",
-                text:
-                  ", when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        type: "heading",
-        attrs: {
-          level: 2,
-          align: null
-        },
-        content: [
-          {
-            type: "text",
-            text: "The code block is a code editor"
-          }
-        ]
-      },
-      {
-        type: "paragraph",
-        attrs: {
-          align: null
-        },
-        content: [
-          {
-            type: "text",
-            text:
-              "This editor has been wired up to render code blocks as instances of the "
-          },
-          {
-            type: "text",
-            marks: [
-              {
-                type: "link",
-                attrs: {
-                  href: "https://codemirror.net",
-                  title: "https://codemirror.net",
-                  target: "_blank"
-                }
-              }
-            ],
-            text: "CodeMirror"
-          },
-          {
-            type: "text",
-            text: " code editor, which provides "
-          },
-          {
-            type: "text",
-            marks: [
-              {
-                type: "link",
-                attrs: {
-                  href: "https://en.wikipedia.org",
-                  title: "",
-                  target: "_blank"
-                }
-              }
-            ],
-            text: "syntax highlighting"
-          },
-          {
-            type: "text",
-            text: ", auto-indentation, and similar."
-          }
-        ]
-      },
-      {
-        type: "code_block",
-        content: [
-          {
-            type: "text",
-            text: "function max(a, b) {\n  return a > b ? a : b\n}"
-          }
-        ]
-      },
-      {
-        type: "paragraph",
-        attrs: {
-          align: null
-        },
-        content: [
-          {
-            type: "text",
-            text:
-              "The content of the code editor is kept in sync with the content of the code block in the rich text editor, so that it is as if you're directly editing the outer document, using a more convenient interface."
-          }
-        ]
-      },
-      {
-        type: "heading",
-        attrs: {
-          level: 4,
-          align: "center"
-        },
-        content: [
-          {
-            type: "text",
-            text: "Mr. Bean"
-          }
-        ]
-      },
-      {
-        type: "paragraph",
-        attrs: {
-          align: "center"
-        },
-        content: [
-          {
-            type: "text",
-            text: "The image is resizable. Include "
-          },
-          {
-            type: "text",
-            marks: [
-              {
-                type: "strong"
-              }
-            ],
-            text: "image"
-          },
-          {
-            type: "text",
-            text: " plugin to enable image resizing"
-          }
-        ]
-      },
-      {
-        type: "heading",
-        attrs: {
-          level: 3,
-          align: "center"
-        },
-        content: [
-          {
-            type: "image",
-            attrs: {
-              src: "https://wallpapercave.com/wp/wp2318909.png",
-              alt: "Bean",
-              title: "Mr. Bean",
-              width: "8px",
-              style:`{
-                height: 'auto !important'
-              }`,
-            }
-          }
-        ]
-      },
-      {
-        type: "heading",
-        attrs: {
-          level: 3,
-          align: null
-        },
-        content: [
-          {
-            type: "text",
-            text: "Bullet list"
-          }
-        ]
-      },
-      {
-        type: "bullet_list",
-        content: [
-          {
-            type: "list_item",
-            content: [
-              {
-                type: "paragraph",
-                attrs: {
-                  align: null
-                },
-                content: [
-                  {
-                    type: "text",
-                    marks: [
-                      {
-                        type: "strong"
-                      }
-                    ],
-                    text: "Lorem Ipsum"
-                  },
-                  {
-                    type: "text",
-                    text:
-                      " is simply dummy text of the printing and typesetting industry"
-                  }
-                ]
-              },
-              {
-                type: "bullet_list",
-                content: [
-                  {
-                    type: "list_item",
-                    content: [
-                      {
-                        type: "paragraph",
-                        attrs: {
-                          align: null
-                        },
-                        content: [
-                          {
-                            type: "text",
-                            text: "("
-                          },
-                          {
-                            type: "text",
-                            marks: [
-                              {
-                                type: "strong"
-                              }
-                            ],
-                            text: "depth 1"
-                          },
-                          {
-                            type: "text",
-                            text:
-                              ") It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
-                          }
-                        ]
-                      },
-                      {
-                        type: "bullet_list",
-                        content: [
-                          {
-                            type: "list_item",
-                            content: [
-                              {
-                                type: "paragraph",
-                                attrs: {
-                                  align: null
-                                },
-                                content: [
-                                  {
-                                    type: "text",
-                                    text: "("
-                                  },
-                                  {
-                                    type: "text",
-                                    marks: [
-                                      {
-                                        type: "strong"
-                                      }
-                                    ],
-                                    text: "depth 2"
-                                  },
-                                  {
-                                    type: "text",
-                                    text:
-                                      ") The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested."
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            type: "list_item",
-            content: [
-              {
-                type: "paragraph",
-                attrs: {
-                  align: null
-                },
-                content: [
-                  {
-                    type: "text",
-                    text:
-                      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            type: "list_item",
-            content: [
-              {
-                type: "paragraph",
-                attrs: {
-                  align: null
-                },
-                content: [
-                  {
-                    type: "text",
-                    text:
-                      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old."
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        type: "heading",
-        attrs: {
-          level: 4,
-          align: null
-        },
-        content: [
-          {
-            type: "text",
-            text: "Ordered List"
-          }
-        ]
-      },
-      {
-        type: "ordered_list",
-        attrs: {
-          order: 1
-        },
-        content: [
-          {
-            type: "list_item",
-            content: [
-              {
-                type: "paragraph",
-                attrs: {
-                  align: null
-                },
-                content: [
-                  {
-                    type: "text",
-                    marks: [
-                      {
-                        type: "strong"
-                      }
-                    ],
-                    text: "Lorem Ipsum"
-                  },
-                  {
-                    type: "text",
-                    text:
-                      " is simply dummy text of the printing and typesetting industry"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            type: "list_item",
-            content: [
-              {
-                type: "paragraph",
-                attrs: {
-                  align: null
-                },
-                content: [
-                  {
-                    type: "text",
-                    text:
-                      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable"
-                  }
-                ]
-              },
-              {
-                type: "ordered_list",
-                attrs: {
-                  order: 1
-                },
-                content: [
-                  {
-                    type: "list_item",
-                    content: [
-                      {
-                        type: "paragraph",
-                        attrs: {
-                          align: null
-                        },
-                        content: [
-                          {
-                            type: "text",
-                            text: "("
-                          },
-                          {
-                            type: "text",
-                            marks: [
-                              {
-                                type: "strong"
-                              }
-                            ],
-                            text: "depth 1"
-                          },
-                          {
-                            type: "text",
-                            text:
-                              ") It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
-                          }
-                        ]
-                      },
-                      {
-                        type: "ordered_list",
-                        attrs: {
-                          order: 1
-                        },
-                        content: [
-                          {
-                            type: "list_item",
-                            content: [
-                              {
-                                type: "paragraph",
-                                attrs: {
-                                  align: null
-                                },
-                                content: [
-                                  {
-                                    type: "text",
-                                    text: "("
-                                  },
-                                  {
-                                    type: "text",
-                                    marks: [
-                                      {
-                                        type: "strong"
-                                      }
-                                    ],
-                                    text: "depth 2"
-                                  },
-                                  {
-                                    type: "text",
-                                    text:
-                                      ") The chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested."
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            type: "list_item",
-            content: [
-              {
-                type: "paragraph",
-                attrs: {
-                  align: null
-                },
-                content: [
-                  {
-                    type: "text",
-                    text:
-                      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old."
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }) */
 
   /**
    * Objeto para configurar el header de los campos de texto enrriquecido
@@ -712,34 +136,9 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
     toolbarHiddenButtons: [
       [
         'insertVideo',
-        /* 'strikeThrough',
-        'toggleEditorMode'
-      'undo',
-      'redo',
-      'bold',
-      'italic',
-      'underline',
-      'subscript',
-      'superscript',
-      'justifyLeft',
-      'justifyCenter',
-      'justifyRight',
-      'justifyFull',
-      'indent',
-      'outdent',
-      'insertUnorderedList',
-      'insertOrderedList',
-      'heading',
-      'fontName'],['fontSize',
-      'textColor',
-      'backgroundColor',
-      'customClasses',
-      'link',
-      'unlink',
-      */
-     'insertHorizontalRule',
-     'removeFormat',
-    'insertImage',
+        'insertHorizontalRule',
+        'removeFormat',
+        'insertImage',
       ]
     ],
     showToolbar: true,
@@ -766,9 +165,6 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
     ]
   };
 
-  // gruposInvestigacion: DatumGruposInvestigacion[] = ["GEOMATICA","SUELOS Y ECOLOGÍA","ESTUDIOS TERRITORIALES"];
-  // gruposInvestigacion: DatumGruposInvestigacion[] = [];
-
   /**
    * obj de tipo FormGrup, donde se especifican todos los campos del formulario
    * y su respectiva configuraión de validadciones
@@ -778,9 +174,9 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
     Fecha_Idea: ['',[Validators.required],[]],
     nombreProponente: ['',[],[]],
     email: ['',[Validators.email],[]],
-    cedula: [,[Validators.minLength(6), Validators.maxLength(14)],[]],
-    celular: [ ,[],[]],
-    Titulo_Idea: [,[Validators.required, Validators.minLength(3), Validators.maxLength(200)],[]],
+    cedula: ['',[Validators.minLength(6), Validators.maxLength(14)],[]],
+    celular: ['',[],[]],
+    Titulo_Idea: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(200)],[]],
 
     Investigacion_Cientifica: [false,[],[]],
     Desarrollo_Tecnologico: [false,[],[]],
@@ -792,20 +188,6 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
     lineas_investigacion: [[],[],[]],
     LineaIvestigacionSelected: [[],[Validators.required],[]],
 
-    /* geodesia: ['',[],[]],
-    gestionConocimiento: ['',[],[]],
-    infraDatoEspaciales: ['',[],[]],
-    percepcionRemota: ['',[],[]],
-    sig: ['',[],[]],
-    tic: ['',[],[]],
-    catastroMP: ['',[],[]],
-    contaminacionSuelos: ['',[],[]],
-    geografiaSuelos: ['',[],[]],
-    planificacionUsoTierras: ['',[],[]],
-    geopoliticaLimites: ['',[],[]],
-    planificacionUrbanoRegional: ['',[],[]],
-    sociedadEspacio: ['',[],[]], */
-
     Tiempo_Ejecucion_Proyecto: ['',[Validators.required, Validators.maxLength(50)],[]],
     Lugar_Ejecucion: ['',[Validators.required, Validators.maxLength(50)],[]],
 
@@ -814,12 +196,13 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
     Apropiacion_Conocimiento: ['',[Validators.maxLength(200)],[]],
     Formacion_CTEL: ['',[Validators.maxLength(200)],[]],
 
-    // Problema_Idea: [`<font face="Arial">Ingresar<font face="Arial">&#160; <b>texto con formato aqui</b></font></font>`,[],[]],
-    Problema_Idea: [,[Validators.required],[]],
-    Antecedentes: [,[Validators.required],[]],
-    Justificacion: [,[Validators.required],[]],
-    Descripcion_Idea: [,[Validators.required],[]],
-    Bibliografia_Empleada: [/* { value: this.jsonDoc, disabled: false } */,[Validators.required],[]],
+    Problema_Idea: ['',[Validators.required],[]],
+    Antecedentes: ['',[Validators.required],[]],
+    Justificacion: ['',[Validators.required],[]],
+    Descripcion_Idea: ['',[Validators.required],[]],
+    Bibliografia_Empleada: ['',[Validators.required],[]],
+
+    Descripcion_Valor_Estado: ['',[],[]]
 
   })
 
@@ -834,18 +217,13 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
    * si se va a registrar una idea realizar la consulta de Valores_Dominio_dependencia
    */
   ngOnInit(): void {
-    console.log(" in NewIdeaPageComponent ");
-    console.log(" this.formulario ", this.formulario);
-    let ideaSeleccionanda: Ideas_Investigacion = this.store.ideaSeleccionanda()
+    const ideaSeleccionanda: dataIdeaSeleccionada = this.store.ideaSeleccionanda()
     this.modoVer = false;
     if (this.validateSesionTime() && ideaSeleccionanda.Codigo_Idea == '') {
       this.getValores_Dominio_dependencia();
-      // this.editor = new Editor();
-      // this.getGruposLineasInvestigacion();
-      // this.setDataTestForm();
-      // this.formulario.controls["Entidad"].setValue("Agustin Codazzi Igac")
     }else{
       this.modoVer = true
+      this.Id_Idea_Investigacion_Seleccionada = ideaSeleccionanda.Id_Idea_Investigacion;
       this.verificaSiseDebeAutoCompletarElFormulario(ideaSeleccionanda)
     }
   }
@@ -854,9 +232,7 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
    * Realiza la consulta de una idea segun el Id_Idea_Investigacion seleccionada
    * trayendo todos los campos para renderizar en el formulario en modo ver
    */
-  async verificaSiseDebeAutoCompletarElFormulario(ideaSeleccionanda: Ideas_Investigacion){
-
-    console.log(ideaSeleccionanda);
+  async verificaSiseDebeAutoCompletarElFormulario(ideaSeleccionanda: dataIdeaSeleccionada){
 
     const queryParams = {
       filter: {
@@ -866,28 +242,28 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
       },
       sort: ['Codigo_Idea'],
       fields:['Codigo_Idea', 'Titulo_Idea', 'estados.*', 'estados.Id_Estado.*', 'tipoProyecto', 'Fecha_Creacion', 'Id_Idea_Investigacion','Desarrollo_Tecnologico', 'Tiempo_Ejecucion_Proyecto',
-      'Innovacion', 'Investigacion_Cientifica', 'Entidad', 'Fecha_Idea', 'email', 'URL_Cronograma',  'Usuario_Creador', 'Id_Convocatoria',
+      'Innovacion', 'Investigacion_Cientifica', 'Entidad', 'Fecha_Idea', 'email', 'URL_Cronograma',  'Usuario_Creador.*', 'Id_Convocatoria',
       'Id_Macroproyecto', 'Id_Dependencia_IGAC', 'Id_Ponente', 'Tiempo_Ejecucion', 'Lugar_Ejecucion', 'Nuevo_Conocimiento', 'Tecnologico_Innovacion',
       'Apropiacion_Conocimiento', 'Formacion_CTEL', 'Problema_Idea', 'Antecedentes', 'Justificacion', 'Descripcion_Idea', 'Bibliografia_Empleada', 'Validada',
       'Fecha_Validacion', 'lineas_investigacion.Id_Linea_Investigacion.*', 'lineas_investigacion.Id_Linea_Investigacion.Id_Grupo_Investigacion.*'
     ]
     }
-    let Idea_Investigacion: Response_Ideas_Investigacion = await directus.items('Ideas_Investigacion').readByQuery(queryParams)  as Response_Ideas_Investigacion;
-    ideaSeleccionanda = {...ideaSeleccionanda, ...Idea_Investigacion.data[0]}
-    console.log(ideaSeleccionanda);
+    const Idea_Investigacion: RespNewIdeaIdeasInvestigacion = await directus.items(constantesNewIdea.DB.Ideas_Investigacion).readByQuery(queryParams)  as RespNewIdeaIdeasInvestigacion;
+    console.log({Idea_Investigacion});
+    const _ideaSeleccionanda:dataIdeaSeleccionada = {...ideaSeleccionanda, ...Idea_Investigacion.data[0]}
 
-    const camposIdeaSeleccionanda = Object.keys(ideaSeleccionanda);
-    console.log({camposIdeaSeleccionanda});
+    const camposIdeaSeleccionanda = Object.keys(_ideaSeleccionanda);
 
     camposIdeaSeleccionanda.forEach(campo => {
-      // console.log(`${campo} => `, ideaSeleccionanda[campo])
       if (this.formulario.controls[campo]) {
         if (campo == "Fecha_Idea") { // para ajustar el formato de la fecha pra que pueda ser leido "yyyy-MM-dd"
-          this.formulario.controls[campo].setValue(ideaSeleccionanda[campo].split('T')[0])
+          this.formulario.controls[campo].setValue(_ideaSeleccionanda[campo].split('T')[0])
         } else if(campo == "Investigacion_Cientifica" || campo == "Desarrollo_Tecnologico" || campo == "Innovacion"){
-          this.formulario.controls[campo].setValue((ideaSeleccionanda[campo]=='1')?true:false)
-        } else {
-          this.formulario.controls[campo].setValue(ideaSeleccionanda[campo])
+          this.formulario.controls[campo].setValue((_ideaSeleccionanda[campo]=='1')?true:false)
+        } else if(campo == "nombreProponente"){
+          this.formulario.controls[campo].setValue(`${_ideaSeleccionanda.Usuario_Creador.first_name} ${_ideaSeleccionanda.Usuario_Creador.last_name}`)
+        }else {
+          this.formulario.controls[campo].setValue(_ideaSeleccionanda[campo])
         }
       }
     });
@@ -901,8 +277,6 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
    */
   async getValores_Dominio_dependencia() {
     const Valores_Dominio = directus.items(constantesApp.Valores_Dominio);
-    // const responseTipo_Dominio = await Valores_Dominio.readByQuery({limit: -1,});
-    // const aa = await directus.fields.readAll();
     const filterValores_Dominio: ValoresDominio = await Valores_Dominio.readByQuery({
       filter: {
         Tipo_Dominio: {
@@ -910,7 +284,6 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
         },
       },
     }) as ValoresDominio;
-    console.log(filterValores_Dominio);
     this.Entidades = filterValores_Dominio.data
 
   }
@@ -943,7 +316,6 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
    * @param $event camptura el radioButtom seleccinado
    */
   onCheckboxChangeEntidadInterna($event: MatRadioChange) {
-    console.log("onCheckboxChangeEntidadInterna",  $event);
 
     if ($event.value == constantesNewIdea.Interna) {
       this.EntidadInterna = true
@@ -965,22 +337,6 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
     return this.formulario.controls[field].errors && this.formulario.controls[field].touched;
   }
 
-  /* validacionCampoFieldEditText() {
-
-    console.log("validacionCampoFieldEditText");
-
-    let hasError = false;
-    this.camposFieldEditText.forEach(e => {
-      if (this.formulario.controls[e.nameField].errors) {
-        hasError = e.validacion = true
-      } else{
-        hasError = e.validacion = false
-      }
-    })
-
-    return hasError
-  } */
-
   /**
    * Esta funcion valida si un campo incumple algun requerimiento, si es asi retorna el menaje
    * que se quiere mostrar al usuario
@@ -992,27 +348,19 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
     let respuesta = "";
     const errores = this.formulario.controls[campo].errors || {}
     for (const key of Object.keys(errores)) {
-      // console.log(key);
-
       switch (key) {
         case 'required':
           respuesta = 'Este campo es requerido'
         break;
-
         case 'minlength':
           respuesta = `Mínimo ${errores['minlength'].requiredLength} caracteres.`
         break;
-
         case 'maxlength':
           respuesta = `Se ha excedido de la longitud maxima requerida.`
         break;
-
         case 'email':
           respuesta = `Ingrese un correo electrónico valido.`
         break;
-
-
-
         default:
           break;
       }
@@ -1027,15 +375,10 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
    * @returns false si no cumple
    */
   validacionesCamposRequeridos(): boolean {
-
-    console.log(this.camposFieldEditText);
-
     this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1;
     this.banderaValidacionTipoProyectoSeleccionando = this.formulario.value.tipoProyectoselected.length < 1;
-
     this.validacionFecha = (this.formulario.controls["Fecha_Idea"].errors)?true:false
     this.validacionEntidad = (this.formulario.controls["Entidad"].errors)?true:false
-
     let hasError = false;
     this.camposFieldEditText.forEach(e => {
       if (this.formulario.controls[e.nameField].errors) {
@@ -1044,9 +387,6 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
         hasError = e.validacion = false
       }
     })
-
-    console.log(this.camposFieldEditText);
-
     return !(this.banderaValidacionLineasInvestigacionSeleccionadas || this.banderaValidacionTipoProyectoSeleccionando || this.validacionFecha || this.validacionEntidad || hasError)
   }
 
@@ -1056,25 +396,18 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
    * @param accion string
    */
   async onSave(accion:string):Promise<void>{
-
-    console.log({accion});
     if (accion  == "regresar") {
       this.router.navigate([`/home/dashboard`]);
     } else if (accion != "submit") {
-      console.log(this.formulario.value);
-      console.log("validacionesCamposRequeridos => ",this.validacionesCamposRequeridos());
-      console.log("status => ", this.formulario.status);
-
       if (this.validacionesCamposRequeridos() && this.formulario.status == "VALID" /* && !this.fnValidacionFecha() && !this.validacionCampoFieldEditText() */){
-
         const { Antecedentes, Apropiacion_Conocimiento, Bibliografia_Empleada, Tecnologico_Innovacion, Descripcion_Idea,
           Entidad, Fecha_Idea, Formacion_CTEL, Justificacion, LineaIvestigacionSelected, Lugar_Ejecucion, Nuevo_Conocimiento,
           Problema_Idea, Tiempo_Ejecucion_Proyecto, Titulo_Idea, Investigacion_Cientifica, Desarrollo_Tecnologico,
-          Innovacion, URL_Cronograma, cedula, celular, email, nombreProponente, tipoProyectoselected
+          Innovacion, URL_Cronograma, cedula, celular, email, nombreProponente
         } = this.formulario.value;
 
         // json para enviar
-        let objToSend = {
+        const objToSend = {
           Antecedentes,
           Apropiacion_Conocimiento,
           Bibliografia_Empleada,
@@ -1110,12 +443,8 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
           Usuario_Creador: this.store.usuario().id,
           Validada:'false',
         }
-
-        console.log({objToSend});
-        // const result = await client.request(createItem(collection_name, item_object));
         const Ideas_Investigacion = directus.items('Ideas_Investigacion'); // instancia la coleccion
         const result = await Ideas_Investigacion.createOne(objToSend);// crean un item
-        console.log(result);
         let mensaje = ``;
         if (result) {
           mensaje = `Idea creada de forma satisfactoria`;
@@ -1128,10 +457,6 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
       }else{
         this.rederMensajeToast(`Existen campos que no cumplen las validaciones`);
       }
-
     }
-
   }
-
-
 }

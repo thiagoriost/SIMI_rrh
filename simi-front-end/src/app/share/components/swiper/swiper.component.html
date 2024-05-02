@@ -1,11 +1,11 @@
 <div [id]="swiperContainerId" class="px-2 px-md-5 position-relative swiperContainer">
   <ng-content></ng-content>
   <div class="btnsArrowSiwper">
-    <div class="swiper-button-next-unique pointer" (click)="changeSlide(1)">
+    <div class="swiper-button-next-unique pointer" (click)="changeSlide(1)" (keydown)="changeSlide(1)" tabindex="0">
       <!-- <i class="bi bi-arrow-right" ></i> -->
       <mat-icon aria-hidden="false" aria-label="arrow-right" fontIcon="chevron_right" ></mat-icon>
     </div>
-    <div class="swiper-button-prev-unique pointer" (click)="changeSlide(-1)">
+    <div class="swiper-button-prev-unique pointer" (click)="changeSlide(-1)" (keyup)="changeSlide(-1)" tabindex="0">
       <!-- <i class="bi bi-arrow-left" ></i> -->
       <mat-icon aria-hidden="false" aria-label="arrow-left" fontIcon="chevron_left" ></mat-icon>
     </div>

@@ -1,4 +1,4 @@
-import { ResolveFn, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { LoginPageComponent } from './modules/auth/pages/login-page/login-page.component';
 import { DashboardPageComponent } from './modules/ideas/pages/dashboard-page/dashboard-page.component';
 import { ConfigPageComponent } from './modules/ideas/pages/config-page/config-page.component';
@@ -52,10 +52,6 @@ export const routes: Routes = [
     path:'**', component: NotFoundPageComponent,
   },
 ];
-const resolvedChildATitle: ResolveFn<string> = () => Promise.resolve('dashboard');
-
-// export const routes: Routes = [
-
 
 //   {
 //     path:'home',

@@ -3,12 +3,11 @@
   position: fixed;
   top: 0;
   height: 30%;
+  width: 100%;
 
     .subContainerSwiper{
       width: 200px !important;
     }
-
-
 
     .card{
       background-color: transparent;
@@ -17,12 +16,10 @@
       justify-content: center;
       width: 100%; /* Ancho del contenedor */
       height: 200px; /* Alto del contenedor */
-      // border: 1px solid #ccc; /* Borde para visualización */
       overflow: hidden; /* Oculta el desbordamiento de la imagen */
       position: relative;
 
       .card-body{
-        // background-color: aqua;
         text-align: justify;
         margin-top: 10px;
         color: white;
@@ -75,21 +72,4 @@
       }
   }
 
-
-
   }
-
-
-/* .swiperContainer{
-
-
-  }
-
-  @supports(object-fit: cover){
-      .swiperContainer img{
-        height: 100%;
-        object-fit: cover;
-        object-position: center center;
-      }
-  }
- */

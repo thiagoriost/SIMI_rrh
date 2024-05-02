@@ -1,11 +1,17 @@
+@if (isAuthenticated) {
+  <app-default-layout>
+    <router-outlet />
+  </app-default-layout>
+}
+@else {
   <router-outlet />
+}
 
+@if(store.spinnerOn()){
 
-  @if(store.spinnerOn()){
-
-    <div class="spinner">
-      <mat-spinner></mat-spinner>
-    </div>
-  }
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+}
 
 

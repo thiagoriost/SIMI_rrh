@@ -1,16 +1,17 @@
 import {
   AfterViewInit,
   CUSTOM_ELEMENTS_SCHEMA,
-  ChangeDetectorRef,
   Component,
   ContentChild,
   ElementRef,
   Input,
-  effect,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { SwiperContainer } from 'swiper/element/bundle';
 
+/**
+ * Componente encargado de renderizar las convocatorias
+ */
 @Component({
   selector: 'app-swiper',
   templateUrl: './swiper.component.html',
@@ -27,7 +28,7 @@ export class SwiperComponent implements AfterViewInit {
   constructor() {}
 
   /**
-   * Metodo para realiar inicializar el swiper
+   * Metodo para inicializar el swiper
    */
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -44,7 +45,6 @@ export class SwiperComponent implements AfterViewInit {
    * @param prevOrNext almacena la vista actual renderizada
    */
   changeSlide(prevOrNext: number): void {
-    console.log(prevOrNext);
 
     if (prevOrNext === -1) {
       this.swiperRef.nativeElement.swiper.slidePrev();

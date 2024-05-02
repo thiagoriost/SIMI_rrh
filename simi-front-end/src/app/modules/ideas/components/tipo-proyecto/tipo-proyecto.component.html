@@ -3,9 +3,6 @@
   <p class="label">Tipo de proyecto</p>
   <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
   <section class="Section">
-    <!-- @for (TP of tiposProyecto; track $index) {
-      <mat-checkbox color="primary" formControlName={{TP.field}} (change)="checkedTP(TP, $event.checked)">{{TP.tipoProyecto}}</mat-checkbox>
-    } -->
     <mat-checkbox (change)="checkedTP(tiposProyecto[0], $event.checked)" formControlName="Investigacion_Cientifica" checked="{{formulario?.value.Investigacion_Cientifica}}" color="primary" [disabled]="modoVer">Investigación</mat-checkbox>
     <mat-checkbox (change)="checkedTP(tiposProyecto[1], $event.checked)" formControlName="Desarrollo_Tecnologico" checked="{{formulario?.value.Desarrollo_Tecnologico}}" color="primary" [disabled]="modoVer">Desarrollo tecnológico</mat-checkbox>
     <mat-checkbox (change)="checkedTP(tiposProyecto[2], $event.checked)" formControlName="Innovacion" color="primary" checked="{{formulario?.value.Innovacion}}" [disabled]="modoVer">Innovación</mat-checkbox>
@@ -13,8 +10,3 @@
   @if (banderaValidacionTipoProyectoSeleccionando) { <mat-error>Se requiere seleccionar al menos un típo de proyecto </mat-error> }
 
 </div>
-
-
-<!-- @if (!validacionCampo("Investigacion_Cientifica")) { <mat-error>{{getErrorCampo("Investigacion_Cientifica")}}</mat-error> } -->
-<!-- @if (!validacionCampo("Desarrollo_Tecnologico")) { <mat-error>{{getErrorCampo("Desarrollo_Tecnologico")}}</mat-error> } -->
-<!-- @if (!validacionCampo("Innovacion")) { <mat-error>{{getErrorCampo("Innovacion")}}</mat-error> } -->
