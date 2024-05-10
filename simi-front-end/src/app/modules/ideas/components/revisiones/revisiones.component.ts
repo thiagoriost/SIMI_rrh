@@ -4,9 +4,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MotivosDevolucion, dataMotivosDevolucion, dataPrueba } from '@app/core/services/db_interfaces/Motivos_Devolucion';
-import { directus } from '@app/core/services/directus';
-import { constantesNewIdea } from '@app/share/utils/constas';
 
+/**
+ * Componente encargado de renderizar las devoluciones por idea de investigación
+ * @author Rigoberto Rios rigoriosh@gmail.com
+ */
 @Component({
   selector: 'app-revisiones',
   standalone: true,
@@ -17,9 +19,9 @@ import { constantesNewIdea } from '@app/share/utils/constas';
 export class RevisionesComponent implements OnInit{
 
 
-  @Input() Id_Idea_Investigacion_Seleccionada: string = '';
-  Motivos_Devolucion: dataMotivosDevolucion[] = [];
-  panelOpenState: boolean=false;
+  @Input() Id_Idea_Investigacion_Seleccionada: string = ''; // data de entrada con la idea seleccionada
+  Motivos_Devolucion: dataMotivosDevolucion[] = []; // arreglo de motivos de devolución a ser renderizdos
+  panelOpenState: boolean=false; // variable mostrar
 
   /**
    * Se ejecuta al inicial el componente
@@ -30,7 +32,7 @@ export class RevisionesComponent implements OnInit{
   }
 
   /**
-   * metodo que consulta los motivos de devolución de una idea especifica
+   * metodo que consulta los motivos de devolución de una idea de investigacion especifica
    */
   async get_Motivos_Devolucion() {
     const queryParams = {
@@ -44,20 +46,19 @@ export class RevisionesComponent implements OnInit{
     }
     // const response_MotivosDevolucion: MotivosDevolucion = await directus.items(constantesNewIdea.DB.Motivos_Devolucion).readByQuery(queryParams) as MotivosDevolucion;
     const response_MotivosDevolucion: MotivosDevolucion = dataPrueba;
-    console.log({response_MotivosDevolucion});
     this.ajustarDataToReder(response_MotivosDevolucion.data)
   }
 
+  /**
+   * metodo para alista la data segun lo requerido para ser renderizada
+   * @param dataMotivosDevolucion trae la data desde el backend
+   */
   ajustarDataToReder(dataMotivosDevolucion: dataMotivosDevolucion[]) {
-    console.log({dataMotivosDevolucion});
     // logica pendiente para ajustarDataToReder
 
     /* ////////////// */
     this.Motivos_Devolucion = dataMotivosDevolucion;
   }
 
-  atenderDevolucion(MotivoDevolucionSeleccionado: dataMotivosDevolucion) {
-    console.log({MotivoDevolucionSeleccionado});
-  }
 
 }

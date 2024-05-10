@@ -2,6 +2,7 @@ import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
 import { intf_convocatoria } from "../../share/interface/interfaces";
 import { DataUsuario } from "../services/db_interfaces/Usuario";
 import { dataIdeaSeleccionada } from "../services/db_interfaces/Ideas_Investigacion";
+import { constantesNewIdea } from "@app/share/utils/constas";
 
 
 export const dataInt_UsuarioCreador = {
@@ -122,7 +123,8 @@ const initialState: int_store = {
   },
   spinnerOn: false,
   convocatoriaSelected:initConvocatoriaSelected,
-  ideaSeleccionanda: initDataIdeaSeleccionada
+  ideaSeleccionanda: initDataIdeaSeleccionada,
+  tipoVistaFormularioIdeaInvestigacion: constantesNewIdea.modoVistaFormularioIdeaInvestigacion.modo_nueva_idea
 }
 
 /**
@@ -133,6 +135,7 @@ export interface int_store{
   spinnerOn: boolean;
   convocatoriaSelected: intf_convocatoria;
   ideaSeleccionanda: dataIdeaSeleccionada;
+  tipoVistaFormularioIdeaInvestigacion: string
 }
 
 
@@ -158,6 +161,10 @@ export const StoreApp = signalStore(
 
     setIdeaSeleccionanda(ideaSeleccionanda: dataIdeaSeleccionada){
       patchState(store, {ideaSeleccionanda})
+    },
+
+    set_tipoVistaFormularioIdeaInvestigacion(tipoVistaFormularioIdeaInvestigacion: string){
+      patchState(store, {tipoVistaFormularioIdeaInvestigacion});
     }
 
 

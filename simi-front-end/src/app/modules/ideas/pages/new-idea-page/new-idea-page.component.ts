@@ -15,14 +15,15 @@ import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
-import { RespNewIdeaIdeasInvestigacion, dataIdeaSeleccionada } from '@app/core/services/db_interfaces/Ideas_Investigacion';
 import { GruposInvestigacionComponent } from '@app/modules/ideas/components/grupos-investigacion/grupos-investigacion.component';
-import { DatumValoresDominio, ValoresDominio } from '@app/core/services/db_interfaces/Valores_Dominio';
+import { RespNewIdeaIdeasInvestigacion, dataIdeaSeleccionada } from '@app/core/services/db_interfaces/Ideas_Investigacion';
 import { EditTextRichComponent } from '@app/modules/ideas/components/edit-text-rich/edit-text-rich.component';
-import { ToastMsgComponent } from '@app/share/components/toast-msg/toast-msg.component';
+import { GeneralProponenteComponent } from '@app/modules/ideas/components/general-proponente/general-proponente.component';
 import { TipoProyectoComponent } from '@app/modules/ideas/components/tipo-proyecto/tipo-proyecto.component';
+import { DatumValoresDominio } from '@app/core/services/db_interfaces/Valores_Dominio';
 import { RevisionesComponent } from '@app/modules/ideas/components/revisiones/revisiones.component';
-import { constantesApp, constantesNewIdea } from '@app/share/utils/constas';
+import { ToastMsgComponent } from '@app/share/components/toast-msg/toast-msg.component';
+import { constantesNewIdea, modoVistaFormularioIdeaInvestigacion } from '@app/share/utils/constas';
 import { intf_camposFieldEditText } from '@app/share/interface/interfaces';
 import { BaseComponent } from '@app/share/components/base/base.component';
 import { directus } from '@app/core/services/directus';
@@ -36,6 +37,7 @@ import { StoreApp } from '@app/core/store/storeApp';
 @Component({
   selector: 'app-new-idea-page', standalone: true,
   imports: [CommonModule, MatRadioModule, EditTextRichComponent, MatFormFieldModule, // lo emplea mat-error entre otros
+    GeneralProponenteComponent,
      MatSelectModule, MatInputModule, HttpClientModule, FormsModule, ReactiveFormsModule, MatIconModule, MatDividerModule, MatCheckboxModule,
     GruposInvestigacionComponent, ToastMsgComponent, AngularEditorModule, MatButtonModule, TipoProyectoComponent, RevisionesComponent
   ],
@@ -101,7 +103,8 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
   validacionEntidad:boolean = false
   Interna: string = constantesNewIdea.Interna; // constantes
   Externa: string = constantesNewIdea.Externa; // constantes
-  modoVer: boolean = false; // bandera para saber si estamos en modo ver o crear nueva idea
+  modoVistaFormularioIdeaInvestigacion: string = constantesNewIdea.modoVistaFormularioIdeaInvestigacion.modo_nueva_idea; // bandera para saber si estamos en modo ver, nueva o devolución de una nueva idea
+  modos_VistaFormulario: modoVistaFormularioIdeaInvestigacion = constantesNewIdea.modoVistaFormularioIdeaInvestigacion; // constantes modo ver, nueva o devolución de una nueva idea
   EntidadInterna: boolean = false; // bandera del check donde el usuario selecciona el tipo de entidad a registrar
   EntidadExterna: boolean = false; // selecciona entidad externa
   Devuelta: string = constantesNewIdea.Estados.Estados.Devuelta;
@@ -184,7 +187,7 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
 
     URL_Cronograma: ['',[Validators.required, Validators.maxLength(150)],[]],
 
-    tipoProyectoselected: [[],[Validators.required],[]],
+    tipoProyectoselected: [[],[Validators.required],[]], // solo se utiliza para saber si por lo menos un tipo de pryecto fue seleccionado
     lineas_investigacion: [[],[],[]],
     LineaIvestigacionSelected: [[],[Validators.required],[]],
 
@@ -218,11 +221,10 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
    */
   ngOnInit(): void {
     const ideaSeleccionanda: dataIdeaSeleccionada = this.store.ideaSeleccionanda()
-    this.modoVer = false;
-    if (this.validateSesionTime() && ideaSeleccionanda.Codigo_Idea == '') {
-      this.getValores_Dominio_dependencia();
-    }else{
-      this.modoVer = true
+    this.modoVistaFormularioIdeaInvestigacion = this.store.tipoVistaFormularioIdeaInvestigacion();
+    console.log(this.modoVistaFormularioIdeaInvestigacion);
+
+    if (ideaSeleccionanda.Codigo_Idea != '') {
       this.Id_Idea_Investigacion_Seleccionada = ideaSeleccionanda.Id_Idea_Investigacion;
       this.verificaSiseDebeAutoCompletarElFormulario(ideaSeleccionanda)
     }
@@ -245,11 +247,10 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
       'Innovacion', 'Investigacion_Cientifica', 'Entidad', 'Fecha_Idea', 'email', 'URL_Cronograma',  'Usuario_Creador.*', 'Id_Convocatoria',
       'Id_Macroproyecto', 'Id_Dependencia_IGAC', 'Id_Ponente', 'Tiempo_Ejecucion', 'Lugar_Ejecucion', 'Nuevo_Conocimiento', 'Tecnologico_Innovacion',
       'Apropiacion_Conocimiento', 'Formacion_CTEL', 'Problema_Idea', 'Antecedentes', 'Justificacion', 'Descripcion_Idea', 'Bibliografia_Empleada', 'Validada',
-      'Fecha_Validacion', 'lineas_investigacion.Id_Linea_Investigacion.*', 'lineas_investigacion.Id_Linea_Investigacion.Id_Grupo_Investigacion.*'
+      'Fecha_Validacion', 'lineas_investigacion.*','lineas_investigacion.Id_Linea_Investigacion.*', 'lineas_investigacion.Id_Linea_Investigacion.Id_Grupo_Investigacion.*'
     ]
     }
     const Idea_Investigacion: RespNewIdeaIdeasInvestigacion = await directus.items(constantesNewIdea.DB.Ideas_Investigacion).readByQuery(queryParams)  as RespNewIdeaIdeasInvestigacion;
-    console.log({Idea_Investigacion});
     const _ideaSeleccionanda:dataIdeaSeleccionada = {...ideaSeleccionanda, ...Idea_Investigacion.data[0]}
 
     const camposIdeaSeleccionanda = Object.keys(_ideaSeleccionanda);
@@ -259,38 +260,22 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
         if (campo == "Fecha_Idea") { // para ajustar el formato de la fecha pra que pueda ser leido "yyyy-MM-dd"
           this.formulario.controls[campo].setValue(_ideaSeleccionanda[campo].split('T')[0])
         } else if(campo == "Investigacion_Cientifica" || campo == "Desarrollo_Tecnologico" || campo == "Innovacion"){
-          this.formulario.controls[campo].setValue((_ideaSeleccionanda[campo]=='1')?true:false)
+          this.formulario.controls[campo].setValue((_ideaSeleccionanda[campo]=='S'||_ideaSeleccionanda[campo]=='1')?true:false)
         } else if(campo == "nombreProponente"){
           this.formulario.controls[campo].setValue(`${_ideaSeleccionanda.Usuario_Creador.first_name} ${_ideaSeleccionanda.Usuario_Creador.last_name}`)
-        }else {
+        } else if(campo == "email"){
+          this.formulario.controls[campo].setValue(`${_ideaSeleccionanda.Usuario_Creador.email}`)
+        } else {
           this.formulario.controls[campo].setValue(_ideaSeleccionanda[campo])
         }
       }
     });
 
-    return this.modoVer;
   }
 
   /**
-   * Obitene desde directus los valores dominio en este caso
-   * los de tipo dependencia IGAC
-   */
-  async getValores_Dominio_dependencia() {
-    const Valores_Dominio = directus.items(constantesApp.Valores_Dominio);
-    const filterValores_Dominio: ValoresDominio = await Valores_Dominio.readByQuery({
-      filter: {
-        Tipo_Dominio: {
-          _contains: constantesApp.DEPENDIGAC,
-        },
-      },
-    }) as ValoresDominio;
-    this.Entidades = filterValores_Dominio.data
-
-  }
-
-  /**
-   * redirecciona a la pagina principal donde esta el banner de convocatoriasy la
-   * tabla con  las lista de ideas
+   * redirecciona a la pagina principal donde esta el banner de convocatorias y la
+   * tabla con las lista de ideas
    */
   goDashBoard() { this.router.navigate(['/home/dashboard']); }
 
@@ -332,9 +317,14 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
    * @param field nombre del camppo específico
    * @returns true si incumple alguna de las validaciones
    */
-  validacionCampo(field: string){
-    this.validateSesionTime()
-    return this.formulario.controls[field].errors && this.formulario.controls[field].touched;
+  validacionCampo(field: string): boolean | null{
+    if(this.validateSesionTime) this.validateSesionTime() // corrige que en momentos validateSesionTime aparece como undefined
+
+    if (this.formulario?.controls) {
+      return this.formulario.controls[field].errors && this.formulario.controls[field].touched;
+    } else {
+      return null
+    }
   }
 
   /**
@@ -343,26 +333,33 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
    * @param campo campo al que se quiere validar
    * @returns texto que se quiere renderizar segun requerimiento que incumple
    */
-  getErrorCampo(campo: string): string {
+  getErrorCampo(campo: string, formularioPadre?: FormGroup): string {
 
     let respuesta = "";
-    const errores = this.formulario.controls[campo].errors || {}
-    for (const key of Object.keys(errores)) {
-      switch (key) {
-        case 'required':
-          respuesta = 'Este campo es requerido'
-        break;
-        case 'minlength':
-          respuesta = `Mínimo ${errores['minlength'].requiredLength} caracteres.`
-        break;
-        case 'maxlength':
-          respuesta = `Se ha excedido de la longitud maxima requerida.`
-        break;
-        case 'email':
-          respuesta = `Ingrese un correo electrónico valido.`
-        break;
-        default:
+    if (this.formulario?.controls) {
+      let errores = {}
+      if (this.formulario) {
+        errores = this.formulario.controls[campo].errors || {}
+      } else {
+        errores = formularioPadre?.controls[campo].errors || {}
+      }
+      for (const key of Object.keys(errores)) {
+        switch (key) {
+          case 'required':
+            respuesta = 'Este campo es requerido'
           break;
+          case 'minlength':
+            respuesta = `A superado el máximo número de caracteres.`
+          break;
+          case 'maxlength':
+            respuesta = `Se ha excedido de la longitud maxima requerida.`
+          break;
+          case 'email':
+            respuesta = `Ingrese un correo electrónico valido.`
+          break;
+          default:
+            break;
+        }
       }
     }
     return respuesta
@@ -375,13 +372,13 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
    * @returns false si no cumple
    */
   validacionesCamposRequeridos(): boolean {
-    this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario.value.LineaIvestigacionSelected.length < 1;
-    this.banderaValidacionTipoProyectoSeleccionando = this.formulario.value.tipoProyectoselected.length < 1;
-    this.validacionFecha = (this.formulario.controls["Fecha_Idea"].errors)?true:false
-    this.validacionEntidad = (this.formulario.controls["Entidad"].errors)?true:false
+    this.banderaValidacionLineasInvestigacionSeleccionadas = this.formulario?.value.LineaIvestigacionSelected.length < 1;
+    this.banderaValidacionTipoProyectoSeleccionando = this.formulario?.value.tipoProyectoselected.length < 1;
+    this.validacionFecha = (this.formulario?.controls["Fecha_Idea"].errors)?true:false
+    this.validacionEntidad = (this.formulario?.controls["Entidad"].errors)?true:false
     let hasError = false;
-    this.camposFieldEditText.forEach(e => {
-      if (this.formulario.controls[e.nameField].errors) {
+    this.camposFieldEditText.forEach((e: { nameField: string | number; validacion: boolean; }) => {
+      if (this.formulario?.controls[e.nameField].errors) {
         hasError = e.validacion = true
       } else{
         hasError = e.validacion = false
@@ -407,44 +404,86 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
         } = this.formulario.value;
 
         // json para enviar
-        const objToSend = {
-          Antecedentes,
-          Apropiacion_Conocimiento,
-          Bibliografia_Empleada,
-          cedula,
-          celular,
-          Codigo_Idea: Number(new Date()),
-          Desarrollo_Tecnologico,
-          Descripcion_Idea,
-          email,
-          Entidad,
-          Fecha_Creacion: new Date(),
-          Fecha_Idea,
-          Fecha_Validacion: new Date(),
-          Formacion_CTEL,
-          Id_Convocatoria:this.store.convocatoriaSelected().Id_Convocatoria,
-          Id_Ponente: this.store.usuario().id,
-          Innovacion,
-          Investigacion_Cientifica,
-          lineas_investigacion: {
-              "create": LineaIvestigacionSelected,
-              "update": [],
-              "delete": []
-          },
-          Justificacion,
-          Lugar_Ejecucion,
-          nombreProponente,
-          Nuevo_Conocimiento,
-          Problema_Idea,
-          Tecnologico_Innovacion,
-          Tiempo_Ejecucion_Proyecto,
-          Titulo_Idea,
-          URL_Cronograma,
-          Usuario_Creador: this.store.usuario().id,
-          Validada:'false',
+        let objToSend = {};
+        if (accion == "registrar") {
+          objToSend = {
+            Antecedentes,
+            Apropiacion_Conocimiento,
+            Bibliografia_Empleada,
+            cedula,
+            celular,
+            Codigo_Idea: Number(new Date()),
+            Desarrollo_Tecnologico:Desarrollo_Tecnologico?'S':'N',
+            Descripcion_Idea,
+            email,
+            Entidad,
+            // Fecha_Creacion: new Date(),
+            Fecha_Idea,
+            // Fecha_Validacion: new Date(),
+            Formacion_CTEL,
+            Id_Convocatoria:this.store.convocatoriaSelected().Id_Convocatoria,
+            Id_Ponente: this.store.usuario().id,
+            Innovacion:Innovacion?'S':'N',
+            Investigacion_Cientifica:Investigacion_Cientifica?'S':'N',
+            lineas_investigacion: {
+                "create": LineaIvestigacionSelected,
+                "update": [],
+                "delete": [
+                  // array de los id que se quite
+                ]
+            },
+            Justificacion,
+            Lugar_Ejecucion,
+            nombreProponente,
+            Nuevo_Conocimiento,
+            Problema_Idea,
+            Tecnologico_Innovacion,
+            Tiempo_Ejecucion_Proyecto,
+            Titulo_Idea,
+            URL_Cronograma,
+            // Usuario_Creador: this.store.usuario().id,
+            Validada:'false',
+          }
+        } else { // logica editar
+          const Codigo_Idea = "";
+          objToSend = {
+            Antecedentes,
+            Apropiacion_Conocimiento,
+            Bibliografia_Empleada,
+            cedula,
+            celular,
+            Codigo_Idea,
+            Desarrollo_Tecnologico,
+            Descripcion_Idea,
+            email,
+            Entidad,
+            Fecha_Idea,
+            Formacion_CTEL,
+            Innovacion,
+            Investigacion_Cientifica,
+            lineas_investigacion: {
+                "create": LineaIvestigacionSelected,
+                "update": [],
+                "delete": LineaIvestigacionSelected//deseleccionar
+            },
+            Justificacion,
+            Lugar_Ejecucion,
+            nombreProponente,
+            Nuevo_Conocimiento,
+            Problema_Idea,
+            Tecnologico_Innovacion,
+            Tiempo_Ejecucion_Proyecto,
+            Titulo_Idea,
+            URL_Cronograma,
+          }
         }
+        let result: any = {};
         const Ideas_Investigacion = directus.items('Ideas_Investigacion'); // instancia la coleccion
-        const result = await Ideas_Investigacion.createOne(objToSend);// crean un item
+        if (accion == "registrar") {
+          result = await Ideas_Investigacion.createOne(objToSend);// crean un item
+        }else{
+          result = await Ideas_Investigacion.updateOne(this.Id_Idea_Investigacion_Seleccionada, objToSend);// crean un item
+        }
         let mensaje = ``;
         if (result) {
           mensaje = `Idea creada de forma satisfactoria`;

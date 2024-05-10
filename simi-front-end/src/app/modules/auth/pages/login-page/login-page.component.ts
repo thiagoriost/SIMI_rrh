@@ -37,6 +37,7 @@ export class LoginPageComponent extends BaseComponent{
 
   constructor(router: Router, _snackBar: MatSnackBar, private formBuilder: FormBuilder) {
     super(router, _snackBar);
+    // alert("Revisar el comportamiento de grupos de investigación en modo devolucion")
   }
 
   /**

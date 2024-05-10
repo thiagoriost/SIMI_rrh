@@ -10,6 +10,7 @@ import { StoreApp, initConvocatoriaSelected, initDataIdeaSeleccionada } from '..
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from '../../../../share/components/base/base.component';
 import { IdeasInvestigacion, Respons_DB_Ideas_Investigacion, dataIdeaSeleccionada } from '../../../../core/services/db_interfaces/Ideas_Investigacion';
+import { constantesNewIdea, modoVistaFormularioIdeaInvestigacion } from '@app/share/utils/constas';
 
 /**
  * Componente encargado de renderiza el listado de ideas existentes
@@ -46,6 +47,9 @@ export class ListIdeasComponent extends BaseComponent implements OnInit, AfterVi
    */
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
+
+  modos_VistaFormulario: modoVistaFormularioIdeaInvestigacion = constantesNewIdea.modoVistaFormularioIdeaInvestigacion; // constantes modo ver, nueva o devolución de una nueva idea
+
 
   constructor(router: Router, _snackBar: MatSnackBar){
     super(router, _snackBar);
@@ -86,7 +90,6 @@ export class ListIdeasComponent extends BaseComponent implements OnInit, AfterVi
     ]
     }
     const publicData: Respons_DB_Ideas_Investigacion = await directus.items('Ideas_Investigacion').readByQuery(queryParams)  as Respons_DB_Ideas_Investigacion;
-    console.log({publicData});
     this.fixDataToRender(publicData.data)
   }
 
@@ -140,9 +143,12 @@ export class ListIdeasComponent extends BaseComponent implements OnInit, AfterVi
    * Toma la idea seleccionada y la envia al store
    * redirecciona a la pagina idea
    */
-  goRegistrarIdea(ideaSeleccionanda: dataIdeaSeleccionada) {
+  goRegistrarIdea(ideaSeleccionanda: dataIdeaSeleccionada, modoVistaFormularioIdeaInvestigacion:string) {
+    console.log({modoVistaFormularioIdeaInvestigacion});
+
     ideaSeleccionanda["nombreProponente"] = this.store.usuario().first_name + " " + this.store.usuario().last_name;
     ideaSeleccionanda["email"] = this.store.usuario().email;
+    this.store.set_tipoVistaFormularioIdeaInvestigacion(modoVistaFormularioIdeaInvestigacion);
     this.store.setIdeaSeleccionanda(ideaSeleccionanda);// set ideaSeleccionada en el store
     this.router.navigate([`/home/idea/${ideaSeleccionanda.Id_Idea_Investigacion}`])
   }
@@ -151,6 +157,7 @@ export class ListIdeasComponent extends BaseComponent implements OnInit, AfterVi
    * redireccionaa la pagina nueva idea
    */
   goRegistrarNuevaIdea(){
+    this.store.set_tipoVistaFormularioIdeaInvestigacion(this.modos_VistaFormulario.modo_nueva_idea)
     this.store.setConvocatoriaSelected(initConvocatoriaSelected); // reset el obj ConvocatoriaSelected
     this.router.navigate(["/home/idea"])
   }

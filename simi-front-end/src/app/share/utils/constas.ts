@@ -17,6 +17,18 @@ export const constantesNewIdea = {
   DB:{
     Ideas_Investigacion:'Ideas_Investigacion',
     Motivos_Devolucion:'Motivos_Devolucion'
+  },
+  modoVistaFormularioIdeaInvestigacion:{
+    modo_nueva_idea:'modo_nueva_idea',
+    modo_ver:'modo_solo_ver',
+    modo_devolucion:'modo_devolucion'
+
   }
 
+}
+
+export interface modoVistaFormularioIdeaInvestigacion{
+  modo_nueva_idea: string;
+  modo_ver: string;
+  modo_devolucion: string;
 }

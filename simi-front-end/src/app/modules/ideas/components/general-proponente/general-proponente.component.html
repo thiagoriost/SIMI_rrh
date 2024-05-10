@@ -1,0 +1,101 @@
+  <div class="gdp">
+    <h2>General Del Proponente</h2>
+  </div>
+  <div  class="generalDelProponente" [formGroup]="formularioPadre">
+    <div class="CampoEntidad">
+      @if (validacionEntidad) { <mat-error>Este campo es requerido</mat-error> }
+      @if (modoVista !== modos_VistaFormulario.modo_ver) {
+        <div style="display: flex;">
+          <p style="margin: 0;">Entidad o dependencia originadora de la idea</p>
+        </div>
+        <mat-radio-group class="DF" aria-label="Select an option" (change)="onCheckboxChangeEntidadInterna($event)">
+          <mat-radio-button  color="primary" [checked]="EntidadInterna"  value="{{Interna}}">{{Interna}}</mat-radio-button>
+          <mat-radio-button color="primary" [checked]="EntidadExterna" value="{{Externa}}">{{Externa}}</mat-radio-button>
+        </mat-radio-group>
+      }
+    </div>
+    <div class="contenedor Entidad">
+      @if(EntidadInterna){
+        <mat-form-field>
+          <mat-label >Entidad o dependencia originadora de la idea</mat-label>
+          <!-- <p class="tootlip">Entidad o dependencia originadora de la idea</p> -->
+          <mat-select disableOptionCentering="true" formControlName="Entidad" id="EntidadSelect" (ngModelChange)="changeSelect($event)">
+            <mat-option>Seleccione...</mat-option>
+            @for (entidad of Entidades; track entidad) {
+              <mat-option [value]="entidad.Descripcion_Valor">{{entidad.Descripcion_Valor}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
+      @if(EntidadExterna){
+        <mat-form-field>
+          <mat-label >Entidad o dependencia originadora de la idea</mat-label>
+          <!-- <p class="tootlip">Entidad o dependencia originadora de la idea</p> -->
+          <input formControlName="Entidad" matInput value="" id="EntidadInput">
+        </mat-form-field>
+      }
+      @if(modoVista === modos_VistaFormulario.modo_ver){
+        <mat-form-field>
+          <mat-label >Entidad o dependencia originadora de la idea</mat-label>
+          <!-- <p class="tootlip">Entidad o dependencia originadora de la idea</p> -->
+          <input formControlName="Entidad" matInput value="" id="EntidadInput" readonly="{{modoVista === modos_VistaFormulario.modo_ver}}">
+        </mat-form-field>
+      }
+    </div>
+
+
+    <div class="contenedor date" >
+        @if (validacionFecha) { <mat-error>Este campo es requerido</mat-error> }
+        @if(modoVista !== modos_VistaFormulario.modo_ver){
+          <mat-form-field>
+            <mat-label>Mes / Día / Año</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="Fecha_Idea" (ngModelChange)="fechaSelected($event)">
+            <mat-hint>
+            </mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        }@else {
+          <mat-form-field>
+            <mat-label >Mes / Día / Año</mat-label>
+            <input formControlName="Fecha_Idea" matInput readonly="{{modoVista === modos_VistaFormulario.modo_ver}}">
+          </mat-form-field>
+        }
+
+    </div>
+
+    <div class="contenedor nombreProponente">
+      <mat-form-field>
+        <!-- <p class="tootlip">Nombre del proponente de la idea</p> -->
+        <mat-label>Nombre del proponente de la idea</mat-label>
+        <input formControlName="nombreProponente" matInput placeholder="Proponente" value="" readonly="{{modoVista === modos_VistaFormulario.modo_ver}}">
+        @if (!validacionCampo("nombreProponente")) { <mat-error>Este campo es requerido</mat-error> }
+      </mat-form-field>
+    </div>
+
+    <div class="contenedor email">
+      <mat-form-field>
+        <mat-label>Correo electrónico</mat-label>
+        <input type="email" matInput formControlName="email" readonly="{{modoVista === modos_VistaFormulario.modo_ver}}"
+          placeholder="Ex. pat@example.com" value="">
+          @if (!validacionCampo("email")) { <mat-error>Este campo es requerido</mat-error> }
+      </mat-form-field>
+    </div>
+
+    @if ((modoVista !== modos_VistaFormulario.modo_ver) || ((modoVista === modos_VistaFormulario.modo_ver) && formularioPadre.value["cedula"])) {
+      <mat-form-field>
+        <mat-label>Cédula</mat-label>
+        <input matInput type="number" formControlName="cedula" placeholder="Cédula" value="" readonly="{{modoVista === modos_VistaFormulario.modo_ver}}">
+        @if (!validacionCampo("cedula")) { <mat-error>Este campo es requerido</mat-error> }
+      </mat-form-field>
+    }
+
+    @if ((modoVista !== modos_VistaFormulario.modo_ver) || ((modoVista === modos_VistaFormulario.modo_ver) && formularioPadre.value["celular"])) {
+      <mat-form-field>
+        <mat-label>Célular de contacto</mat-label>
+        <input type="number" formControlName="celular"  matInput placeholder="3219876543" readonly="{{modoVista === modos_VistaFormulario.modo_ver}}">
+        @if (!validacionCampo("celular")) { <mat-error>Este campo es requerido</mat-error> }
+      </mat-form-field>
+    }
+
+  </div>

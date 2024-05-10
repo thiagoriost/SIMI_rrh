@@ -57,9 +57,9 @@
           <th mat-header-cell *matHeaderCellDef style="width: 20px;"> ACCIONES</th>
           <td mat-cell *matCellDef="let element">
             <div class="BTNsAcciones">
-              <mat-icon (click)="goRegistrarIdea(element)" aria-hidden="false" aria-label="Logout icon" fontIcon="visibility" class="pointer"></mat-icon>
+              <mat-icon (click)="goRegistrarIdea(element, modos_VistaFormulario.modo_ver)" aria-hidden="false" aria-label="Logout icon" fontIcon="visibility" class="pointer"></mat-icon>
               @if(element.Descripcion_Valor_Estado === 'Devuelta'){
-                <mat-icon (click)="goRegistrarIdea(element)" aria-hidden="false" aria-label="Logout icon" fontIcon="settings_backup_restore" class="pointer ml_15"></mat-icon>
+                <mat-icon (click)="goRegistrarIdea(element, modos_VistaFormulario.modo_devolucion)" aria-hidden="false" aria-label="Logout icon" fontIcon="settings_backup_restore" class="pointer ml_15"></mat-icon>
               }
             </div>
           </td>

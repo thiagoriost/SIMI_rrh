@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { DashboardPageComponent } from '../../pages/dashboard-page/dashboard-page.component';
 import { DatumGruposInvestigacion, Grupoinvestigacion, GruposInvestigacion, IDGrupoInvestigacion } from '../../../../core/services/db_interfaces/Grupos_Investigacion';
 import {  DatumLineasInvestigacion, LineasInvestigacion } from '../../../../core/services/db_interfaces/Lineas_Investigacion';
+import { constantesNewIdea, modoVistaFormularioIdeaInvestigacion } from '@app/share/utils/constas';
 
 /**
  * Componente encargado de renderizar los grupos de investigación
@@ -24,9 +25,9 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
 
   @Input() banderaValidacionLineasInvestigacionSeleccionadas: boolean = false;//controla el mensaje de error, campo requerido
   @Input({required:true}) formulario: FormGroup | undefined // datos del formulario que viene desde el componente padre
-  @Input() modoVer: boolean = false; // bandera para saber si estamos en modo ver o nueva idea
+  @Input() modoVista: string = ''; // bandera para saber si estamos en modo ver o nueva idea
   gruposInvestigacion: DatumGruposInvestigacion[] = []; // arreglo para almacenarlos grupos de investigación ordenados para ser renderizados
-
+  modos_VistaFormulario: modoVistaFormularioIdeaInvestigacion = constantesNewIdea.modoVistaFormularioIdeaInvestigacion; // constantes modo ver, nueva o devolución de una nueva idea
 
   /**
    * En este metodo validamos si estamos en modo ver
@@ -35,7 +36,8 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
    */
   override ngOnInit(): void {
 
-    if (!this.modoVer) {
+    this.gruposInvestigacion = [];
+    if (this.modoVista !== this.modos_VistaFormulario.modo_ver) {
       this.getGruposLineasInvestigacion();
     }else{
       this.ajustarDataToRenderGruposInvestigacion();
