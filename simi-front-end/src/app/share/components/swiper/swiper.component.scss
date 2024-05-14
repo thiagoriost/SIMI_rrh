@@ -1,3 +1,6 @@
+// Importar mixin de breakpoints
+@import "/abstracts/_mixins-breakpoint";
+
 :host ::ng-deep .swiper-button-prev-unique {
   left: 0;
   top: 50%;
@@ -10,10 +13,6 @@
   top: 50%;
   position: absolute;
   cursor: pointer;
-}
-
-.swiper{
-  background-color: transparent;
 }
 
 .btnsArrowSiwper{
@@ -36,7 +35,7 @@
     font-weight: bold;
     border-radius: 50%;
     backdrop-filter: blur(10px);
-    background-color: #ffffff80;
+    background-color: var(--grey-light1-color);
     position: relative;
   }
 
@@ -50,13 +49,15 @@
     font-weight: bold;
     border-radius: 50%;
     backdrop-filter: blur(10px);
-    background-color: #ffffff80;
+    background-color: var(--grey-light1-color);
     position: relative;
   }
 
 
 }
-@media only screen and (max-width: 600px) {
+
+// Resolucion extra-small
+@include respond(xs){
 
   .btnsArrowSiwper{
     top: -150px;
@@ -71,4 +72,14 @@
 
 
 
+}
+
+.swiper-pagination {
+  position: absolute;
+  // text-align: center;
+  transition: .3s opacity;
+  transform: translate3d(0, 0, 0);
+  z-index: 10;
+  background-color: var(--blue-status-color);
+  display: none;
 }

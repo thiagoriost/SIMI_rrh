@@ -1,9 +1,8 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 @use "./styles/typography/config" as config;
-@use "./styles/utils/constantsStyles" as constantsStyles;
+@use "./styles/color/palette" as paletteStyles;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -14,8 +13,8 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$sistema-de-investigacion-misional-simi-primary: mat.define-palette(mat.$indigo-palette);
-$sistema-de-investigacion-misional-simi-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$sistema-de-investigacion-misional-simi-primary: mat.define-palette(paletteStyles.$md-simiyellow);
+$sistema-de-investigacion-misional-simi-accent: mat.define-palette(paletteStyles.$md-simiblue);
 
 // The warn palette is optional (defaults to red).
 $sistema-de-investigacion-misional-simi-warn: mat.define-palette(mat.$red-palette);
@@ -43,153 +42,8 @@ $sistema-de-investigacion-misional-simi-theme: mat.define-light-theme((
 $assets-path: '~assets/';
 
 
-html, body { height: 100%; }
-body {
-  margin: 0;
-}
+// GENERAL STYLES AND TOOLS
+@import "./styles/main.scss";
 
-
-// .main{
-//   background-color: rgba(76, 0, 255, 0.596);
-//   height: 98%;
-//   padding: 5px;
-// }
-
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body{
-  background-color: constantsStyles.$background;
-  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 100vh;
-}
-
-.centerPage{
-  display: flex;
-    flex-direction: row;
-    background-color: constantsStyles.$background;
-    height: 100vh;
-    flex-wrap: wrap;
-    align-content: center;
-    text-align: center;
-}
-
-
-.pointer{
-  cursor: pointer;
-}
-
-.mat-mdc-paginator-container{
-  flex-wrap: nowrap !important;
-}
-
-
-.scrollBarApp{
-  scrollbar-width: thin;
-}
-
-.mat-mdc-select-value{
-  overflow: visible !important;
-}
-
-.mat-divider{
-  border-top-color: black !important;
-  border-top-width: 1px !important;
-}
-
-
-// estilos para el campo edición
-.NgxEditor__Dropdown{
-  flex-shrink: initial !important;
-}
-
-.NgxEditor__MenuBar {
-  flex-wrap: nowrap !important;
-  width: max-content;
-}
-
-.swiper-pagination .swiper-pagination-bullets .swiper-pagination-horizontal{
-  background-color: aqua !important;
-}
-.swiper-pagination{
-  background-color: aqua !important;
-}
-.swiper-pagination {
-  position: absolute;
-  text-align: center;
-  transition: .3s opacity;
-  transform: translate3d(0, 0, 0);
-  z-index: 10;
-  background-color: aqua;
-  display: none;
-}
-.swiper-pagination-bullets{
-  background-color: aqua !important;
-}
-.swiper-pagination-horizontal{
-  background-color: aqua !important;
-}
-.swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction{
-  background-color: aqua !important;
-}
-
-
-/* estilos AngularEditor */
-.angular-editor-toolbar{
-  display: flex;
-  flex-wrap: wrap;
-  resize: both;
-  overflow: hidden;
-}
-
-.angular-editor-toolbar-set{
-  display: flex !important;
-  width: auto;
-}
-
-.angular-editor-textarea{
-  height: auto !important;
-}
-
-.mat-mdc-checkbox{
-  width: auto;
-}
-
-.mat-mdc-form-field-error{
-  font-size: small;
-}
-
-.mat-mdc-form-field-infix {
-  width: 340px;
-}
-
-.ml_15{
-  margin-left: 15px;
-}
-
-.mr_30{
-  margin-right: 30px;
-}
-
-.mt_15{
-  margin-top: 15px;
-}
-.mb_15{
-  margin-bottom: 15px;
-}
-
-.mat-mdc-form-field{
-  width: 100%;
-}
-
-.mat-expansion-panel-header-description{
-  display: flex;
-  justify-content: end;
-}
+// ICONS
+@import "./assets/fonts/simi-v1.0/style.css";

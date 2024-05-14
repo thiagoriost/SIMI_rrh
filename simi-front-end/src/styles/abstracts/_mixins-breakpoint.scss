@@ -1,0 +1,34 @@
+/*
+0 - 600px       phone
+600 - 960px     Tablet portrait
+960 - 1280px    Tablet Landscape
+1280 - 1920px   normal Style apply
+> 1920px        High resolution
+*/
+@mixin respond($breakpoint) {
+  @if $breakpoint == xs { // xs
+    @media only screen and (max-width:600px) { 
+        @content
+    };
+  }
+  @if $breakpoint == sm { //sm
+    @media only screen and (min-width:601px) and (max-width:960px) { 
+        @content
+    };
+  }
+  @if $breakpoint == md { // md
+    @media only screen and (min-width:961px) and (max-width:1280px) {
+        @content
+    };
+  }
+  @if $breakpoint == lg { // lg
+    @media only screen and (min-width:1281px) and (max-width:1920px){ 
+        @content
+    };
+  }
+  @if $breakpoint == xl { // xl
+    @media only screen and (min-width:1921px){ 
+        @content
+    };
+  }
+}

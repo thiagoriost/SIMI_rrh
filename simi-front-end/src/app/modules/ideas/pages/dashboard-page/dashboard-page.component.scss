@@ -1,3 +1,6 @@
+// Importar mixin de breakpoints
+@import "/abstracts/_mixins-breakpoint";
+
 #dashBoardPageContainer{
   display: flex;
   flex-direction: column;
@@ -16,7 +19,8 @@
   }
 }
 
-@media only screen and (max-width: 600px) {
+// Resolucion extra-small
+@include respond(xs){
 
   #dashBoardPageContainer{
 

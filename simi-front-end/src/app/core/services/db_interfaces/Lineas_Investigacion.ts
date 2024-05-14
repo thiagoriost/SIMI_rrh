@@ -15,5 +15,6 @@ export interface DatumLineasInvestigacion {
   Objetivo_Linea_Investigacion: string;
   Pertenencia_Linea:            string;
   Usuario_Creador:              string;
+  checked:                      boolean;
 }
 

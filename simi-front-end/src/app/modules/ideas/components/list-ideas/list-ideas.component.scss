@@ -1,15 +1,12 @@
+// Importar mixin de breakpoints
+@import "/abstracts/_mixins-breakpoint";
+
 .listIdeasContainer{
   flex-direction: column;
   height: 100%;
   .mat-mdc-table{
     table-layout: fixed; // para ajustar el ancho de las columnas
   }
-}
-.ideasBtnRegistrar{
-  display: flex;
-  height: 50px;
-  flex-direction: row;
-  align-items: center;
 }
 
 .titleIdeas{
@@ -18,21 +15,15 @@
 }
 
 .btnRegistrarIdea{
-  right: 0;
-  position: absolute;
-  margin-right: 1%;
+  text-align: right;
 }
 .dataTableIdeas{
   width: 100%; /* Ancho específico del contenedor */
   overflow: auto;
-  padding: 0 10px 0 10px;
+  padding: 0 70px 0 0px;
 }
 table {
   width: 100%;
-}
-
-.headerTable{
-  background-color: #cdcbcb;
 }
 
 h1{
@@ -46,8 +37,6 @@ h1{
 }
 
 .aprobado{
-  background-color: #97eb97;
-  color: green;
   font-weight: bold;
   padding: 5px;
   border-radius: 10px;
@@ -55,8 +44,6 @@ h1{
 }
 
 .enRevision{
-  background-color: rgb(255 190 123 / 87%);
-  color: orange;
   font-weight: bold;
   padding: 5px;
   border-radius: 10px;
@@ -64,16 +51,12 @@ h1{
 }
 
 .rechazado{
-  background-color: #d98e9c;
-  color: pink;
   font-weight: bold;
   padding: 5px;
   border-radius: 10px;
   text-align: center;
 }
 .Devuelta{
-  background-color: #e78d73;
-  color: black;
   padding: 5px;
   border-radius: 10px;
   text-align: center;
@@ -84,7 +67,8 @@ h1{
   // justify-content: space-around;
 }
 
-@media only screen and (max-width: 600px) {
+// Resolucion extra-small
+@include respond(xs){
 
 
 .dataTableIdeas{

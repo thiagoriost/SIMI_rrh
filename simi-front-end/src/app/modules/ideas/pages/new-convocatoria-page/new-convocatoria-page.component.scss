@@ -1,14 +1,10 @@
+// Importar mixin de breakpoints
+@import "/abstracts/_mixins-breakpoint";
+
 .newConvocatoriaContainer{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   text-align: center;
   height: 100vh;
   padding: 5px 20px 5px 20px;
-
-  p{
-    // width: fit-content;
-  }
 
   .idConvocatoria{
     text-align: justify;
@@ -21,7 +17,7 @@
     text-align: justify;
     padding-left: 10px;
     font-weight: bold;
-    color: blue;
+    color: var(--secondary-color);
     font-size: larger;
     font-size: 21px;
   }
@@ -40,7 +36,7 @@
         padding: 10px 10px 10px 30px;
         text-align: justify;
         height: 60%;
-        color: white;
+        color: var(--white-color);
         background-image: url("http://172.19.3.143:8055/assets/e2c23cbf-f312-44f9-9306-62470b8afbed?fit=contain&width=2000&height=2000&quality=100");
         background-size: cover;
         background-position: center;
@@ -61,14 +57,15 @@
       }
 
       .cardDetailConvocatoria{
-        background-color: white;
+        background-color: var(--white-color);
         border-radius: 20px;
         position: relative;
         top: -51px;
         // max-width: 94%;
         margin-left: 17px;
+        margin-right: 17px;
         overflow: overlay;
-        border: 1px solid #ccc;
+        border: 1px solid var(--grey-light1-color);
         padding: 110px 20px 20px 10px;
         height: 280px;
         align-content: center;
@@ -86,7 +83,7 @@
     }
 
     .cardRigh{
-      background-color: white;
+      background-color: var(--white-color);
       padding: 20px 10px 10px 30px;
       height: 58%;
       margin-top: 5px;
@@ -109,10 +106,10 @@
             margin: 0px;
           }
           .tittle2{
-            color: blue;
+            color: var(--secondary-color);
             font-weight: bold;
           }
-          .text1{}
+
         }
       }
       .rowMT{
@@ -134,11 +131,12 @@
 
 }
 
-@media only screen and (max-width: 700px) {
+// Resolucion extra-small
+@include respond(xs){
   .newConvocatoriaContainer{
     display: flex;
     flex-direction: column;
-    padding: 30px 10px 5px 5px;
+    padding: 0px 10px 5px 5px;
     overflow: overlay;
 
     .idConvocatoria{
@@ -160,7 +158,6 @@
           height: 50%;
         }
         .cardDetailConvocatoria{
-          margin-left: 0px;
           top: -30px;
           max-width: fit-content;
           padding: 110px 20px 20px 10px;
@@ -168,17 +165,18 @@
         }
       }
       .cardRigh{
-        background-color: rgb(3, 8, 69);
-        color: white;
+        background-color: var(--black-color);
+        color: var(--white-color);
         margin-left: 7px;
         margin-top: 15px;
-        max-width: 98%;
+        width: auto;
         box-shadow: unset;
+        padding-top: 50px;
 
         .row{
           .data{
             .tittle2{
-              color: yellow;
+              color: var(--primary-color);
             }
           }
 
@@ -198,3 +196,6 @@
 }
 
 
+.scrollBarApp{
+  scrollbar-width: thin;
+}

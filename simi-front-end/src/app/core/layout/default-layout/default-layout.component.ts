@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import { NavBarSmallComponent } from '@app/modules/ideas/components/nav-bar-small/nav-bar-small.component';
-import { NavBarComponent } from '@app/modules/ideas/components/nav-bar/nav-bar.component';
+import { MenuLateralBotonComponent } from '@app/share/components/menu-lateral-boton/menu-lateral-boton.component';
 
 
 /**
@@ -12,7 +11,7 @@ import { NavBarComponent } from '@app/modules/ideas/components/nav-bar/nav-bar.c
 @Component({
   selector: 'app-default-layout',
   standalone: true,
-  imports: [MatSidenavModule, NavBarSmallComponent, NavBarComponent],
+  imports: [MatSidenavModule, MenuLateralBotonComponent],
   templateUrl: './default-layout.component.html',
   styleUrl: './default-layout.component.scss'
 })

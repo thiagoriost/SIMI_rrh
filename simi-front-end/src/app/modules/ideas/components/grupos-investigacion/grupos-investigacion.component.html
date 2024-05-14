@@ -1,10 +1,10 @@
 @if ((modoVista !== modos_VistaFormulario.modo_ver) || ((modoVista === modos_VistaFormulario.modo_ver) && gruposInvestigacion.length > 0)) {
 
   <div class="grupoLineaIvestigacion">
-    <p class="label mt20">Grupo y línea de investigación a la cual estará adscrito el proyecto de investigación,
+    <p class="mat-subtitle-2 fwb mt20">Grupo y línea de investigación a la cual estará adscrito el proyecto de investigación,
       desarrollo tecnológico o innovación - I+D+i</p>
       @if ((modoVista !== modos_VistaFormulario.modo_ver)){
-        <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
+        <p class="mat-body-2 text-secondary">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
       }
     <div class="titleGrupoInves">
       <p class="pTitleInves">GRUPO DE INVESTIGACIÓN</p>
@@ -23,7 +23,7 @@
          <div class="LI">
            <section class="Section">
              @for (LI of GI.lineasInvestigacion; track $index) {
-               <mat-checkbox [disabled]="modoVista === modos_VistaFormulario.modo_ver" id="{{LI.Nombre_Linea_investigacion}}" checked="{{modoVista === modos_VistaFormulario.modo_ver}}" (change)="checkedLI(GI, LI, $event.checked)" color="primary">{{LI.Nombre_Linea_investigacion}}</mat-checkbox>
+               <mat-checkbox [disabled]="modoVista === modos_VistaFormulario.modo_ver" id="{{LI.Nombre_Linea_investigacion}}" checked="{{LI.checked}}" (change)="checkedLI(GI, LI, $event.checked)" color="primary">{{LI.Nombre_Linea_investigacion}}</mat-checkbox>
              }
            </section>
          </div>
@@ -38,7 +38,7 @@
         <div class="LI">
           <section class="Section">
             @for (LI of GI.lineasInvestigacion; track $index) {
-              <mat-checkbox [disabled]="modoVista === modos_VistaFormulario.modo_ver" id="{{LI.Nombre_Linea_investigacion}}" checked="{{modoVista === modos_VistaFormulario.modo_ver}}" (change)="checkedLI(GI, LI, $event.checked)" chcolor="primary">{{LI.Nombre_Linea_investigacion}}</mat-checkbox>
+              <mat-checkbox [disabled]="modoVista === modos_VistaFormulario.modo_ver" id="{{LI.Nombre_Linea_investigacion}}" checked="{{LI.checked}}" (change)="checkedLI(GI, LI, $event.checked)" chcolor="primary">{{LI.Nombre_Linea_investigacion}}</mat-checkbox>
             }
           </section>
         </div>

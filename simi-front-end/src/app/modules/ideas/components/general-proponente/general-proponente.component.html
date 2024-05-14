@@ -1,14 +1,14 @@
   <div class="gdp">
-    <h2>General Del Proponente</h2>
+    <h2 class="fwb mb-0 mt-2">General Del Proponente</h2>
   </div>
   <div  class="generalDelProponente" [formGroup]="formularioPadre">
-    <div class="CampoEntidad">
+    <div>
       @if (validacionEntidad) { <mat-error>Este campo es requerido</mat-error> }
       @if (modoVista !== modos_VistaFormulario.modo_ver) {
-        <div style="display: flex;">
-          <p style="margin: 0;">Entidad o dependencia originadora de la idea</p>
+        <div class="containerTitle">
+          <p class="fwb">Entidad o dependencia originadora de la idea</p>
         </div>
-        <mat-radio-group class="DF" aria-label="Select an option" (change)="onCheckboxChangeEntidadInterna($event)">
+        <mat-radio-group aria-label="Select an option" (change)="onCheckboxChangeEntidadInterna($event)">
           <mat-radio-button  color="primary" [checked]="EntidadInterna"  value="{{Interna}}">{{Interna}}</mat-radio-button>
           <mat-radio-button color="primary" [checked]="EntidadExterna" value="{{Externa}}">{{Externa}}</mat-radio-button>
         </mat-radio-group>
@@ -44,7 +44,7 @@
     </div>
 
 
-    <div class="contenedor date" >
+    <div class="contenedor" >
         @if (validacionFecha) { <mat-error>Este campo es requerido</mat-error> }
         @if(modoVista !== modos_VistaFormulario.modo_ver){
           <mat-form-field>

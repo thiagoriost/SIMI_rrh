@@ -5,16 +5,16 @@
 .revisiones{
   padding: 20px;
   border-radius: 20px;
-  border: 1px solid #1D64A7;
+  border: 1px solid var(--blue-status-color);
 
   .mat_expansion_panel{
     margin-top: 2px;
 
 
     .diasSubsanar{
-      background-color: #1D64A7;
+      background-color: var(--secondary-color);
       padding: 4px;
-      color: white;
+      color: var(text-white);
       border-radius: 5px;
       font-size: small;
 

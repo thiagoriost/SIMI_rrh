@@ -6,14 +6,19 @@ import { NewIdeaPageComponent } from './modules/ideas/pages/new-idea-page/new-id
 import { PerfilPageComponent } from './modules/ideas/pages/perfil-page/perfil-page.component';
 import { NewConvocatoriaPageComponent } from './modules/ideas/pages/new-convocatoria-page/new-convocatoria-page.component';
 import { NotFoundPageComponent } from './core/pages/not-found-page/not-found-page.component';
+import { PatronesComponent } from '@app/core/pages/dev/patrones/patrones.component'
 
 /**
  * configuración de ruas a emplear en la aplicación
  * @author Rigoberto Rios rigoriosh@gmail.com
  */
 export const routes: Routes = [
-
-
+  
+  {
+    path:'patrones',
+    title:'Patrones',
+    component: PatronesComponent,
+  },
   {
     path:'home',
     title:'HOME',
@@ -50,7 +55,7 @@ export const routes: Routes = [
   },
   {
     path:'**', component: NotFoundPageComponent,
-  },
+  }
 ];
 
 //   {

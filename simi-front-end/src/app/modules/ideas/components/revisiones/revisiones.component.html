@@ -9,23 +9,23 @@
             {{$index + 1}}
           </mat-panel-title>
           <mat-panel-description>
-            <span class="diasSubsanar">{{motivoDev.Tiempo_subsanacion}} días para subsanar</span>
+            <span class="diasSubsanar">{{motivoDev.Tiempo_Subsanacion}} días para subsanar</span>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="metadata">
           <mat-divider></mat-divider>
-          <div class="nombreFecha mt_15 mb_15">
-            <div class="icon-dato mr_30">
+          <div class="nombreFecha mt-3 mb-3">
+            <div class="icon-dato mr-3">
               <mat-icon class="icon" aria-hidden="false" aria-label="home icon" fontIcon="home"></mat-icon>
-              <p class="nombre">Raúl Amaya</p>
+              <p class="nombre">{{motivoDev.Usuario_Creador.first_name}} {{motivoDev.Usuario_Creador.last_name}}</p>
             </div>
             <div class="icon-dato">
               <mat-icon class="icon" aria-hidden="false" aria-label="date_range icon" fontIcon="date_range"></mat-icon>
-              <p class="fecha">25 de mayo - 2024</p>
+              <p class="fecha">{{motivoDev.Fecha_Creacion}}</p>
             </div>
           </div>
           <mat-divider></mat-divider>
-          <div class="motivo mt_15 mb_15">
+          <div class="motivo mt-3 mb-3">
             <p class="dataMotivo">{{motivoDev.Motivo_Devolucion}}</p>
           </div>
           <!-- <mat-divider></mat-divider>

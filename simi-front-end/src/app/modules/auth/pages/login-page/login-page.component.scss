@@ -1,5 +1,7 @@
+// Importar mixin de breakpoints
+@import "/abstracts/_mixins-breakpoint";
+
 #loginPageContainer{
-  background-color: aquamarine;
   height: 100vh;
   background-image: url(assets/images/background-image-login-page.jpeg);
   background-repeat: no-repeat;
@@ -11,7 +13,6 @@
 #logo{
   background-image: url(assets/images/Identificador_SIMi_alta_resolucion.svg);
     background-repeat: no-repeat;
-    /* background-color: aliceblue; */
     background-position: center;
     width: inherit;
     height: 26%;
@@ -24,13 +25,11 @@
   flex-direction: column;
   align-items: center;
   width: 50%;
-  background-color: #ffffff80;
   height: 100vh;
   backdrop-filter: blur(10px);
 }
 
 #divMain{
-  // background-color: bisque;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,7 +39,8 @@
 }
 
 
-@media only screen and (max-width: 600px) {
+// Resolucion extra-small
+@include respond(xs){
   #form {
       width: 100%; /* Ancho completo en dispositivos pequeños */
       padding: 10px;

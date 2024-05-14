@@ -2,8 +2,8 @@
 
   <div class="breadCrumb" > <span class="pointer" (click)="goDashBoard()" tabindex="0" (keydown)="goDashBoard()">Ideas</span> · Registrar idea</div>
 
-  <div class="title1Div">
-    <h1 class="tittle1">{{(formulario.value[Descripcion_Valor_Estado] === Devuelta) ? 'Subsanar Idea' : 'Registrar Idea'}}</h1>
+  <div class="title1Div pt-2">
+    <h1 class="tittle1 mb-2">{{(formulario.value[Descripcion_Valor_Estado] === Devuelta) ? 'Subsanar Idea' : 'Registrar Idea'}}</h1>
   </div>
 
   <app-toast-msg mensaje="{{textToastMensaje}}"></app-toast-msg>
@@ -29,9 +29,9 @@
      <div class="aspectosTecnicos full-width">
 
        <div class="fieldImputText">
-         <p class="label">Título de la ídea</p>
+         <p class="mat-subtitle-2 fwb">Título de la ídea</p>
          @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-           <p class="label2">Un buen título, además de la exactitud y la confiabilidad, debe ser claro, conciso, específico
+           <p class="mat-body-2 text-secondary">Un buen título, además de la exactitud y la confiabilidad, debe ser claro, conciso, específico
              y, si es posible, llamativo de forma tal que capture la atención del lector y enmarque la ídea principal.</p>
          }
          <mat-form-field class="matFormField">
@@ -58,9 +58,9 @@
        <mat-divider></mat-divider>
 
        <div class="fieldImputText">
-         <p class="label">URL Cronograma</p>
+         <p class="mat-subtitle-2 fwb">URL Cronograma</p>
          @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-           <p class="label2">url del directorio donde se encuentre el documento cronograma preliminar del proyecto, defina responsables y duración de este.</p>
+           <p class="mat-body-2 text-secondary">url del directorio donde se encuentre el documento cronograma preliminar del proyecto, defina responsables y duración de este.</p>
          }
          <mat-form-field class="matFormField">
            <textarea formControlName="URL_Cronograma" #tiempo class="textA" readonly="{{modoVistaFormularioIdeaInvestigacion === modos_VistaFormulario.modo_ver}}" matInput placeholder="URL del Cronograma"></textarea>
@@ -71,9 +71,9 @@
        <mat-divider></mat-divider>
 
        <div class="fieldImputText">
-         <p class="label">Tiempo de ejecución del proyecto I+D+i</p>
+         <p class="mat-subtitle-2 fwb">Tiempo de ejecución del proyecto I+D+i</p>
          @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-           <p class="label2">Establezca un cronograma preliminar del proyecto y duración del mismo en meses.</p>
+           <p class="mat-body-2 text-secondary">Establezca un cronograma preliminar del proyecto y duración del mismo en meses.</p>
          }
          <mat-form-field class="matFormField">
            <input maxlength="50"  formControlName="Tiempo_Ejecucion_Proyecto" #tiempo class="textA" readonly="{{modoVistaFormularioIdeaInvestigacion === modos_VistaFormulario.modo_ver}}" type="number" matInput placeholder="Tiempo de ejecución del proyecto I+D+i">
@@ -84,9 +84,9 @@
 
        <div class="fieldImputText">
          <mat-form-field class="matFormField">
-           <p class="label">Lugar de ejecución</p>
+           <p class="mat-subtitle-2 fwb">Lugar de ejecución</p>
            @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-             <p class="label2">Defina el lugar donde se ejecutará el proyecto I+D+i.</p>
+             <p class="mat-body-2 text-secondary">Defina el lugar donde se ejecutará el proyecto I+D+i.</p>
            }
            <textarea formControlName="Lugar_Ejecucion" #lugar class="textA" matInput readonly="{{modoVistaFormularioIdeaInvestigacion === modos_VistaFormulario.modo_ver}}"
              placeholder="Defina el lugar donde se ejecutará el proyecto I+D+i"></textarea>
@@ -95,20 +95,20 @@
          </mat-form-field>
        </div>
 
-       <p class="label">Productos resultados de la investigación</p>
+       <p class="mat-subtitle-2 fwb">Productos resultados de la investigación</p>
        @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-         <p class="label2">Identificaser, seleccionar y relacionar los productos resultado de la investigación que se
+         <p class="mat-body-2 text-secondary">Identificaser, seleccionar y relacionar los productos resultado de la investigación que se
            obtienen, segun las tipologías de
            Minciencias corresponden a: Generación de nuevo conocimiento, desarrollo tecnológico e innovación; Apropiación
            social del conocimiento y divulgación
            pública de la ciencia y la Formación de recurso humano en ciencia Tecnología e Innovación - CTeI.</p>
        }
-       <div class="fieldImputText ml_15">
+       <div class="fieldImputText ml-3">
         @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver || ((modoVistaFormularioIdeaInvestigacion === modos_VistaFormulario.modo_ver) && formulario.value["Nuevo_Conocimiento"])) {
           <div class="fieldImputText">
-            <p class="label">Productos resultados de actividades de Generación de Nuevo Conocimiento</p>
+            <p class="mat-subtitle-2 fwb">Productos resultados de actividades de Generación de Nuevo Conocimiento</p>
             @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-              <p class="label2">Identificar y establecer los productos esperados en el proyecto. Minciencias 2021: Articulos
+              <p class="mat-body-2 text-secondary">Identificar y establecer los productos esperados en el proyecto. Minciencias 2021: Articulos
                 de investigación,
                 tipo A1, A2, B, C y D; Notas cientificas, tipo A1, A2, B, C y D; Libros resultados de investigación; Libros
                 de formación en cuartil Q1;
@@ -129,9 +129,9 @@
         }
          @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver || ((modoVistaFormularioIdeaInvestigacion === modos_VistaFormulario.modo_ver) && formulario.value["Tecnologico_Innovacion"])) {
            <div class="fieldImputText">
-             <p class="label">Productos resultados de actividades de Desarrollo tecnológico e Innovación</p>
+             <p class="mat-subtitle-2 fwb">Productos resultados de actividades de Desarrollo tecnológico e Innovación</p>
              @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-               <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Productos
+               <p class="mat-body-2 text-secondary">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Productos
                  empresariales, regulaciones,
                  normas, reglamentos o legislaciones, Conceptos técnicos y Registros de Acuerdos de licencia para explotación
                  de obras de investigación + Creación en Artes,
@@ -148,10 +148,10 @@
          }
          @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver || ((modoVistaFormularioIdeaInvestigacion === modos_VistaFormulario.modo_ver) && formulario.value["Apropiacion_Conocimiento"])) {
            <div class="fieldImputText">
-             <p class="label">Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación
+             <p class="mat-subtitle-2 fwb">Productos resultados de actividades de Apropiación Social del Conocimiento y Divulgación
                Publica de la Ciencia</p>
                @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-                 <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021:
+                 <p class="mat-body-2 text-secondary">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021:
                    Reconocimiento de Contexto. la Participación;
                    Dialogo de Saberes y conocimientos; Confianza y Reflexión Crítica
                  </p>
@@ -166,9 +166,9 @@
          }
          @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver || ((modoVistaFormularioIdeaInvestigacion === modos_VistaFormulario.modo_ver) && formulario.value["Formacion_CTEL"])) {
            <div class="fieldImputText">
-             <p class="label">Productos resultados de actividades de Formación del Recurso Humano para la CTeI</p>
+             <p class="mat-subtitle-2 fwb">Productos resultados de actividades de Formación del Recurso Humano para la CTeI</p>
              @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-               <p class="label2">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Realización
+               <p class="mat-body-2 text-secondary">Identificar y establecer el producto esperados en el proyecto. Minciencias 2021: Realización
                  de una tésis o trabajo de grado
                  que otorga el título de doctor(a), magister o profesional (respectivamente); la ejecución de proyectos de
                  ID+I con formación y apoyo a programas
@@ -194,9 +194,9 @@
         @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver) {
           <div class="fieldImputText">
           <mat-divider class="divider"></mat-divider>
-          <p class="label">{{camposFieldEditText[0].label}}</p>
+          <p class="mat-subtitle-2 fwb">{{camposFieldEditText[0].label}}</p>
           @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-            <p class="label2">{{camposFieldEditText[0].SubLabel}}</p>
+            <p class="mat-body-2 text-secondary">{{camposFieldEditText[0].SubLabel}}</p>
           }
           <div class="containerEditor">
                   <angular-editor id="{{camposFieldEditText[0].nameField}}" [placeholder]="'Ingresar texto...'"
@@ -207,9 +207,9 @@
           </div>
           <div class="fieldImputText">
             <mat-divider class="divider"></mat-divider>
-            <p class="label">{{camposFieldEditText[1].label}}</p>
+            <p class="mat-subtitle-2 fwb">{{camposFieldEditText[1].label}}</p>
             @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-              <p class="label2">{{camposFieldEditText[1].SubLabel}}</p>
+              <p class="mat-body-2 text-secondary">{{camposFieldEditText[1].SubLabel}}</p>
             }
             <div class="containerEditor">
                     <angular-editor id="{{camposFieldEditText[1].nameField}}" [placeholder]="'Ingresar texto...'"
@@ -220,9 +220,9 @@
           </div>
           <div class="fieldImputText">
             <mat-divider class="divider"></mat-divider>
-            <p class="label">{{camposFieldEditText[2].label}}</p>
+            <p class="mat-subtitle-2 fwb">{{camposFieldEditText[2].label}}</p>
             @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-              <p class="label2">{{camposFieldEditText[2].SubLabel}}</p>
+              <p class="mat-body-2 text-secondary">{{camposFieldEditText[2].SubLabel}}</p>
             }
             <div class="containerEditor">
                     <angular-editor id="{{camposFieldEditText[2].nameField}}" [placeholder]="'Ingresar texto...'"
@@ -233,9 +233,9 @@
           </div>
           <div class="fieldImputText">
             <mat-divider class="divider"></mat-divider>
-            <p class="label">{{camposFieldEditText[3].label}}</p>
+            <p class="mat-subtitle-2 fwb">{{camposFieldEditText[3].label}}</p>
             @if (modoVistaFormularioIdeaInvestigacion !== modos_VistaFormulario.modo_ver){
-              <p class="label2">{{camposFieldEditText[3].SubLabel}}</p>
+              <p class="mat-body-2 text-secondary">{{camposFieldEditText[3].SubLabel}}</p>
             }
             <div class="containerEditor">
                     <angular-editor id="{{camposFieldEditText[3].nameField}}" [placeholder]="'Ingresar texto...'"
@@ -246,8 +246,8 @@
           </div>
           <div class="fieldImputText">
             <mat-divider class="divider"></mat-divider>
-            <p class="label">{{camposFieldEditText[4].label}}</p>
-            <p class="label2">{{camposFieldEditText[4].SubLabel}}</p>
+            <p class="mat-subtitle-2 fwb">{{camposFieldEditText[4].label}}</p>
+            <p class="mat-body-2 text-secondary">{{camposFieldEditText[4].SubLabel}}</p>
             <div class="containerEditor">
                     <angular-editor id="{{camposFieldEditText[4].nameField}}" [placeholder]="'Ingresar texto...'"
                       formControlName="{{camposFieldEditText[4].nameField}}" [config]="config"></angular-editor>

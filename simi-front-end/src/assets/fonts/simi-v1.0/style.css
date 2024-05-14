@@ -1,0 +1,106 @@
+@font-face {
+  font-family: 'simi';
+  src:  url('fonts/simi.eot?ujylu4');
+  src:  url('fonts/simi.eot?ujylu4#iefix') format('embedded-opentype'),
+    url('fonts/simi.ttf?ujylu4') format('truetype'),
+    url('fonts/simi.woff?ujylu4') format('woff'),
+    url('fonts/simi.svg?ujylu4#simi') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-simi-"], [class*=" icon-simi-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'simi' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 24px !important;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-simi-flecha_arriba:before {
+  content: "\e900";
+}
+.icon-simi-flecha_derecha:before {
+  content: "\e901";
+}
+.icon-simi-flecha_izquierda:before {
+  content: "\e902";
+}
+.icon-simi-flecha_abajo:before {
+  content: "\e903";
+}
+.icon-simi-anteproyecto:before {
+  content: "\e904";
+}
+.icon-simi-guardar:before {
+  content: "\e905";
+}
+.icon-simi-proyecto:before {
+  content: "\e906";
+}
+.icon-simi-ver_revisiones:before {
+  content: "\e907";
+}
+.icon-simi-agregar_avance:before {
+  content: "\e908";
+}
+.icon-simi-agregar_producto:before {
+  content: "\e909";
+}
+.icon-simi-agregar:before {
+  content: "\e90a";
+}
+.icon-simi-en_proceso:before {
+  content: "\e90b";
+}
+.icon-simi-finalizado:before {
+  content: "\e90c";
+}
+.icon-simi-sin_iniciar:before {
+  content: "\e90d";
+}
+.icon-simi-borrar:before {
+  content: "\e90e";
+}
+.icon-simi-calendario:before {
+  content: "\e90f";
+}
+.icon-simi-cerrar:before {
+  content: "\e910";
+}
+.icon-simi-configuracion:before {
+  content: "\e911";
+}
+.icon-simi-editar:before {
+  content: "\e912";
+}
+.icon-simi-idea:before {
+  content: "\e913";
+}
+.icon-simi-informacion:before {
+  content: "\e914";
+}
+.icon-simi-perfil:before {
+  content: "\e915";
+}
+.icon-simi-quitar:before {
+  content: "\e916";
+}
+.icon-simi-retomar:before {
+  content: "\e917";
+}
+.icon-simi-salir:before {
+  content: "\e918";
+}
+.icon-simi-ver_detalle:before {
+  content: "\e919";
+}

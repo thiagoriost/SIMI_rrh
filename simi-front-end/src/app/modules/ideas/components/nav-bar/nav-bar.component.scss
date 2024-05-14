@@ -1,7 +1,10 @@
+// Importar mixin de breakpoints
+@import "/abstracts/_mixins-breakpoint";
+
 #navBar{
   height: 100vh;
-  background-color: white;
-  border-right: 2px blue solid;
+  background-color: var(bg-white);
+  border-right: 2px var(--secondary-color) solid;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   display: grid;
@@ -18,7 +21,8 @@
   }
 }
 
-@media only screen and (max-width: 600px) {
+// Resolucion extra-small
+@include respond(xs){
 
   #navBar{
     display: none;

@@ -1,7 +1,7 @@
 <div class="tipoProyecto">
 
-  <p class="label">Tipo de proyecto</p>
-  <p class="label2">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
+  <p class="mat-subtitle-2 fwb label">Tipo de proyecto</p>
+  <p class="mat-body-2 text-secondary">Seleccione el tipo de proyecto en el que se enmarcará la propuesta de investigación</p>
   <section class="Section">
     <mat-checkbox (change)="checkedTP(tiposProyecto[0], $event.checked)" formControlName="Investigacion_Cientifica" checked="{{formulario?.value.Investigacion_Cientifica}}" color="primary" [disabled]="modoVer">Investigación</mat-checkbox>
     <mat-checkbox (change)="checkedTP(tiposProyecto[1], $event.checked)" formControlName="Desarrollo_Tecnologico" checked="{{formulario?.value.Desarrollo_Tecnologico}}" color="primary" [disabled]="modoVer">Desarrollo tecnológico</mat-checkbox>

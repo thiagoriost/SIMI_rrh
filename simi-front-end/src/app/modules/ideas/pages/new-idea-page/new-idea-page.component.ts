@@ -27,7 +27,7 @@ import { constantesNewIdea, modoVistaFormularioIdeaInvestigacion } from '@app/sh
 import { intf_camposFieldEditText } from '@app/share/interface/interfaces';
 import { BaseComponent } from '@app/share/components/base/base.component';
 import { directus } from '@app/core/services/directus';
-import { StoreApp } from '@app/core/store/storeApp';
+import { StoreApp, initDataIdeaSeleccionada } from '@app/core/store/storeApp';
 
 /**
  * Componente que se encarga de renderizar el formulario para crear una idea nueva
@@ -222,7 +222,6 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
   ngOnInit(): void {
     const ideaSeleccionanda: dataIdeaSeleccionada = this.store.ideaSeleccionanda()
     this.modoVistaFormularioIdeaInvestigacion = this.store.tipoVistaFormularioIdeaInvestigacion();
-    console.log(this.modoVistaFormularioIdeaInvestigacion);
 
     if (ideaSeleccionanda.Codigo_Idea != '') {
       this.Id_Idea_Investigacion_Seleccionada = ideaSeleccionanda.Id_Idea_Investigacion;
@@ -396,7 +395,8 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
     if (accion  == "regresar") {
       this.router.navigate([`/home/dashboard`]);
     } else if (accion != "submit") {
-      if (this.validacionesCamposRequeridos() && this.formulario.status == "VALID" /* && !this.fnValidacionFecha() && !this.validacionCampoFieldEditText() */){
+      if (this.validacionesCamposRequeridos() && this.formulario.status == "VALID"
+      /* && !this.fnValidacionFecha() && !this.validacionCampoFieldEditText() */){
         const { Antecedentes, Apropiacion_Conocimiento, Bibliografia_Empleada, Tecnologico_Innovacion, Descripcion_Idea,
           Entidad, Fecha_Idea, Formacion_CTEL, Justificacion, LineaIvestigacionSelected, Lugar_Ejecucion, Nuevo_Conocimiento,
           Problema_Idea, Tiempo_Ejecucion_Proyecto, Titulo_Idea, Investigacion_Cientifica, Desarrollo_Tecnologico,
@@ -477,22 +477,22 @@ export class NewIdeaPageComponent extends BaseComponent implements OnInit{
             URL_Cronograma,
           }
         }
-        let result: any = {};
+        let result: dataIdeaSeleccionada = initDataIdeaSeleccionada;
         const Ideas_Investigacion = directus.items('Ideas_Investigacion'); // instancia la coleccion
         if (accion == "registrar") {
-          result = await Ideas_Investigacion.createOne(objToSend);// crean un item
-        }else{
-          result = await Ideas_Investigacion.updateOne(this.Id_Idea_Investigacion_Seleccionada, objToSend);// crean un item
+          result = await Ideas_Investigacion.createOne(objToSend) as dataIdeaSeleccionada;// crean un item
+        }else{ // actualiza un item
+          result = await Ideas_Investigacion.updateOne(this.Id_Idea_Investigacion_Seleccionada, objToSend) as dataIdeaSeleccionada
         }
-        let mensaje = ``;
-        if (result) {
-          mensaje = `Idea creada de forma satisfactoria`;
-          this.router.navigate([`/home/dashboard`]);
-        }else{
-          mensaje = `Se presentaron inconvenientes en la comunicación, intentado mas tarde`;
-        }
-        this.rederMensajeToast(mensaje);
-        this.store.changeSpinner(false)
+          let mensaje = ``;
+          if (result) {
+            mensaje = `Idea creada de forma satisfactoria`;
+            this.router.navigate([`/home/dashboard`]);
+          }else{
+            mensaje = `Se presentaron inconvenientes en la comunicación, intentado mas tarde`;
+          }
+          this.rederMensajeToast(mensaje);
+          this.store.changeSpinner(false)
       }else{
         this.rederMensajeToast(`Existen campos que no cumplen las validaciones`);
       }

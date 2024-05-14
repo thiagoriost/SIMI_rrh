@@ -1,0 +1,18 @@
+
+/* estilos AngularEditor */
+/* ajuste de forma horizontal las opciones del toolbar */
+.angular-editor-toolbar{
+  display: flex;
+  flex-wrap: wrap;
+  resize: both;
+  overflow: hidden;
+}
+
+.angular-editor-toolbar-set{
+  display: flex !important;
+  width: auto;
+}
+
+.angular-editor-textarea{
+  height: auto !important;
+}

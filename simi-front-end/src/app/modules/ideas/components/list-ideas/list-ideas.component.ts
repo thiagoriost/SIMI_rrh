@@ -81,8 +81,8 @@ export class ListIdeasComponent extends BaseComponent implements OnInit, AfterVi
         },
       },
       // sort: ['Codigo_Idea'],
-      fields:['Codigo_Idea', 'Titulo_Idea', 'estados.*', 'estados.Id_Estado.*', 'tipoProyecto', 'Fecha_Creacion', 'Id_Idea_Investigacion', 'Desarrollo_Tecnologico',
-      'Innovacion', 'Investigacion_Cientifica',/*  'Tiempo_Ejecucion_Proyecto',
+      fields:['Codigo_Idea', 'Titulo_Idea', 'estados.*',  'estados.Usuario_Creador.*', 'estados.Id_Estado.*', 'tipoProyecto', 'Fecha_Creacion', 'Id_Idea_Investigacion', 'Desarrollo_Tecnologico',
+      'Innovacion', 'Investigacion_Cientifica','Usuario_Creador.*'/*  'Tiempo_Ejecucion_Proyecto',
         'Entidad', 'Fecha_Idea', 'email', 'URL_Cronograma',  'Usuario_Creador', 'Id_Convocatoria',
       'Id_Macroproyecto', 'Id_Dependencia_IGAC', 'Id_Ponente', 'Tiempo_Ejecucion', 'Lugar_Ejecucion', 'Nuevo_Conocimiento', 'Tecnologico_Innovacion',
       'Apropiacion_Conocimiento', 'Formacion_CTEL', 'Problema_Idea', 'Antecedentes', 'Justificacion', 'Descripcion_Idea', 'Bibliografia_Empleada', 'Validada',
@@ -100,33 +100,38 @@ export class ListIdeasComponent extends BaseComponent implements OnInit, AfterVi
    * @param Ideas_Investigacion
    */
   fixDataToRender(Ideas_Investigacion: IdeasInvestigacion[]) {
-    // ajuste tipo proyecto TIPO DE PROYECTO Tecnologico_Innovacion, Desarrollo_Tecnologico, Innovacion, Investigacion_Cientifica
 
-    // con este map se crea un string con el tipo o tipos de proyecto para la idea
+    /**
+     *  con este map se crea un string con el tipo o tipos de proyecto para la idea
+     */
     Ideas_Investigacion.map(idea => {
       idea['tipoProyecto'] = ` ${idea.Desarrollo_Tecnologico == '1' ? 'Desarrollo Tecnologico,' :''} ${idea.Innovacion == '1' ? 'Innovacion,' :''} ${idea.Investigacion_Cientifica == '1' ? 'Investigacion Cientifica' :''}`
+      idea.Fecha_Creacion = new Date(idea.Fecha_Creacion).toLocaleDateString();
+      idea.estados.map(estado => {
+        estado.Fecha_Creacion = new Date(estado.Fecha_Creacion).toLocaleDateString();
+        estado.Fecha_Estado = new Date(estado.Fecha_Estado).toLocaleDateString();
+      });
     });
 
     // logica paa validar el último estado de la idea
     Ideas_Investigacion.forEach(ideaInv => {
-    if (ideaInv["estados"].length < 2 && ideaInv["estados"].length > 0) {
-        ideaInv['Descripcion_Valor_Estado'] = ideaInv["estados"][0].Id_Estado.Descripcion_Valor
-      }else if(ideaInv["estados"].length > 0){
-          let fechaEstado = Number(new Date(ideaInv["estados"][0].Fecha_Creacion))
-          let Descripcion_Valor = ideaInv["estados"][0].Id_Estado.Descripcion_Valor
-          ideaInv["estados"].map((estado: typeEstado) => {
-              estado.Fecha_Creacion = new Date(estado.Fecha_Creacion)
-              if (Number(estado.Fecha_Creacion) > fechaEstado) {
-                  fechaEstado = Number(estado.Fecha_Creacion)
-                  Descripcion_Valor = estado.Id_Estado.Descripcion_Valor
-              }
+      if (ideaInv["estados"].length < 2 && ideaInv["estados"].length > 0) {
+          ideaInv['Descripcion_Valor_Estado'] = ideaInv["estados"][0].Id_Estado.Descripcion_Valor
+        }else if(ideaInv["estados"].length > 0){
+            let fechaEstado = Number(new Date(ideaInv["estados"][0].Fecha_Creacion))
+            let Descripcion_Valor = ideaInv["estados"][0].Id_Estado.Descripcion_Valor
+            ideaInv["estados"].map((estado: typeEstado) => {
+                estado.Fecha_Creacion = new Date(estado.Fecha_Creacion)
+                if (Number(estado.Fecha_Creacion) > fechaEstado) {
+                    fechaEstado = Number(estado.Fecha_Creacion)
+                    Descripcion_Valor = estado.Id_Estado.Descripcion_Valor
+                }
+                estado.Fecha_Creacion = new Date(estado.Fecha_Creacion).toLocaleDateString();
+            });
+            ideaInv['Descripcion_Valor_Estado'] = Descripcion_Valor
+        }
 
-          });
-          ideaInv['Descripcion_Valor_Estado'] = Descripcion_Valor
-      }
-
-  })
-
+    })
     this.dataSource.data = Ideas_Investigacion
   }
 
@@ -143,9 +148,7 @@ export class ListIdeasComponent extends BaseComponent implements OnInit, AfterVi
    * Toma la idea seleccionada y la envia al store
    * redirecciona a la pagina idea
    */
-  goRegistrarIdea(ideaSeleccionanda: dataIdeaSeleccionada, modoVistaFormularioIdeaInvestigacion:string) {
-    console.log({modoVistaFormularioIdeaInvestigacion});
-
+  goVerEditarIdea(ideaSeleccionanda: dataIdeaSeleccionada, modoVistaFormularioIdeaInvestigacion:string) {
     ideaSeleccionanda["nombreProponente"] = this.store.usuario().first_name + " " + this.store.usuario().last_name;
     ideaSeleccionanda["email"] = this.store.usuario().email;
     this.store.set_tipoVistaFormularioIdeaInvestigacion(modoVistaFormularioIdeaInvestigacion);

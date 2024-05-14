@@ -1,0 +1,31 @@
+<!-- INTRODUCCION -->
+<h2 class="mat-headline-3">ICONOS</h2>
+<p class="mat-body">
+  Material cuenta con un componente para usar iconos <a href="https://material.angular.io/components/icon/overview">mat-icon</a>,
+  el cual usa la libreria <a href="https://fonts.google.com/icons">Material Icons Library</a>.
+</p>
+<p class="mat-body">
+  Adicionalmente se cuenta con una libreria de iconos personalizados  <a href="patrones#simi-font">SIMI Icons Library</a>,
+  la cual se puede usar con el mismo componente mat-icon de la siguiente manera:
+</p>
+<!-- EJEMPLO CODIGO -->
+<h5 class="mat-subtitle-2">Codigo</h5>
+<pre class="bg-grey-light1 pa-3">
+  &lt;mat-icon fontSet="simi" fontIcon="icon-simi-ver_revisiones"&gt;&lt;/mat-icon&gt;
+</pre>
+<h5 class="mat-subtitle-2">Resultado</h5>
+<mat-icon fontSet="simi" fontIcon="icon-simi-ver_revisiones"></mat-icon>
+<p class="mat-body pt-3">
+  Donde <span class="bg-grey-light1">fontSet="simi"</span> indica que se usara la libreria de iconos personalizados y
+  <span class="bg-grey-light1">fontIcon="icon-simi-ver_revisiones"</span> indica el nombre del icono a usar.
+</p>
+<!-- LISTA DE ICONOS PERSONALIZADOS SIMI -->
+<h2 id="simi-font" class="mat-headline-5">SIMI Icons Library</h2>
+<div class="icon-box">
+  @for(icon of iconosSimi;track icon){
+    <div class="icon-box__item ma-2">
+      <mat-icon fontSet="simi" [fontIcon]="icon"></mat-icon>
+      <p class="mat-caption">{{ icon }}</p>
+    </div>
+  }
+</div>

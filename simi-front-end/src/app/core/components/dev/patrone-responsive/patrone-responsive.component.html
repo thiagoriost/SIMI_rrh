@@ -1,0 +1,29 @@
+<!-- INFORMACION GENERAL -->
+<h2 class="mat-headline-3">RESPONSIVE</h2>
+<p class="mat-body">Para el control de comportamientos de la vista en diferentes resoluciones,  
+  se cuenta con 2 estrategias, la primera es por css usando media queries definidas en un mixin y 
+  la segunda estrategia es usando javascript con <a href="https://material.angular.io/cdk/layout/overview">Angular CDK layout</a>
+</p>
+<!-- INFORMACION MEDIA QUERY -->
+<h5 class="mat-subtitle-1 mt-5">Mixins Breakpoints</h5>
+<h5 class="mat-subtitle-2">Codigo</h5>
+<pre>
+  <code>
+    Revisar archivo SCSS del componente patrone-responsive.component.scss
+  </code>
+</pre>
+<h5 class="mat-subtitle-2">Resultado</h5>
+<div class="box-media-query"></div>
+<!-- INFORMACION JAVASCRIPT ANGULAR -->
+<h5 class="mat-subtitle-1 mt-5">Angular CDK layout</h5>
+<p class="mat-body">
+  Esta aproximación se basa en el uso de directivas de angular que permiten controlar el comportamiento de los elementos en diferentes resoluciones.
+</p>
+<h5 class="mat-subtitle-2">Codigo</h5>
+<pre class="bg-grey-light1 pa-3">
+  <code>
+    Revisar archivo Typescript del componente patrone-responsive.component.ts
+  </code>
+</pre>
+<h5 class="mat-subtitle-2">Resultado</h5>
+<div class="box-cdk-layout bg-primary pa-3">{{ message }}</div>

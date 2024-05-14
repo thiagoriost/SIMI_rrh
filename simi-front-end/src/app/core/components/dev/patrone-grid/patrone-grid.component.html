@@ -1,0 +1,91 @@
+<!-- INFORMACION USANDO MATERIAL -->
+<h2 class="mat-headline-3">GRID</h2>
+<p class="mat-body">Se usa el componente <a href="https://material.angular.io/components/grid-list/overview">mat-grid-list</a> para construir estructuras de columnas y filas para organizar contenido, este objeto es estricto recomendado para elementos de tamaño fijo</p>
+<mat-grid-list cols="3" rowHeight="2:1">
+  <mat-grid-tile [colspan]="2" [rowspan]="1"> 2 columnas y una fila</mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="2"> 1 columna y 2 filas</mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1"> 1 columna y 1 fila</mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="1"> 1 columna y 1 fila</mat-grid-tile>
+</mat-grid-list>
+<!-- INFORMACION USANDO CLASES AUXILIARES -->
+<h4 class="mat-headline-5 mt-5">Rejilla flexible</h4>
+<p class="mat-body">
+  En escenarios donde se requiere una rejilla flexible con mayor control, 
+  se pueden usar clases auxiliares <span class="bg-grey-light1">row</span> y <span class="bg-grey-light1">col</span>, 
+  para su uso debe haber un contendor con la clase <span class="bg-grey-light1">row</span> y dentro de ellos elementos 
+  <span class="bg-grey-light1">col</span> acompañado por una clase que indica el numero de columnas que ocupara el elemento, 
+  donde puede tener maximo 12 <span class="bg-grey-light1">col-{{ '{' }}numero_columnas{{ '}' }}</span> .
+</p>
+<h5 class="mat-subtitle-2">Codigo</h5>
+<pre class="bg-grey-light1 pa-3">
+  <code>
+    &lt;div class="row"&gt;
+      &lt;div class="col col-6 bg-primary"&gt;
+        6 columnas
+      &lt;/div&gt;
+      &lt;div class="col col-3 bg-green-light"&gt;
+        3 columnas
+      &lt;/div&gt;
+      &lt;div class="col col-3 bg-lightred-status"&gt;
+        3 columnas
+      &lt;/div&gt;
+      &lt;div class="col col-12 bg-blue-status"&gt;
+        12 columnas
+      &lt;/div&gt;
+    &lt;/div&gt;
+  </code>
+</pre>
+<h5 class="mat-subtitle-2">Resultado</h5>
+<div class="row">
+  <div class="col col-6 bg-primary">
+    6 columnas
+  </div>
+  <div class="col col-3 bg-green-light">
+    3 columnas
+  </div>
+  <div class="col col-3 bg-lightred-status">
+    3 columnas
+  </div>
+  <div class="col col-12 bg-blue-status">
+    12 columnas
+  </div>
+</div>
+<h5 class="mat-headline-6 mt-5">Responsive - Rejilla flexible</h5>
+<p class="mat-body">
+  Para controlar la cantidad de columnas en diferentes resoluciones , se cuentan con un conjunto de clases adicionales que 
+  tienen la siguiente estructura:
+</p>
+<p class="mat-body">
+  <span class="bg-grey-light1">col-{{ '{' }}breakpoint{{ '}' }}-{{ '{' }}numero_columnas{{ '}' }}</span>.
+</p>
+<p class="mat-body">
+  Con lo cual se puede especificar el numero de columnas deseadas para una resolucion especifica <strong>xs, sm, md, lg y xl</strong>.
+</p>
+<h5 class="mat-subtitle-2">Codigo</h5>
+<pre class="bg-grey-light1 pa-3">
+  <code>
+    &lt;div class="row"&gt;
+      &lt;div class="col col-4 col-sm-6 col-xs-12 bg-primary"&gt;
+        4 columnas base, 6 columnas en sm y 12 columnas en xs
+      &lt;/div&gt;
+      &lt;div class="col col-4 col-sm-6 col-xs-12 bg-lightred-status"&gt;
+        4 columnas base, 6 columnas en sm y 12 columnas en xs
+      &lt;/div&gt;
+      &lt;div class="col col-4 col-sm-6 col-xs-12 bg-blue-status"&gt;
+        4 columnas base, 6 columnas en sm y 12 columnas en xs
+      &lt;/div&gt;
+    &lt;/div&gt;
+  </code>
+</pre>
+<h5 class="mat-subtitle-2">Resultado</h5>
+<div class="row">
+  <div class="col col-4 col-sm-6 col-xs-12 bg-primary">
+    4 columnas base, 6 columnas en sm y 12 columnas en xs
+  </div>
+  <div class="col col-4 col-sm-6 col-xs-12 bg-lightred-status">
+    4 columnas base, 6 columnas en sm y 12 columnas en xs
+  </div>
+  <div class="col col-4 col-sm-6 col-xs-12 bg-blue-status">
+    4 columnas base, 6 columnas en sm y 12 columnas en xs
+  </div>
+</div>

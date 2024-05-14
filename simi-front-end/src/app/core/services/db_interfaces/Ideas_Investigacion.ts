@@ -19,12 +19,14 @@ export interface IdeasInvestigacion {
 
 
 export interface Estado {
-  Fecha_Creacion:        string;
-  Fecha_Estado:          string;
+  Motivo_Devolucion:     string;
+  Tiempo_Subsanacion:    number;
   Id_Estado_Idea:        string;
-  Id_Estado:             IDEstado;
+  Fecha_Creacion:        Date | string;
   Id_Idea_Investigacion: string;
-  Usuario_Creador:       string;
+  Fecha_Estado:          Date | string;
+  Usuario_Creador:       UsuarioCreador;
+  Id_Estado:             IDEstado;
 }
 
 export interface IDEstado {
@@ -32,7 +34,7 @@ export interface IDEstado {
   Tipo_Dominio:       string;
   Valor_Dominio:      string;
   Descripcion_Valor:  string;
-  Id_Valor_Dom_Padre: null;
+  Id_Valor_Dom_Padre: null | string;
 }
 ////////////////////////
 
@@ -117,7 +119,7 @@ export interface UsuarioCreador {
   status:                string;
   role:                  string;
   token:                 null | string;
-  last_access:           string;
+  last_access:           Date | string;
   last_page:             string;
   theme_light:           null | string;
   provider:              string;

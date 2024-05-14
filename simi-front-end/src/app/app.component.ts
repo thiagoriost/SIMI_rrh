@@ -8,8 +8,10 @@ import { directus } from '@app/core/services/directus';
 
 // COMPONENTS 
 import { LoginPageComponent } from "@app/modules/auth/pages/login-page/login-page.component";
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DefaultLayoutComponent } from '@app/core/layout/default-layout/default-layout.component';
+// == MATERIAL COMPONENTS ==
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
     selector: 'app-root',
@@ -29,7 +31,10 @@ export class AppComponent implements OnInit {
 
   isAuthenticated:boolean = false
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private matIconRegistry:MatIconRegistry ) {
+    // Registrar iconos personalizados
+    this.matIconRegistry.registerFontClassAlias('simi', 'icon-simi');
+  }
 
   /**
    * @description Metodo que se ejecuta al iniciar la aplicación y valida si el usuario esta logeado
@@ -38,8 +43,7 @@ export class AppComponent implements OnInit {
     // Obtener token para identificar si el usuario esta logeado
     const token = await directus.auth.token;
     if (token) { // Token existe - redireccionar a pagina principal
-      this.isAuthenticated = true
-      this.router.navigate(['home/dashboard']);
+      this.isAuthenticated = true  
       
     }else{  // No existe token - redireccionar a pagina de autenticacion
       this.router.navigate(['/login']);

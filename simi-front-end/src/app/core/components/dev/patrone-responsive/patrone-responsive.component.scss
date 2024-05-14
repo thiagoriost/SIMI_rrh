@@ -1,0 +1,47 @@
+// == MEDIA QUERY START ==
+// Importar mixin de breakpoints
+@import "/abstracts/_mixins-breakpoint";
+// EJEMPLO ESTILOS ANIDADOS
+.box-media-query{
+  // Estilos para caja que cambia de color
+  width: 100px;
+  height: 100px;  
+  @include respond(xs){
+    background-color: var(--primary-color);
+  }
+}
+// EJEMPLO DE ESTILOS SIN ANIDAR
+// Resolucion small
+@include respond(sm){
+  .box-media-query{
+    background-color: var(--secondary-color);
+  }
+}
+// Resolucion medium
+@include respond(md){
+  .box-media-query{
+    background-color: var(--green-light-color);
+  }
+}
+// Resolucion large
+@include respond(lg){
+  .box-media-query{
+    background-color: var(--grey-color);
+  }
+}
+// Resolucion extra large
+@include respond(xl){
+  .box-media-query{
+    background-color: var(--red-status-color);
+  }
+}
+// == MEDIA QUERY END ==
+
+// == JAVASCRIPT CDK LAYOUT  ==
+.box-cdk-layout{
+  width: 350px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+

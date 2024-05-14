@@ -1,0 +1,11 @@
+.icon-box{
+  display: flex;
+  flex-wrap: wrap;
+  &__item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    width: 200px;
+    text-align: center;
+  }
+}

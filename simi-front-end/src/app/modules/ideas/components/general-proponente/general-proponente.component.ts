@@ -10,7 +10,6 @@ import { MatInputModule } from '@angular/material/input';
 import { directus } from '@app/core/services/directus';
 
 import { DatumValoresDominio, ValoresDominio } from '@app/core/services/db_interfaces/Valores_Dominio';
-import { dataIdeaSeleccionada } from '@app/core/services/db_interfaces/Ideas_Investigacion';
 import { constantesApp, constantesNewIdea, modoVistaFormularioIdeaInvestigacion } from '@app/share/utils/constas';
 import { StoreApp } from '@app/core/store/storeApp';
 
@@ -56,13 +55,7 @@ export class GeneralProponenteComponent implements OnInit {
  * Verifica si se deve consultar los dominios o si ya vienen de una idea seleccionada
  */
   ngOnInit(): void {
-    const ideaSeleccionanda: dataIdeaSeleccionada = this.store.ideaSeleccionanda();
-    console.log(this.modoVista);
-    console.log({ideaSeleccionanda});
-    console.log(this.formularioPadre);
-
-
-
+    // const ideaSeleccionanda: dataIdeaSeleccionada = this.store.ideaSeleccionanda();
     if (this.modoVista !== this.modos_VistaFormulario.modo_ver) {
       this.getValores_Dominio_dependencia();
     }

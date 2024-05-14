@@ -1,0 +1,16 @@
+<h2 class="mat-headline-3">Tipografia</h2>
+<p class="mat-body">Como parte del diseño de la identidad del producto, se defieron 2 tipografias, <strong>Roboto</strong> para titulares y subtitulares, <strong>Noto Sans Light</strong> para el cuerpo de los textos.</p>
+<p class="mat-body"> Estas tipografias se encuentra configuradas en el proyecto, segun las especificaciones de <a href="https://material.angular.io/guide/typography">Angular Material Typography</a> y se pueden usar adicionando las siguientes clases a los elementos de la vista:</p>
+
+@for (item of typoClass; track item) {
+  <mat-card class="mt-4">
+    <mat-card-header>
+      <mat-card-title [className]="item[1]">{{ item[0] }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-divider></mat-divider>
+      <h5>Class</h5>
+      <p class="mat-caption">{{ item[1] }}</p>
+    </mat-card-content>
+  </mat-card>
+}

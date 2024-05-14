@@ -34,27 +34,51 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
    * si es true ajustamos la data que nos llega desde el componente padre
    *  de lo contrario traemos la data desde backend
    */
-  override ngOnInit(): void {
+  override async ngOnInit(): Promise<void> {
 
     this.gruposInvestigacion = [];
-    if (this.modoVista !== this.modos_VistaFormulario.modo_ver) {
-      this.getGruposLineasInvestigacion();
-    }else{
-      this.ajustarDataToRenderGruposInvestigacion();
+    if (this.modoVista === this.modos_VistaFormulario.modo_nueva_idea) {
+      this.gruposInvestigacion = await this.getGruposLineasInvestigacion();
+    }else if (this.modoVista === this.modos_VistaFormulario.modo_ver) {
+      setTimeout(() => {// este settime es para darle tiempo de que este listo el DOM de html
+        this.gruposInvestigacion = this.ajustarDataToRenderGruposInvestigacion();
+      }, 1000);
+    }else if (this.modoVista === this.modos_VistaFormulario.modo_devolucion) {
+      const GruposInvestigacionfromDIRECTUS  = await this.getGruposLineasInvestigacion();
+      const GruposInvestigacionfromIdeaSeleccionada = this.ajustarDataToRenderGruposInvestigacion();
+      this.gruposInvestigacion = this.adicionarCheckedMixLineaInvestigacion(GruposInvestigacionfromDIRECTUS, GruposInvestigacionfromIdeaSeleccionada);
     }
   }
+
+
+  /**
+   * Metodo que agrega true a los check  de la idea de inves.. seleccionada, los agrega a los grupos consultados,
+   * esto con el fin de que el usuario pueda ver lo que se creo y pueda modificarlo.
+   * @param GruposInvestigacionfromDIRECTUS data consultada desde directus
+   * @param GruposInvestigacionfromIdeaSeleccionada data seleccionada en la tabla
+   * @returns retorna la data con la edición de los check seleccionados
+   */
+  adicionarCheckedMixLineaInvestigacion(GruposInvestigacionfromDIRECTUS: IDGrupoInvestigacion[], GruposInvestigacionfromIdeaSeleccionada: IDGrupoInvestigacion[]): DatumGruposInvestigacion[] {
+    GruposInvestigacionfromDIRECTUS.map(GI_D => {
+      if(GI_D.Id_Grupo_Investigacion === GruposInvestigacionfromIdeaSeleccionada[0].Id_Grupo_Investigacion){
+          GI_D.lineasInvestigacion?.map(GI => GI.checked = true)
+      }
+  });
+    return GruposInvestigacionfromDIRECTUS;
+  }
+
 
   /**
    * Cuando esta en modo ver toma la lineas de investigación y las agrupa por grupo de investigacion y por cada grupo adiciona las lineas de Inv que tiene
    */
   ajustarDataToRenderGruposInvestigacion() {
-    setTimeout(() => {// este settime es para darle tiempo de que este listo el DOM de html
+
       const gruposInvestigacion:IDGrupoInvestigacion[] = [];
       this.formulario?.value.lineas_investigacion.forEach((LI: Grupoinvestigacion) => {
 
           if (gruposInvestigacion.filter(GI => GI.Id_Grupo_Investigacion == LI.Id_Linea_Investigacion.Id_Grupo_Investigacion.Id_Grupo_Investigacion)[0]) {//valida si ya existe el grupo Inv
             gruposInvestigacion.map(e => { // recorre los grupos por id de grupo, cuando lo encuentra adiciona la linea
-              if(e.Id_Grupo_Investigacion == LI.Id_Linea_Investigacion.Id_Grupo_Investigacion.Id_Grupo_Investigacion) e.lineasInvestigacion?.push(LI.Id_Linea_Investigacion)
+              if(e.Id_Grupo_Investigacion == LI.Id_Linea_Investigacion.Id_Grupo_Investigacion.Id_Grupo_Investigacion) e.lineasInvestigacion?.push({...LI.Id_Linea_Investigacion, checked:true})
             })
           } else {
             // si no existe el grupo dentro del array de grupos Inv, lo adiciona
@@ -63,16 +87,16 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
                 ...LI.Id_Linea_Investigacion.Id_Grupo_Investigacion,
                 lineasInvestigacion: [
                   {
-                    ...LI.Id_Linea_Investigacion
+                    ...LI.Id_Linea_Investigacion,
+                    checked:true
                   }
                 ]
               }
             );
           }
       });
-      this.gruposInvestigacion = gruposInvestigacion;
 
-    }, 1000);
+      return gruposInvestigacion;
   }
 
   /**
@@ -83,9 +107,11 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
       const responseLineasInvestigacion: LineasInvestigacion = await directus.items('Lineas_Investigacion').readByQuery({ sort: ['Id_Linea_Investigacion'] })  as LineasInvestigacion;
 
       const responseGruposInvestigacion: GruposInvestigacion = await directus.items('Grupos_Investigacion').readByQuery({ sort: ['Id_Grupo_Investigacion'] })  as GruposInvestigacion;
-      this.ordenarLineasInvestigacionConGrupos(responseLineasInvestigacion.data, responseGruposInvestigacion.data);
+      const dataOrdenada_LineasInvestigacionConGrupos = this.ordenarLineasInvestigacionConGrupos(responseLineasInvestigacion.data, responseGruposInvestigacion.data);
+      return dataOrdenada_LineasInvestigacionConGrupos;
     } catch (error) {
       this.validateSesionTime() // de DashboardPageComponent
+      return []
     }
   }
 
@@ -98,10 +124,10 @@ export class GruposInvestigacionComponent extends DashboardPageComponent impleme
     GruposInvestigacion = GruposInvestigacion.map(e => e = {...e, lineasInvestigacion:[]})
     GruposInvestigacion.forEach(GI => {
       LineasInvestigacion.forEach(LI => {
-        if (LI['Id_Grupo_Investigacion'] == GI.Id_Grupo_Investigacion) GI.lineasInvestigacion?.push(LI)
+        if (LI['Id_Grupo_Investigacion'] == GI.Id_Grupo_Investigacion) GI.lineasInvestigacion?.push({...LI, checked:false})
       });
     });
-    this.gruposInvestigacion = GruposInvestigacion;
+    return GruposInvestigacion;
   }
 
   /**

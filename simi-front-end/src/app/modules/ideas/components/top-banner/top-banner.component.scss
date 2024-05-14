@@ -1,7 +1,10 @@
+// Importar mixin de breakpoints
+@import "/abstracts/_mixins-breakpoint";
+
 .topBannerContainer{
-  background-color: transparent;
   position: fixed;
   top: 0;
+  left: 0;
   height: 30%;
   width: 100%;
 
@@ -10,8 +13,6 @@
     }
 
     .card{
-      background-color: transparent;
-      border-color: transparent;
       display: flex;
       justify-content: center;
       width: 100%; /* Ancho del contenedor */
@@ -22,7 +23,7 @@
       .card-body{
         text-align: justify;
         margin-top: 10px;
-        color: white;
+        color: var(text-white);
         padding: 15px 0px 0px 80px;
         position: absolute;
         height: 150px;
@@ -35,7 +36,6 @@
       }
 
       .imgSwiper{
-        background-color: transparent;
         border-radius: 20px;
         margin-top: 10px;
         position: relative;
@@ -54,7 +54,8 @@
 
   }
 
-  @media only screen and (max-width: 600px) {
+  // Resolucion extra-small
+@include respond(xs){
 
     .topBannerContainer{
       .card{

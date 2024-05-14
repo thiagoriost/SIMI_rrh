@@ -1,3 +1,6 @@
+// Importar mixin de breakpoints
+@import "/abstracts/_mixins-breakpoint";
+
 .newIdeaContainer{
   display: flex;
   flex-direction: column;
@@ -5,12 +8,10 @@
   padding-top: 34px;
   padding: 30px 10px 5px 10px;
   overflow: auto;
-  width: 94vw;
 
   .title1Div{
-    padding-top: 20px;
     .tittle1{
-      margin-bottom: 5px;
+      font-weight: bold;
     }
   }
 
@@ -27,7 +28,7 @@
     width: 100%;
     padding: 20px;
     border-radius: 20px;
-    border: 1px solid blue;
+    border: 1px solid var(--blue-status-color);
 
     .fieldImputText{
 
@@ -45,7 +46,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-around;
-        border-right: 1px solid gray;
+        border-right: 1px solid var(--grey-color);
       }
     }
 
@@ -74,7 +75,7 @@
 } */
 
 .NgxEditor__Wrapper{
-  background-color: #4199ff !important;
+  background-color: var(--secondary-color) !important;
 }
 
 h2{
@@ -94,7 +95,7 @@ h2{
 }
 
 .br1{
-  border-right: 1px solid gray;
+  border-right: 1px solid var(--grey-color);
 }
 
 .label{
@@ -105,7 +106,7 @@ h2{
 
 }
 .label2{
-  color: #4199ff;
+  color: var(--secondary-color);
   font-size: small;
   text-align: justify;
   width: 100%;
@@ -119,7 +120,7 @@ h2{
   grid-row-gap: 0px;
   padding: 20px;
   border-radius: 20px;
-  border: 1px solid blue;
+  border: 1px solid var(--blue-status-color);
 
   .CampoEntidad{
     display: flex;
@@ -128,22 +129,22 @@ h2{
 
   .date{
     text-align: justify;
-    color: gray;
+    color: var(--grey-color);
 
     .dateTitle{
       margin: 0;
-      background-color: #f9f6f6;
+      background-color: var(--grey-light2-color);
       padding: 8px 0px 10px 15px;
     }
     .dateContainer{
-      background-color: #f9f6f6;
-      border-bottom: 1px solid gray;
+      background-color: var(--grey-light2-color);
+      border-bottom: 1px solid var(--grey-color);
       padding-left: 15px;
 
       .inputDate{
         width: auto;
         border: none;
-        color: gray;
+        color: var(--grey-color);
         font-size: medium;
       }
       input[type="date"]:focus {
@@ -159,8 +160,8 @@ h2{
 .tootlip{
   display: none;
   width: max-content;
-  background-color: blue;
-  color: #f9f6f6;
+  background-color: var(--secondary-color);
+  color: var(--grey-light2-color);
   padding: 5px;
   position: absolute;
   top: 0;
@@ -178,7 +179,8 @@ h2{
   opacity: 2; /* Hacer el tootlip completamente visible */
 }
 
-@media only screen and (max-width: 600px) {
+// Resolucion extra-small
+@include respond(xs){
   .generalDelProponente{
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(6, 1fr);
@@ -189,7 +191,7 @@ h2{
   .newIdeaContainer{
     width: 99vw;
     .breadCrumb{
-      padding-left: 30px;
+      padding-left: 60px;
     }
   }
 
@@ -202,3 +204,30 @@ h2{
 h2{
   font-weight: bold;
 }
+
+
+/* estilos AngularEditor */
+.angular-editor-toolbar{
+  display: flex;
+  flex-wrap: wrap;
+  resize: both;
+  overflow: hidden;
+}
+
+.angular-editor-toolbar-set{
+  display: flex !important;
+  width: auto;
+}
+
+.angular-editor-textarea{
+  height: auto !important;
+}
+
+.mat-mdc-form-field-error{
+  font-size: small;
+}
+
+.mat-mdc-form-field {
+  width: -webkit-fill-available !important;
+}
+

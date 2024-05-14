@@ -1,0 +1,32 @@
+<h3  class="mat-headline-3">Colores</h3>
+<p class="mat-body">El proyecto cuenta con los siguiente colores, donde <strong>Primary</strong> , <strong>Secondary</strong> y <strong>Red Status</strong> estan aplicados a todos los elementos de <a href="https://material.angular.io/guide/theming">THEME ANGULAR MATERIAL</a></p>
+<p class="body-1">Por otra parte, cada color cuenta con una variable css, una clase auxiliar para aplicar el color a fondos <span class="bg-grey-light1 mat-caption">(bg-{{ '{' }}nombre_color{{ '}' }})</span> y a textos <span class="bg-grey-light1 mat-caption">(text-{{ '{' }}nombre_color{{ '}' }})</span>.</p>
+<div class="row color">
+  @for(color of colors; track color){
+    <div class="col col-3">
+      <mat-card >
+        <mat-card-header>
+          <mat-card-title>{{ color.name }}</mat-card-title>
+        </mat-card-header>
+        <div [classList]="[color.classBg +' color-item']"></div>
+        <mat-card-content>
+          <p>{{ color.description }}</p>
+          <div class="bg-grey-light1 pa-1">
+            <h5 class="mat-subtitle-2">Variable css</h5>
+            <p class="mat-caption">{{ color.variable }}</p>
+          </div>
+          <div class="bg-grey-light1 pa-1 mt-1">
+            <h5 class="mat-subtitle-2">Class color de fondo</h5>
+            <p class="mat-caption">{{ color.classBg }}</p>
+          </div>
+          <div class="bg-grey-light1 pa-1 mt-1">
+            <h5 class="mat-subtitle-2">Class color de texto</h5>
+            <p class="mat-caption">{{ color.classText }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+</div>
+
+

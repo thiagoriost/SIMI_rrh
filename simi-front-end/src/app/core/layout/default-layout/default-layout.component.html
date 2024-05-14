@@ -1,16 +1,13 @@
 <mat-sidenav-container class="default-layout">
   <mat-sidenav mode="side" opened>
     <!-- Menu... -->
-    <div id="app-nav-bar" >
-      <app-nav-bar></app-nav-bar>
-    </div>
-    <div id="smallNavBar">
-      <app-nav-bar-small></app-nav-bar-small>
-  </div>
+    <app-menu-lateral-boton></app-menu-lateral-boton>
     <!-- MENU LATERAL -->
   </mat-sidenav>
   <mat-sidenav-content>
     <!-- CONTENIDO PRINCIPAL -->
-    <ng-content></ng-content>
+    <div class="default-layout__container">
+      <ng-content></ng-content>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

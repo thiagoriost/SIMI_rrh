@@ -1,0 +1,44 @@
+@import "./mixins-breakpoint";
+// Definir variables
+$grid-columns: 12;
+$grid-width: 100%; // Ancho total de la rejilla
+
+// Función para calcular el ancho de una columna
+@function column-width($columns) {
+  @return percentage(calc($columns / $grid-columns));
+}
+
+// Clase para las filas
+.row {
+  width: $grid-width;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -5px; // Ajuste para compensar los márgenes negativos de las columnas
+  margin-right: -5px; // Ajuste para compensar los márgenes negativos de las columnas
+}
+
+// Clase para las columnas
+.col {
+  box-sizing: border-box;
+  padding: 5px; // Ajuste para compensar los márgenes negativos de las filas
+}
+
+// Generar clases para columnas de 1 a 12
+@for $i from 1 through $grid-columns {
+  .col-#{$i} {
+    flex: 0 0 auto;
+    width: column-width($i);
+  }
+}
+
+// Generar clases para las filas y columnas
+@each $breakpoint in xs, sm, md, lg, xl {
+  @for $i from 1 through $grid-columns {
+    .col-#{$breakpoint}-#{$i} {
+      @include respond($breakpoint) {
+        flex: 0 0 auto;
+        width: column-width($i);
+      }
+    }
+  }
+}
