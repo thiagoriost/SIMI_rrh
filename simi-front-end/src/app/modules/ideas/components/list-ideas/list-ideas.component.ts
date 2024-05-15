@@ -1,16 +1,13 @@
-import { Component, ViewChild, OnInit, inject, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { Component, OnInit, inject} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 import { directus } from '../../../../core/services/directus';
 import { StoreApp, initConvocatoriaSelected, initDataIdeaSeleccionada } from '../../../../core/store/storeApp';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from '../../../../share/components/base/base.component';
-import { IdeasInvestigacion, Respons_DB_Ideas_Investigacion, dataIdeaSeleccionada } from '../../../../core/services/db_interfaces/Ideas_Investigacion';
+import { Respons_DB_Ideas_Investigacion, dataIdeaSeleccionada } from '../../../../core/services/db_interfaces/Ideas_Investigacion';
 import { constantesNewIdea, modoVistaFormularioIdeaInvestigacion } from '@app/share/utils/constas';
+import { MatTableWebComponent } from '@app/share/components/mat-table-web/mat-table-web.component';
+
 
 /**
  * Componente encargado de renderiza el listado de ideas existentes
@@ -19,11 +16,11 @@ import { constantesNewIdea, modoVistaFormularioIdeaInvestigacion } from '@app/sh
 @Component({
   selector: 'app-list-ideas',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatButtonModule, CommonModule, MatIconModule],
+  imports: [ MatButtonModule, MatTableWebComponent],
   templateUrl: './list-ideas.component.html',
   styleUrl: './list-ideas.component.scss'
 })
-export class ListIdeasComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class ListIdeasComponent extends BaseComponent implements OnInit {
 
   /**
    * Instanciación del store
@@ -35,25 +32,20 @@ export class ListIdeasComponent extends BaseComponent implements OnInit, AfterVi
   /**
    * Columnas para la tabla de ideas
    */
-  displayedColumns: string[] = ['codigo', 'tituloIdea', 'tipoProyecto', 'anio', 'fechaHoraRegistro', 'estado', 'actions'];
+  displayedColumns: string[] = ['Codigo_Idea', 'Titulo_Idea', 'tipoProyecto', 'anio', 'fechaHoraRegistro', 'Descripcion_Valor_Estado', 'actions'];
 
   /**
    * datasource que suministra info al data table
    */
-  dataSource: MatTableDataSource<IdeasInvestigacion> = new MatTableDataSource<IdeasInvestigacion>();
+  dataSource: MatTableDataSource<dataIdeaSeleccionada> = new MatTableDataSource<dataIdeaSeleccionada>();
 
-  /**
-   * controla el paginador de la tabla ideas
-   */
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
+
 
   modos_VistaFormulario: modoVistaFormularioIdeaInvestigacion = constantesNewIdea.modoVistaFormularioIdeaInvestigacion; // constantes modo ver, nueva o devolución de una nueva idea
 
 
-  constructor(router: Router, _snackBar: MatSnackBar){
-    super(router, _snackBar);
-  }
+
+
 
   /**
    * Verifica si existe token, de lo contrario redirige a la pagina login
@@ -99,7 +91,7 @@ export class ListIdeasComponent extends BaseComponent implements OnInit, AfterVi
    * Descripcion_Valor_Estado del estado
    * @param Ideas_Investigacion
    */
-  fixDataToRender(Ideas_Investigacion: IdeasInvestigacion[]) {
+  fixDataToRender(Ideas_Investigacion: dataIdeaSeleccionada[]) {
 
     /**
      *  con este map se crea un string con el tipo o tipos de proyecto para la idea
@@ -133,27 +125,6 @@ export class ListIdeasComponent extends BaseComponent implements OnInit, AfterVi
 
     })
     this.dataSource.data = Ideas_Investigacion
-  }
-
-  /**
-   * Asigna el paginador a la fuente de datos
-   */
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  /**
-   *
-   * @param ideaSeleccionanda
-   * Toma la idea seleccionada y la envia al store
-   * redirecciona a la pagina idea
-   */
-  goVerEditarIdea(ideaSeleccionanda: dataIdeaSeleccionada, modoVistaFormularioIdeaInvestigacion:string) {
-    ideaSeleccionanda["nombreProponente"] = this.store.usuario().first_name + " " + this.store.usuario().last_name;
-    ideaSeleccionanda["email"] = this.store.usuario().email;
-    this.store.set_tipoVistaFormularioIdeaInvestigacion(modoVistaFormularioIdeaInvestigacion);
-    this.store.setIdeaSeleccionanda(ideaSeleccionanda);// set ideaSeleccionada en el store
-    this.router.navigate([`/home/idea/${ideaSeleccionanda.Id_Idea_Investigacion}`])
   }
 
   /**

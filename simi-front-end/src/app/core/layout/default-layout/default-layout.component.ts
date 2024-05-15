@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import { MenuLateralBotonComponent } from '@app/share/components/menu-lateral-boton/menu-lateral-boton.component';
+import { MenuLateralBotonComponent } from '@app/core/components/layout/menu-lateral-boton/menu-lateral-boton.component';
 
 
 /**

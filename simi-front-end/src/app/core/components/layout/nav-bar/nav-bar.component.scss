@@ -1,0 +1,28 @@
+app-nav-bar{
+  width: 200px;
+  background-color: red;
+}
+// Importar mixin de breakpoints
+@import "/abstracts/_mixins-breakpoint";
+#navBar{  
+  min-height: 100vh;
+  background-color: var(bg-white);
+  border-right: 2px var(--secondary-color) solid;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  align-items: center;
+  justify-items: center;
+  #logo{
+    img{
+      width: 100%;
+    }
+  }
+}
+
+
+

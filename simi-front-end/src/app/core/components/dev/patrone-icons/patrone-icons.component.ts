@@ -45,6 +45,6 @@ export class PatroneIconsComponent {
     "icon-simi-retomar",
     "icon-simi-salir",
     "icon-simi-ver_detalle"
-  ];;
+  ];
 
 }

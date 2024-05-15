@@ -1,0 +1,42 @@
+// Importar mixin de breakpoints
+@import "/abstracts/_mixins-breakpoint";
+/* Estilos para caja con dimensiones y sin contenido que permite a 
+ componente mat-sidenav tener la dimensión de sus componentes hijo */
+.app-nav-bar__reserva-espacio{
+  width: 70px;
+  height: 70px;
+}
+#app-nav-bar{
+  // Estilos para mantener pieza en posicion fija ocupando la altura total del dispositivo
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  // Otros estilos
+  width: 70px;
+}
+
+#smallNavBar{
+  display: none;
+  width: 0px;
+  bottom: 0;
+}
+
+
+// Resolucion extra-small
+@include respond(xs){
+
+  .app-nav-bar__reserva-espacio{
+    display: none;
+  }
+
+  #app-nav-bar{
+    display: none;
+  }
+
+  #smallNavBar{
+    display: flex;
+    background-color: var(--grey-light1-color);
+    z-index: 99;
+  }
+}

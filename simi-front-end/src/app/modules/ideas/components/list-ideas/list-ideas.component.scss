@@ -1,80 +1,76 @@
 // Importar mixin de breakpoints
 @import "/abstracts/_mixins-breakpoint";
 
-.listIdeasContainer{
-  flex-direction: column;
-  height: 100%;
-  .mat-mdc-table{
-    table-layout: fixed; // para ajustar el ancho de las columnas
-  }
+.btnRegistrarIdea {
+  text-align: right;
 }
 
-.titleIdeas{
+.titleIdeas {
   text-align: left;
   padding-left: 10px;
 }
 
-.btnRegistrarIdea{
-  text-align: right;
-}
-.dataTableIdeas{
-  width: 100%; /* Ancho específico del contenedor */
-  overflow: auto;
-  padding: 0 70px 0 0px;
-}
-table {
-  width: 100%;
-}
-
-h1{
-  margin: 0px;
-}
-
-.paginador{
+.listIdeasContainer {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  height: 55px;
+  z-index: 1;
+  position: relative;
 }
 
-.aprobado{
-  font-weight: bold;
-  padding: 5px;
-  border-radius: 10px;
-  text-align: center;
+.dataTableIdeas {
+  position: relative;
+
+  background-color: var(--white-color);
 }
 
-.enRevision{
-  font-weight: bold;
-  padding: 5px;
-  border-radius: 10px;
-  text-align: center;
+
+@include respond(xs) {
+
+  .listIdeasContainer {
+    background-color: var(--grey-color);
+    border-radius: 20px;
+    color: var(--white-color);
+    display: flex;
+    height: 50px;
+    justify-content: space-around;
+    position: fixed;
+    top: 126px;
+    width: 99%;
+  }
+
+  .dataTableIdeas {
+    z-index: 0;
+  }
+
+  .dataTableMovil {
+    display: flex;
+  }
+
 }
 
-.rechazado{
-  font-weight: bold;
-  padding: 5px;
-  border-radius: 10px;
-  text-align: center;
-}
-.Devuelta{
-  padding: 5px;
-  border-radius: 10px;
-  text-align: center;
-}
+@include respond(sm) {
 
-.BTNsAcciones{
-  display: flex;
-  // justify-content: space-around;
-}
+  .listIdeasContainer {
+    background-color: var(--grey-color);
+    margin: 0px 0px 10px 0px;
+    border-radius: 20px;
+    color: var(--white-color);
+    display: flex;
+    height: 50px;
+    justify-content: space-around;
+    position: fixed;
+    top: 126px;
+    width: 100%;
+  }
 
-// Resolucion extra-small
-@include respond(xs){
+  .dataTableIdeas {
+    z-index: 0;
+  }
 
-
-.dataTableIdeas{
-  position: absolute;
-  z-index: 9;
-}
-
+  .dataTableMovil {
+    display: flex;
+  }
 
 }

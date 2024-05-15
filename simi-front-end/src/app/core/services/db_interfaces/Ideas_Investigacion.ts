@@ -1,5 +1,5 @@
 export interface Respons_DB_Ideas_Investigacion {
-  data: IdeasInvestigacion[];
+  data: dataIdeaSeleccionada[];
 }
 
 export interface IdeasInvestigacion {

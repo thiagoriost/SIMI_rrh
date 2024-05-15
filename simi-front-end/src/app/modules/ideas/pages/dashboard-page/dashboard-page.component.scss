@@ -2,30 +2,34 @@
 @import "/abstracts/_mixins-breakpoint";
 
 #dashBoardPageContainer{
-  display: flex;
-  flex-direction: column;
   height: 100vh;
   justify-content: center;
-  text-align: center;
 
   .top-banner{
     align-content: center;
-    height: 24%;
+    height: 22%;
   }
 
-  .listIdeas{
-    align-content: center;
-    height: 70%;
-  }
 }
 
 // Resolucion extra-small
 @include respond(xs){
 
   #dashBoardPageContainer{
+    .top-banner{
+      height: 20%;
+    }
 
     .listIdeas{
       height: 100%;
+    }
+  }
+}
+@include respond(sm){
+
+  #dashBoardPageContainer{
+    .top-banner{
+      height: 21%;
     }
   }
 }

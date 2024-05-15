@@ -30,3 +30,15 @@
     z-index: 99;
   }
 }
+@include respond(sm){
+
+  #app-nav-bar{
+    display: none;
+  }
+
+  #smallNavBar{
+    display: flex;
+    background-color: var(--grey-light1-color);
+    z-index: 99;
+  }
+}

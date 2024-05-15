@@ -1,0 +1,145 @@
+<div class="dataTableIdeas">
+  <table mat-table [dataSource]="dataSource" matSort matTableResponsive class="mat-elevation-z8">
+
+    <ng-container matColumnDef="Codigo_Idea">
+      <th mat-header-cell *matHeaderCellDef class="wc-50"> CODIGO </th>
+      <td mat-cell *matCellDef="let element" class="wc-40"> {{element.Codigo_Idea}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Titulo_Idea">
+      <th mat-header-cell *matHeaderCellDef class="wc-50"> TITULO IDEA </th>
+      <td mat-cell *matCellDef="let element" class="wc-50"> {{element.Titulo_Idea}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tipoProyecto">
+      <th sortActionDescription="Sort by tipoProyecto" mat-header-cell *matHeaderCellDef class="wc-50"> TIPO DE PROYECTO
+      </th>
+      <td mat-cell *matCellDef="let element" class="wc-50"> {{element.tipoProyecto}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="anio">
+      <th sortActionDescription="Sort by anio" mat-header-cell *matHeaderCellDef class="wc-10"> AÑO </th>
+      <td mat-cell *matCellDef="let element" class="wc-10"> {{ element.Fecha_Creacion | date:'yyyy' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fechaHoraRegistro">
+      <th sortActionDescription="Sort by fechaHoraRegist" mat-header-cell *matHeaderCellDef class="wc-50"> FECHA - HORA
+        REGISTRO </th>
+      <td mat-cell *matCellDef="let element" class="wc-50"> {{element.Fecha_Creacion | date:'short'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Descripcion_Valor_Estado">
+      <th mat-header-cell *matHeaderCellDef class="wc-10"> ESTADO </th>
+      <td mat-cell *matCellDef="let element">
+        <p class="estado" [ngClass]="{
+          'Validada': element.Descripcion_Valor_Estado === 'Validada',
+          'Inicio': element.Descripcion_Valor_Estado === 'Inicio',
+          'Rechazada': element.Descripcion_Valor_Estado === 'Rechazada',
+          'Devuelta': element.Descripcion_Valor_Estado === 'Devuelta'} ">
+          {{element.Descripcion_Valor_Estado || '-'}}
+        </p>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef class="wc-20"> ACCIONES</th>
+      <td mat-cell *matCellDef="let element">
+        <div class="BTNsAcciones">
+          <mat-icon (click)="goVerEditarIdea(element, modos_VistaFormulario.modo_ver)" aria-hidden="false"
+            aria-label="Logout icon" fontIcon="visibility" class="pointer"></mat-icon>
+          @if(element.Descripcion_Valor_Estado === 'Devuelta'){
+          <mat-icon (click)="goVerEditarIdea(element, modos_VistaFormulario.modo_devolucion)" aria-hidden="false"
+            aria-label="Logout icon" fontIcon="settings_backup_restore" class="pointer ml-2"></mat-icon>
+          }
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+  <div class="paginador">
+    <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons hidePageSize="true"
+      aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+</div>
+<div class="dataTableMovil">
+
+  @for (item of dataSource.data; track $index) {
+
+    <div class="car">
+
+      <mat-list-item>
+        <div class="registerRow">
+          <p class="nameField fwb">CODIGO</p>
+          <p class="dataField">{{dataSource.data[$index]["Codigo_Idea"]}}</p>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item>
+        <div class="registerRow">
+          <p class="nameField fwb">TITULO IDEA</p>
+          <p class="dataField">{{dataSource.data[$index]["Titulo_Idea"]}}</p>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item>
+        <div class="registerRow">
+          <p class="nameField fwb">TIPO DE PROYECTO</p>
+          <p class="dataField">{{dataSource.data[$index]["tipoProyecto"]}}</p>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item>
+        <div class="registerRow">
+          <p class="nameField fwb">AÑO</p>
+          <p class="dataField">{{dataSource.data[$index]["Fecha_Creacion"] | date:'yyyy' }}</p>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item>
+        <div class="registerRow">
+          <p class="nameField fwb">FECHA - HORA</p>
+          <p class="dataField">{{dataSource.data[$index]["Fecha_Creacion"] | date:'short'}}</p>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item>
+        <div class="registerRow">
+          <p class="nameField fwb">ESTADO</p>
+          <p class="estado" [ngClass]="{
+            'Validada': dataSource.data[$index]['Descripcion_Valor_Estado'] === 'Validada',
+            'Inicio': dataSource.data[$index]['Descripcion_Valor_Estado'] === 'Inicio',
+            'Rechazada': dataSource.data[$index]['Descripcion_Valor_Estado'] === 'Rechazada',
+            'Devuelta': dataSource.data[$index]['Descripcion_Valor_Estado'] === 'Devuelta'} ">
+            {{dataSource.data[$index]['Descripcion_Valor_Estado'] || '-'}}
+          </p>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item>
+        <div class="registerRow">
+          <p class="nameField fwb">ACCIONES</p>
+          <div class="botonesAcciones">
+              <mat-icon (click)="goVerEditarIdea(item, modos_VistaFormulario.modo_ver)" aria-hidden="false"
+                aria-label="Logout icon" fontIcon="visibility" class="pointer" color="primary"></mat-icon>
+              @if(item['Descripcion_Valor_Estado'] === 'Devuelta'){
+              <mat-icon (click)="goVerEditarIdea(item, modos_VistaFormulario.modo_devolucion)" color="primary" aria-hidden="false"
+                aria-label="Logout icon" fontIcon="settings_backup_restore" class="pointer ml-2"></mat-icon>
+              }
+          </div>
+        </div>
+      </mat-list-item>
+
+
+      <mat-divider></mat-divider>
+    </div>
+
+  }
+
+
+</div>
+
+

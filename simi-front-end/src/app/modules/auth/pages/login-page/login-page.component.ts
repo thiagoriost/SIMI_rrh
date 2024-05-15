@@ -31,8 +31,8 @@ export class LoginPageComponent extends BaseComponent{
   store = inject(StoreApp)
 
   public formulario: FormGroup = this.formBuilder.group({
-    email:[ '', [Validators.required, Validators.email],[]],
-    passw:[ '', [Validators.required],[]],
+    email:[ 'rigoberto.rios@igac.gov.co', [Validators.required, Validators.email],[]],
+    passw:[ '123456', [Validators.required],[]],
   })
 
   constructor(router: Router, _snackBar: MatSnackBar, private formBuilder: FormBuilder) {

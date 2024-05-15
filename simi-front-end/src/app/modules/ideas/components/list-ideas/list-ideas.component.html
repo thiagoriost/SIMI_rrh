@@ -1,84 +1,16 @@
 <div class="listIdeasContainer">
-  <div>
 
-    <div class="btnRegistrarIdea">
-      <button
-              (click)="goRegistrarNuevaIdea()"
-              mat-raised-button
-              disabledInteractive
-              matTooltip="This is a tooltip!"
-              color="primary"
-            >
-              REGISTRAR IDEA
-      </button>
-    </div>
-    <div class="titleIdeas">
-      <h1 class="mat-headline-3">Ideas</h1>
-    </div>
+  <div class="btnRegistrarIdea mt-1">
+    <button (click)="goRegistrarNuevaIdea()" mat-raised-button disabledInteractive matTooltip="This is a tooltip!"
+      color="primary">
+      REGISTRAR IDEA
+    </button>
   </div>
-  <div class="dataTableIdeas">
-      <table mat-table [dataSource]="dataSource" fixedLayout>
-
-        <ng-container matColumnDef="codigo" >
-          <th mat-header-cell *matHeaderCellDef style="width: 40PX;"> CODIGO </th>
-          <td mat-cell *matCellDef="let element" style="width: 40PX;"> {{element.Codigo_Idea}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="tituloIdea">
-          <th mat-header-cell *matHeaderCellDef style="width: 50PX;"> TITULO IDEA </th>
-          <td mat-cell *matCellDef="let element" style="width: 50PX;"> {{element.Titulo_Idea}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="tipoProyecto">
-          <th mat-header-cell *matHeaderCellDef style="width: 50PX;"> TIPO DE PROYECTO </th>
-          <td mat-cell *matCellDef="let element" style="width: 50px;"> {{element.tipoProyecto}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="anio">
-          <th mat-header-cell *matHeaderCellDef style="width: 10px;"> AÑO </th>
-          <td mat-cell *matCellDef="let element" style="width: 10px;"> {{  element.Fecha_Creacion | date:'yyyy' }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="fechaHoraRegistro">
-          <th mat-header-cell *matHeaderCellDef style="width: 50PX;"> FECHA - HORA REGISTRO </th>
-          <td mat-cell *matCellDef="let element" style="width: 50PX;"> {{element.Fecha_Creacion | date:'short'}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="estado">
-          <th mat-header-cell *matHeaderCellDef style="width: 10px"> ESTADO </th>
-          <td  mat-cell *matCellDef="let element" >
-            <p [ngClass]="{ 'aprobado': element.Descripcion_Valor_Estado === 'Validada', 'enRevision': element.Descripcion_Valor_Estado === 'Inicio', 'rechazado': element.Descripcion_Valor_Estado === 'Rechazada',
-             'Devuelta': element.Descripcion_Valor_Estado === 'Devuelta' }">
-              {{element.Descripcion_Valor_Estado || '-'}}
-            </p>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef style="width: 20px;"> ACCIONES</th>
-          <td mat-cell *matCellDef="let element">
-            <div class="BTNsAcciones">
-              <mat-icon (click)="goVerEditarIdea(element, modos_VistaFormulario.modo_ver)" aria-hidden="false" aria-label="Logout icon" fontIcon="visibility" class="pointer"></mat-icon>
-              @if(element.Descripcion_Valor_Estado === 'Devuelta'){
-                <mat-icon (click)="goVerEditarIdea(element, modos_VistaFormulario.modo_devolucion)" aria-hidden="false" aria-label="Logout icon" fontIcon="settings_backup_restore" class="pointer ml-2"></mat-icon>
-              }
-            </div>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="headerTable"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
-      </table>
-
-      <div class="paginador">
-        <mat-paginator [pageSizeOptions]="[5]"
-                     showFirstLastButtons
-                     hidePageSize="true"
-                     aria-label="Select page of periodic elements">
-        </mat-paginator>
-      </div>
-
-
+  <div class="titleIdeas ml-3">
+    <h1 class="mat-headline-3">Ideas</h1>
   </div>
 </div>
 
+<div class="dataTableIdeas">
+  <app-mat-table-web [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-mat-table-web>
+</div>

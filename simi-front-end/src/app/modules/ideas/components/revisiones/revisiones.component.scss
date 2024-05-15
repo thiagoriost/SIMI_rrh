@@ -10,15 +10,20 @@
   .mat_expansion_panel{
     margin-top: 2px;
 
-
+  .divSubsanar{
+    display: flex;
+    justify-content: end;
+    width: 100%;
     .diasSubsanar{
       background-color: var(--secondary-color);
       padding: 4px;
-      color: var(text-white);
+      color: var(--white-color);
       border-radius: 5px;
       font-size: small;
 
     }
+
+  }
     .metadata{
       .nombreFecha{
         display: flex;
